@@ -1,0 +1,1119 @@
+<!DOCTYPE html><html><head>
+    <meta charset="utf-8">
+    <title>Report</title>
+    <style>
+        #editor {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page {
+            padding: 20px;
+            background: #fff;
+            box-sizing: border-box;
+            box-shadow: 0 0 5px 2px #ccc;
+        }
+
+        .page-break {
+            height: 20px;   
+        }
+
+        svg, svg * {
+            max-height: 100% !important;
+            height: auto !important;
+            overflow: visible !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        .svg-wrapper {
+            break-inside: avoid;
+        }
+
+        @media print {
+            .page {
+                page-break-after: page;
+            }
+        }
+    </style>
+</head>
+<body style="display: flex; justify-content: center;">
+   <div id="editor"><div class="page">
+            <!--?xml version="1.0" encoding="utf-8"?-->
+
+  
+    <title>Collateral By Customer</title>
+    <meta charset="utf-8">
+    <style type="text/css">body{font-family:Arial;margin:0px;} 
+#content {overflow:auto}
+@media print{
+    #content {
+        overflow: inherit;
+        height: auto;
+        background-color: White;
+    }} 
+</style>
+    <script type="text/javascript" src="data:text/javascript;base64,dmFyIGlzTmF2aWdhdGVkID0gZmFsc2U7DQp2YXIgaXNDaHJvbWUgPSBuYXZpZ2F0b3IudXNlckFnZW50LnRvTG93ZXJDYXNlKCkuaW5kZXhPZignY2hyb21lJykgPiAtMTsNCnZhciBpc0ZpcmVGb3ggPSBuYXZpZ2F0b3IudXNlckFnZW50LnRvTG93ZXJDYXNlKCkuaW5kZXhPZignZmlyZWZveCcpID4gLTE7DQoNCmZ1bmN0aW9uIG5hdmlnYXRlKGJvb2ttYXJrKSB7DQogICAgd2luZG93LmxvY2F0aW9uLmhhc2ggPSAnIycgKyBib29rbWFyazsNCiAgICAvLyBhZGRpdGlvbmFsbHkgd2Ugd2lsbCBhZGp1c3QgYm9va21hcmsgdG8gdGhlIHRvcCAoZXhjZXB0IEZpcmVmb3gsIHdoaWNoIGlzIGFscmVhZHkgZG9lcyB0aGlzIGFkanVzdG1lbnQpDQogICAgaWYgKCFpc0ZpcmVGb3gpIHsNCiAgICAgICAgdmFyIHRhcmdldEVsZW1lbnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChib29rbWFyayk7DQogICAgICAgIGlmICh0YXJnZXRFbGVtZW50KSB7DQogICAgICAgICAgICB2YXIgY29udGVudEVsZW1lbnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY29udGVudCcpOw0KICAgICAgICAgICAgY29udGVudEVsZW1lbnQuc2Nyb2xsVG9wID0gY29udGVudEVsZW1lbnQuc2Nyb2xsVG9wICsgdGFyZ2V0RWxlbWVudC5nZXRCb3VuZGluZ0NsaWVudFJlY3QoKS50b3A7DQogICAgICAgIH0NCiAgICB9DQogICAgaWYgKHR5cGVvZiAodXBkYXRlUGFnZSkgIT0gJ3VuZGVmaW5lZCcpIHsNCiAgICAgICAgdXBkYXRlUGFnZSgpOw0KICAgIH0NCiAgICBpc05hdmlnYXRlZCA9IHRydWU7DQogICAgaWYgKGV2ZW50KSB7DQogICAgICAgIGV2ZW50LnByZXZlbnREZWZhdWx0KCk7DQogICAgfQ0KfQ0KDQpmdW5jdGlvbiByZXNpemVTdHJ1Y3R1cmUoKSB7DQogICAgdmFyIGhlaWdodCA9IHdpbmRvdy5pbm5lckhlaWdodDsNCiAgICB2YXIgY29udGVudEVsZW1lbnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY29udGVudCcpOw0KICAgIGNvbnRlbnRFbGVtZW50LnN0eWxlLmhlaWdodCA9IGhlaWdodCArICJweCI7DQogICAgdmFyIHRvY0VsZW1lbnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbmF2VG9jTGlzdCcpOw0KICAgIGlmICh0b2NFbGVtZW50KSB7IC8vIGRvY3VtZW50IGhhcyBUT0MNCiAgICAgICAgdG9jRWxlbWVudC5zdHlsZS5tYXhIZWlnaHQgPSAoaGVpZ2h0IC0gdG9jRWxlbWVudC5vZmZzZXRUb3AgLSAyMCkgKyAicHgiOw0KICAgIH0NCn0NCg0Kd2luZG93Lm9ubG9hZCA9IGZ1bmN0aW9uICgpIHsNCiAgICByZXNpemVTdHJ1Y3R1cmUoKTsNCiAgICB2YXIgY29udGVudCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjb250ZW50Jyk7DQogICAgaWYgKHR5cGVvZiAodXBkYXRlUGFnZSkgIT0gJ3VuZGVmaW5lZCcpIHsNCiAgICAgICAgY29udGVudC5vbnNjcm9sbCA9IHVwZGF0ZVBhZ2U7DQogICAgfQ0KfQ0KDQp3aW5kb3cub25yZXNpemUgPSBmdW5jdGlvbiAoKSB7DQogICAgcmVzaXplU3RydWN0dXJlKCk7DQp9"></script>
+    <style type="text/css">@media print{@page{size:8.50in 11.00in;margin-left:27.00pt;margin-top:18.00pt;}}</style>
+    <script type="text/javascript" src="data:text/javascript;base64,dmFyIGN1clBhZ2UgPSAxO3ZhciBtaW5QYWdlID0gMTt2YXIgbWF4UGFnZSA9IDE7"></script>
+  
+  
+    <div id="content" style="height: 979px;">
+      <section id="page1" style="width:804px;height:5278px;">
+        <svg xmlns:xlink="http://www.w3.org/1999/xlink" width="804" height="5278">
+          <rect x="6" y="0" width="735" height="22" style="fill:#FFFFFF;"></rect>
+          <text style="font-family:Arial;font-size:19px;font-weight:bold;fill:Black;" x="268.44" y="17.276" textLength="210.11">Collateral By Customer</text>
+          <line x1="6" x2="741" y1="28.667" y2="28.667" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="6" y="35.667" width="234" height="16" style="fill:#FFFFFF;"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="47.3" textLength="110.64">Customer / Collateral</text>
+          <rect x="257.67" y="35.667" width="58.667" height="16" style="fill:#FFFFFF;"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="280.87" y="47.3" textLength="35.46">Valued</text>
+          <rect x="321" y="35.667" width="100" height="16" style="fill:#FFFFFF;"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="359.25" y="47.3" textLength="61.751">Retail Value</text>
+          <rect x="427.67" y="35.667" width="100" height="16" style="fill:#FFFFFF;"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="459.03" y="47.3" textLength="68.637">REM Amount</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="573.2" y="47.3" textLength="61.134">Other Value</text>
+          <rect x="641" y="35.667" width="100" height="16" style="fill:#FFFFFF;"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="665.19" y="47.3" textLength="75.808">Calc WS Value</text>
+          <line x1="6" x2="741" y1="57.667" y2="57.667" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="77.071" textLength="221.57">37 Stockard Square II, LLC - &nbsp;33734</text>
+          <line x1="6" x2="741" y1="85.667" y2="85.667" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="57.667" width="757" height="36" style="fill:Transparent;" id="@FLXR@1"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="105.3" textLength="145.48">Equipment-Commercial - 71</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="261.28" y="105.3" textLength="55.054">12/10/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="105.3" textLength="55.054">$20,250.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="105.3" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="105.3" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="105.3" textLength="55.054">$15,187.50</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="119.62" textLength="279.42">PMSI on Bizhub Pro C6501 Color copier/Printer /Scanner</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="132.27" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="132.27" textLength="403.05">Schedule of Depreciation at Net Book Value; 5 yrs old, 10 yr life span= 50% of cost</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="154.6" textLength="146.09">Blanket Business Filing - 15</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="154.6" textLength="48.936">9/30/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="154.6" textLength="55.054">$50,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="154.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="154.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="154.6" textLength="55.054">$35,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="168.92" textLength="185.87">General Business Security Agreement</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="181.57" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="181.57" textLength="97.217">Financial Statement</text></svg></section></div></div><div class="page-break"></div><div class="page"><div id="content" style="height: 979px;"><section id="page1" style="width:804px;height:5278px;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="804" height="5278"><text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="181.57" textLength="97.217"></text>
+          <line x1="6" x2="741" y1="192.26" y2="192.26" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="211.67" textLength="174.91">A. Glass Gardens - &nbsp;66556.6</text>
+          <line x1="6" x2="741" y1="220.26" y2="220.26" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="192.26" width="757" height="36" style="fill:Transparent;" id="@FLXR@2"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="239.9" textLength="146.09">Blanket Business Filing - 15</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="239.9" textLength="48.936">3/21/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="239.9" textLength="55.054">$69,261.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="239.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="239.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="239.9" textLength="55.054">$48,482.70</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="254.22" textLength="151.64">1st Lien on All Business Assets</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="266.87" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="266.87" textLength="400.29">Business assets only includes inventory, receivables, and net value of fixed assets</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="289.19" textLength="145.48">Equipment-Commercial - 71</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="289.19" textLength="48.936">3/21/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="289.19" textLength="55.054">$20,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="289.19" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="289.19" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="289.19" textLength="55.054">$15,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="303.52" textLength="82.962">PP New Signage</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="325.84" textLength="56.23">Inventory -</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="325.84" textLength="48.936">1/21/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="325.84" textLength="55.054">$75,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="325.84" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="325.84" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="325.84" textLength="55.054">$52,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="340.17" textLength="140.63">Current Inventory Purchased</text></svg></section></div></div><div class="page-break"></div><div class="page"><div id="content" style="height: 979px;"><section id="page1" style="width:804px;height:5278px;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="804" height="5278"><text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="340.17" textLength="140.63"></text>
+          <line x1="6" x2="741" y1="350.86" y2="350.86" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="370.26" textLength="176.12">Anderson, Taylor - &nbsp;3347937</text>
+          <line x1="6" x2="741" y1="378.86" y2="378.86" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="350.86" width="757" height="36" style="fill:Transparent;" id="@FLXR@3"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="398.49" textLength="138.76">Certificates of Deposit - 16</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="398.49" textLength="48.936">4/15/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="398.49" textLength="55.054">$10,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="398.49" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="398.49" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="398.49" textLength="55.054">$10,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="412.82" textLength="172.85">CD Number 11882 i/a/o $10,000.00</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="435.14" textLength="143.67">Real Estate-Residential - 43</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="435.14" textLength="48.936">3/14/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="435.14" textLength="61.171">$203,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="435.14" textLength="61.171">$147,600.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="435.14" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="435.14" textLength="61.171">$162,400.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="449.47" textLength="284.35">18 Saint Claire Circle Lincoln, NE 68526 i/a/o</text></svg></section></div></div><div class="page-break"></div><div class="page"><div id="content" style="height: 979px;"><section id="page1" style="width:804px;height:5278px;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="804" height="5278"><text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="449.47" textLength="284.35"> $147,600.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="462.11" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="462.11" textLength="96.615">Evenson Appraisals</text>
+          <line x1="6" x2="741" y1="472.8" y2="472.8" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="492.21" textLength="171.66">Anthony, Lisa B - &nbsp;655434.6</text>
+          <line x1="6" x2="741" y1="500.8" y2="500.8" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="472.8" width="757" height="36" style="fill:Transparent;" id="@FLXR@4"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="520.44" textLength="138.76">Certificates of Deposit - 16</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="520.44" textLength="48.936">1/30/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="520.44" textLength="55.054">$20,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="520.44" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="520.44" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="520.44" textLength="55.054">$20,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="534.76" textLength="179.79">CD Number 938859 i/a/o $20,000.00</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="557.09" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="262.1" y="557.09" textLength="54.237">11/15/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="557.09" textLength="55.054">$21,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="557.09" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="557.09" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="557.09" textLength="55.054">$16,800.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="571.41" textLength="251.3">2023 Toyota Camry, Serial Number 123JHY345KLY</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="584.06" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="584.06" textLength="30.562">NADA</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="606.39" textLength="94.139">Stocks-Listed - 49</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="606.39" textLength="48.936">1/30/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="393.47" y="606.39" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="606.39" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="606.39" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="713.47" y="606.39" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="620.71" textLength="99.457">Various Stock Listed</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="633.36" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="633.36" textLength="134.52">Detailed Listing of collateral</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="655.68" textLength="96.588">Life Insurance - 84</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="655.68" textLength="48.936">1/30/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="655.68" textLength="55.054">$35,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="655.68" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="655.68" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="655.68" textLength="55.054">$31,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="670.01" textLength="325.68">Mass Mutual Life Insurance Policy, Policy Number JVX12319-2001</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="682.66" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="682.66" textLength="56.053">Cash Value</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="704.98" textLength="56.23">Inventory -</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="704.98" textLength="48.936">1/30/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="704.98" textLength="61.171">$154,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="704.98" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="704.98" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="704.98" textLength="61.171">$107,800.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="719.31" textLength="128.42">Listing of Antique Inventoy</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="731.95" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="731.95" textLength="136.95">Current Financial Statement</text></svg></section></div></div><div class="page-break"></div><div class="page"><div id="content" style="height: 979px;"><section id="page1" style="width:804px;height:5278px;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="804" height="5278"><text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="731.95" textLength="136.95"></text>
+          <line x1="6" x2="741" y1="742.65" y2="742.65" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="762.05" textLength="211.39">Artzer, Julie A - &nbsp;ARTZER JULIE A</text>
+          <line x1="6" x2="741" y1="770.65" y2="770.65" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="742.65" width="757" height="36" style="fill:Transparent;" id="@FLXR@5"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="790.28" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="790.28" textLength="48.936">10/5/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="790.28" textLength="55.054">$25,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="790.28" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="790.28" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="790.28" textLength="55.054">$20,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="804.6" textLength="288.22">2023 Hyundai Sonata, Serial Number LTO89183TPY09798</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="817.25" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="817.25" textLength="90.492">Dealership Invoice</text></svg></section></div></div><div class="page-break"></div><div class="page"><div id="content" style="height: 979px;"><section id="page1" style="width:804px;height:5278px;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="804" height="5278"><text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="817.25" textLength="90.492"></text>
+          <line x1="6" x2="741" y1="827.94" y2="827.94" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <clipPath id="clipPath_p1_1">
+            <rect x="6" y="834.94" width="247" height="16"></rect>
+          </clipPath>
+          <g clip-path="url(#clipPath_p1_1)">
+            <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="847.35" textLength="320.01">Bargain Furniture Store, Inc. - &nbsp;BARGAIN FURNITU</text>
+          </g>
+          <line x1="6" x2="741" y1="855.94" y2="855.94" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="827.94" width="757" height="36" style="fill:Transparent;" id="@FLXR@6"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="875.58" textLength="132.67">Accounts Receivable - 10</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="875.58" textLength="48.936">4/30/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="875.58" textLength="61.171">$178,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="875.58" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="875.58" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="875.58" textLength="61.171">$133,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="889.9" textLength="159.99">Various 90 day or less wholesale</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="902.55" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="902.55" textLength="104.59">Aging dated 04/30/22</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="924.87" textLength="145.48">Equipment-Commercial - 71</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="924.87" textLength="48.936">9/14/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="924.87" textLength="55.054">$17,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="924.87" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="924.87" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="924.87" textLength="55.054">$13,125.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="939.2" textLength="250.05">Power Full Fork Lift, Model 12, Serial Number 1234</text></svg></section></div></div><div class="page-break"></div><div class="page"><div id="content" style="height: 979px;"><section id="page1" style="width:804px;height:5278px;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="804" height="5278"><text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="939.2" textLength="250.05"></text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="951.85" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="951.85" textLength="256.28">Value per financial statement and lender's inspection</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="974.17" textLength="64.802">Fixtures - 73</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="974.17" textLength="48.936">9/14/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="974.17" textLength="61.171">$132,555.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="974.17" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="974.17" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="974.17" textLength="55.054">$19,883.25</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="988.5" textLength="54.398">All Fixtures</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1001.1" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1001.1" textLength="256.28">Value per financial statement and lender's inspection</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1023.5" textLength="129.01">Vehicles-Cml Trucks - 54</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1023.5" textLength="48.936">3/31/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="1023.5" textLength="55.054">$34,700.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="1023.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1023.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="1023.5" textLength="55.054">$24,290.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1037.8" textLength="270.67">2023 Chev Cargo Van, Serial Number WE13578OU268</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1050.4" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1050.4" textLength="94.44">Lender's inspection</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1072.8" textLength="147.95">Real Estate-Commercial - 42</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1072.8" textLength="48.936">5/15/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="1072.8" textLength="61.171">$550,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="1072.8" textLength="61.171">$275,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1072.8" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="1072.8" textLength="61.171">$412,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1087.1" textLength="249.52">119 State Ave AnyCity, KS 66614 i/a/o $275,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1099.7" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1099.7" textLength="126.58">Cannon Appraisal Service</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1122.1" textLength="108.21">Dealer Inventory - 19</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1122.1" textLength="48.936">6/30/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="1122.1" textLength="55.054">$20,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="1122.1" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1122.1" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="1122.1" textLength="55.054">$16,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1136.4" textLength="166.9">All Used Furniture Held for Resale</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1149" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1149" textLength="94.44">Lender's inspection</text>
+          <line x1="6" x2="741" y1="1159.7" y2="1159.7" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <clipPath id="clipPath_p1_2">
+            <rect x="6" y="1166.7" width="247" height="16"></rect>
+          </clipPath>
+          <g clip-path="url(#clipPath_p1_2)">
+            <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="1179.1" textLength="266.17">Barton, Amanda A. - &nbsp;BARTON AMANDA A</text>
+          </g>
+          <line x1="6" x2="741" y1="1187.7" y2="1187.7" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="1159.7" width="757" height="36" style="fill:Transparent;" id="@FLXR@7"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1207.4" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1207.4" textLength="48.936">3/31/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="1207.4" textLength="55.054">$18,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="1207.4" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1207.4" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="1207.4" textLength="55.054">$14,800.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1221.7" textLength="257.82">2022 Ford Focus, Serial Number 222RTE567UIY951</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1234.3" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1234.3" textLength="30.562">NADA</text>
+          <line x1="6" x2="741" y1="1245" y2="1245" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="1264.4" textLength="243.26">Barton, James A. - &nbsp;BARTON JAMES A</text>
+          <line x1="6" x2="741" y1="1273" y2="1273" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="1245" width="757" height="36" style="fill:Transparent;" id="@FLXR@8"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1292.7" textLength="43.194">ATV - 53</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1292.7" textLength="48.936">4/21/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="372.06" y="1292.7" textLength="48.936">$5,958.63</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="1292.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1292.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="692.06" y="1292.7" textLength="48.936">$3,575.18</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1307" textLength="197.1">2022 Honda FourTrax FA4567ADEC457</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1319.6" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1319.6" textLength="84.38">Purchase Invoice</text>
+          <line x1="6" x2="741" y1="1330.3" y2="1330.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="1349.7" textLength="169.35">Bradley, William - &nbsp;7343937</text>
+          <line x1="6" x2="741" y1="1358.3" y2="1358.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="1330.3" width="757" height="36" style="fill:Transparent;" id="@FLXR@9"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1378" textLength="143.67">Real Estate-Residential - 43</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="261.28" y="1378" textLength="55.054">12/18/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="1378" textLength="61.171">$560,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="1378" textLength="61.171">$300,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1378" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="1378" textLength="61.171">$448,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1392.3" textLength="299.65">816 Schmidt Place Cedar Rapids, IA 52400 i/a/o $300,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1404.9" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1404.9" textLength="75.185">Willis Appraiser</text>
+          <line x1="6" x2="741" y1="1415.6" y2="1415.6" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="1435" textLength="243.81">Choice Home Professionals - &nbsp;6534465</text>
+          <line x1="6" x2="741" y1="1443.6" y2="1443.6" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="1415.6" width="757" height="36" style="fill:Transparent;" id="@FLXR@10"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1463.3" textLength="147.95">Real Estate-Commercial - 42</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1463.3" textLength="48.936">1/23/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="1463.3" textLength="61.171">$402,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="1463.3" textLength="61.171">$268,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1463.3" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="1463.3" textLength="61.171">$301,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1477.6" textLength="286.21">563 Prescott Ln Lincoln, NE 68516-4738 i/a/o $268,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1490.2" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1490.2" textLength="85.599">Bartlet Appraisals</text>
+          <line x1="6" x2="741" y1="1500.9" y2="1500.9" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <clipPath id="clipPath_p1_3">
+            <rect x="6" y="1507.9" width="247" height="16"></rect>
+          </clipPath>
+          <g clip-path="url(#clipPath_p1_3)">
+            <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="1520.3" textLength="360.77">Commercial Aviation, Inc. - &nbsp;COMMERCIAL AVIATION INC</text>
+          </g>
+          <line x1="6" x2="741" y1="1528.9" y2="1528.9" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="1500.9" width="757" height="36" style="fill:Transparent;" id="@FLXR@11"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1548.6" textLength="132.67">Accounts Receivable - 10</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1548.6" textLength="48.936">3/31/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="1548.6" textLength="61.171">$250,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="1548.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1548.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="1548.6" textLength="61.171">$187,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1562.9" textLength="394.39">Accounts Receivable per contract dated 3/31/23 by Big City Packaging Company</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1575.5" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1575.5" textLength="93.575">Per Aging 03/31/23</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1597.9" textLength="61.134">Aircraft - 13</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1597.9" textLength="48.936">8/31/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="351.47" y="1597.9" textLength="69.529">$1,115,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="1597.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1597.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="1597.9" textLength="61.171">$947,750.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1612.2" textLength="230.54">2022 Boeing Cessna, Serial Number LLL12345</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1624.8" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1624.8" textLength="110.66">Airways Appraisal, Inc.</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1647.2" textLength="115.11">Deposit Accounts - 20</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1647.2" textLength="48.936">4/15/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="1647.2" textLength="61.171">$375,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="1647.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1647.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="1647.2" textLength="61.171">$375,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1661.5" textLength="184.65">Account Number All Deposit Accounts</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1674.1" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1674.1" textLength="153.5">Verification of balance 04/15/22</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1696.4" textLength="147.95">Real Estate-Commercial - 42</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1696.4" textLength="48.936">6/15/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="1696.4" textLength="61.171">$980,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="1696.4" textLength="61.171">$300,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1696.4" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="1696.4" textLength="61.171">$735,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1710.8" textLength="353.02">1st - 555 Aviation Expressway Kansas City, MO 65432 i/a/o $300,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1723.4" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1723.4" textLength="170.58">Kansas City Appraisal Service, Inc.</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1745.7" textLength="147.95">Real Estate-Commercial - 42</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="1745.7" textLength="48.936">6/20/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="1745.7" textLength="61.171">$980,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="1745.7" textLength="61.171">$450,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1745.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="1745.7" textLength="61.171">$735,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1760.1" textLength="356.7">2nd - 555 Aviation Expressway Kansas City, MO 65432 i/a/o $450,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1772.7" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1772.7" textLength="149.78">Big City Appraisal Service, Inc.</text>
+          <line x1="6" x2="741" y1="1783.4" y2="1783.4" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="1802.8" textLength="148.98">Doe, Jami J. - &nbsp;509874.3</text>
+          <line x1="6" x2="741" y1="1811.4" y2="1811.4" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="1783.4" width="757" height="36" style="fill:Transparent;" id="@FLXR@12"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1831" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="262.1" y="1831" textLength="54.237">11/22/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="1831" textLength="55.054">$27,578.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="1831" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1831" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="1831" textLength="55.054">$22,062.40</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1845.4" textLength="261.08">2022 Chevrolet Volt, Serial Number JW23466HZ2301</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1858" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1858" textLength="90.492">Dealership Invoice</text>
+          <line x1="6" x2="741" y1="1868.7" y2="1868.7" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="1888.1" textLength="148.98">Doe, Jami J. - &nbsp;512688.5</text>
+          <line x1="6" x2="741" y1="1896.7" y2="1896.7" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="1868.7" width="757" height="36" style="fill:Transparent;" id="@FLXR@13"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="1916.3" textLength="138.76">Certificates of Deposit - 16</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="273.51" y="1916.3" textLength="42.818">9/1/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="1916.3" textLength="55.054">$15,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="1916.3" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="1916.3" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="1916.3" textLength="55.054">$15,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1930.7" textLength="172.85">CD Number 78911 i/a/o $15,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="1943.3" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="1943.3" textLength="86.002">Face Value of CD</text>
+          <line x1="6" x2="741" y1="1954" y2="1954" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="1973.4" textLength="225.88">Donald L. Williams Trust - &nbsp;675794.6</text>
+          <line x1="6" x2="741" y1="1982" y2="1982" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="1954" width="757" height="36" style="fill:Transparent;" id="@FLXR@14"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2001.6" textLength="78.208">Mutual Funds -</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="261.28" y="2001.6" textLength="55.054">10/20/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="2001.6" textLength="61.171">$250,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2001.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2001.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="2001.6" textLength="61.171">$175,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2016" textLength="259.25">United Mutual Funds, Account Number KP1234NU56</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2028.6" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2028.6" textLength="112.51">Per Account Statement</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2050.9" textLength="115.11">Deposit Accounts - 20</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="273.51" y="2050.9" textLength="42.818">1/3/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="2050.9" textLength="61.171">$125,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2050.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2050.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="2050.9" textLength="61.171">$125,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2065.3" textLength="115.57">Account Number 45678</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2087.6" textLength="96.588">Life Insurance - 84</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="273.51" y="2087.6" textLength="42.818">1/3/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="2087.6" textLength="55.054">$14,589.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2087.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2087.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2087.6" textLength="55.054">$13,130.10</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2101.9" textLength="174.21">AFLI, Policy Number MT651ZZW23</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2114.6" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2114.6" textLength="56.053">Cash Value</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2136.9" textLength="146.67">RRE-(1-4), Construction - 45</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="261.28" y="2136.9" textLength="55.054">10/20/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="2136.9" textLength="61.171">$225,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="2136.9" textLength="61.171">$200,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2136.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="2136.9" textLength="61.171">$180,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2151.2" textLength="285.4">1725 Campbell Place Topeka, KS 66610 i/a/o $200,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2163.9" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2163.9" textLength="89.461">Warrens Appraisal</text>
+          <line x1="6" x2="741" y1="2174.5" y2="2174.5" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="2194" textLength="208.95">Douglas Medical Group - &nbsp;474367</text>
+          <line x1="6" x2="741" y1="2202.5" y2="2202.5" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="2174.5" width="757" height="36" style="fill:Transparent;" id="@FLXR@15"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2222.2" textLength="145.48">Equipment-Commercial - 71</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="273.51" y="2222.2" textLength="42.818">2/2/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="2222.2" textLength="55.054">$50,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2222.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2222.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2222.2" textLength="55.054">$37,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2236.5" textLength="93.548">Medical Equipment</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2249.2" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2249.2" textLength="74.588">Purchase Price</text>
+          <line x1="6" x2="741" y1="2259.8" y2="2259.8" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <clipPath id="clipPath_p1_4">
+            <rect x="6" y="2266.8" width="247" height="16"></rect>
+          </clipPath>
+          <g clip-path="url(#clipPath_p1_4)">
+            <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="2279.3" textLength="281.54">Fairbanks, David A. Sr. - &nbsp;FAIRBANKS DAVID</text>
+          </g>
+          <line x1="6" x2="741" y1="2287.8" y2="2287.8" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="2259.8" width="757" height="36" style="fill:Transparent;" id="@FLXR@16"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2307.5" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="2307.5" textLength="48.936">6/30/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="2307.5" textLength="55.054">$28,610.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2307.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2307.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2307.5" textLength="55.054">$22,888.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2321.8" textLength="247.02">2023 Ford Escape, Serial Number 123JKL789GHJ</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2334.5" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2334.5" textLength="78.063">NADA Valuation</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2356.8" textLength="181.55">RRE-(1-4), Purchase &nbsp;Own Occ - 47</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="2356.8" textLength="48.936">4/12/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="2356.8" textLength="61.171">$100,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="2356.8" textLength="61.171">$420,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2356.8" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2356.8" textLength="55.054">$80,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2371.1" textLength="297.01">1685 NW Lincoln Street Topeka, KS 65827 i/a/o $420,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2383.8" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2383.8" textLength="152.86">J.R. Lunden Appraisal Services</text>
+          <line x1="6" x2="741" y1="2394.4" y2="2394.4" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="2413.8" textLength="210.23">Farmer, Douglas A - &nbsp;123456789.1</text>
+          <line x1="6" x2="741" y1="2422.4" y2="2422.4" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="2394.4" width="757" height="36" style="fill:Transparent;" id="@FLXR@17"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2442.1" textLength="166.87">Agricultural-Feed and Grain - 11</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="2442.1" textLength="48.936">10/4/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="2442.1" textLength="55.054">$82,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2442.1" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="579.28" y="2442.1" textLength="55.054">$61,875.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2442.1" textLength="55.054">$49,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2456.4" textLength="42.179">All Grain</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2469" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2469" textLength="244.25">Lender's Inspection and Detailed Collateral Listing</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2491.4" textLength="141.18">Equipment-Agriculture - 70</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="2491.4" textLength="48.936">7/15/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="2491.4" textLength="61.171">$124,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2491.4" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="579.28" y="2491.4" textLength="55.054">$94,350.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2491.4" textLength="55.054">$86,800.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2505.7" textLength="220.12">Listing of agricultural equipment per Exhibit A</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2518.3" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2518.3" textLength="107">Collateral detail listing</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2540.7" textLength="141.18">Equipment-Agriculture - 70</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="2540.7" textLength="48.936">3/31/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="2540.7" textLength="61.171">$128,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2540.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="579.28" y="2540.7" textLength="55.054">$75,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2540.7" textLength="55.054">$89,600.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2555" textLength="317.98">2019 John Deere Combine, Model A678, Serial Number 1234567</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2577.3" textLength="106.98">Livestock-Cattle - 85</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="2577.3" textLength="48.936">6/30/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="2577.3" textLength="55.054">$86,525.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2577.3" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="579.28" y="2577.3" textLength="55.054">$64,438.75</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2577.3" textLength="55.054">$60,567.50</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2591.6" textLength="44.016">All Cattle</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2604.3" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2604.3" textLength="143.69">See Detailed Collateral listing</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2626.6" textLength="143.66">Real Estate-Agriculture - 41</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="2626.6" textLength="48.936">9/14/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="2626.6" textLength="61.171">$100,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="472.61" y="2626.6" textLength="55.054">$50,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2626.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2626.6" textLength="55.054">$80,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2640.9" textLength="314.1">950 SW Rural Route #1 Sample City, KS 66614 i/a/o $50,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2653.6" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2653.6" textLength="154.7">A and A Appraisal Services, Inc.</text>
+          <line x1="6" x2="741" y1="2664.3" y2="2664.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="2683.7" textLength="245.23">Fletcher, Jane C. - &nbsp;FLETCHER JANE C</text>
+          <line x1="6" x2="741" y1="2692.3" y2="2692.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="2664.3" width="757" height="36" style="fill:Transparent;" id="@FLXR@18"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2711.9" textLength="138.76">Certificates of Deposit - 16</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="262.1" y="2711.9" textLength="54.237">11/15/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="2711.9" textLength="61.171">$125,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2711.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2711.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="2711.9" textLength="61.171">$125,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2726.2" textLength="192.02">CD Number 8766565 i/a/o $125,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2738.9" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2738.9" textLength="86.002">Face Value of CD</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2761.2" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="2761.2" textLength="48.936">4/10/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="2761.2" textLength="55.054">$39,864.20</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2761.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2761.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2761.2" textLength="55.054">$31,891.36</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2775.5" textLength="335.71">2023 Jeep Grand Cherokee 4X4, Serial Number LN5557GH7788899</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2788.2" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2788.2" textLength="90.492">Dealership Invoice</text>
+          <line x1="6" x2="741" y1="2798.9" y2="2798.9" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <clipPath id="clipPath_p1_5">
+            <rect x="6" y="2805.9" width="247" height="16"></rect>
+          </clipPath>
+          <g clip-path="url(#clipPath_p1_5)">
+            <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="2818.3" textLength="283.77">Fletcher, John J. Jr. - &nbsp;FLETCHER JOHN J JR</text>
+          </g>
+          <line x1="6" x2="741" y1="2826.9" y2="2826.9" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="2798.9" width="757" height="36" style="fill:Transparent;" id="@FLXR@19"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2846.5" textLength="143.67">Real Estate-Residential - 43</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="2846.5" textLength="48.936">8/17/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="2846.5" textLength="61.171">$235,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="2846.5" textLength="61.171">$100,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2846.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="2846.5" textLength="61.171">$188,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2860.8" textLength="253.78">777 Smith Place Smith, KS 56142 i/a/o $100,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2873.5" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2873.5" textLength="162">Smith City Appraisal Service, Inc.</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2895.8" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="2895.8" textLength="48.936">6/30/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="2895.8" textLength="55.054">$36,850.25</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2895.8" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2895.8" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2895.8" textLength="55.054">$29,480.20</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2910.1" textLength="256.2">2023 Nissan Murano, Serial Number HZ18930JL890</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2922.8" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="2922.8" textLength="117.37">Dealership Sticker Price</text>
+          <line x1="6" x2="741" y1="2933.5" y2="2933.5" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="2952.9" textLength="188.5">Franklin, James A. - &nbsp;138854.4</text>
+          <line x1="6" x2="741" y1="2961.5" y2="2961.5" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="2933.5" width="757" height="36" style="fill:Transparent;" id="@FLXR@20"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="2981.1" textLength="141.18">Equipment-Agriculture - 70</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="273.51" y="2981.1" textLength="42.818">3/1/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="2981.1" textLength="61.171">$100,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="2981.1" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="2981.1" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="2981.1" textLength="55.054">$70,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="2995.4" textLength="189.57">2021 JD 9950 Comine, Serial #823984</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3008.1" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="3008.1" textLength="69.701">Purchase cost</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3030.4" textLength="106.98">Livestock-Cattle - 85</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="273.51" y="3030.4" textLength="42.818">4/1/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="3030.4" textLength="55.054">$50,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3030.4" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3030.4" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="3030.4" textLength="55.054">$35,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3044.7" textLength="48.915">100 Cows</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3057.4" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="3057.4" textLength="214.18">Purchase cost - 100 cows @ $500 per head</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3079.7" textLength="166.85">Agricultural-Growing Crops - 12</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="273.51" y="3079.7" textLength="42.818">3/1/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="3079.7" textLength="61.171">$158,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3079.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="579.28" y="3079.7" textLength="55.054">$85,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="3079.7" textLength="55.054">$79,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3094" textLength="73.358">Growing Crops</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3106.7" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="3106.7" textLength="67.063">Insured Value</text>
+          <line x1="6" x2="741" y1="3117.4" y2="3117.4" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="3136.8" textLength="175.36">Happy, David - &nbsp;Dave Happy</text>
+          <line x1="6" x2="741" y1="3145.4" y2="3145.4" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="3117.4" width="757" height="36" style="fill:Transparent;" id="@FLXR@21"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3165" textLength="132.67">Accounts Receivable - 10</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="3165" textLength="48.936">6/25/2024</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="3165" textLength="61.171">$377,859.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3165" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3165" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="3165" textLength="61.171">$283,394.25</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3179.3" textLength="33.011">All A/R</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3201.7" textLength="88.016">Grain Inventory -</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="3201.7" textLength="48.936">6/25/2024</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="3201.7" textLength="61.171">$143,190.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3201.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3201.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="3201.7" textLength="61.171">$107,392.50</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3216" textLength="90.481">All Grain Inventory</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3238.3" textLength="61.128">Machinery -</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="3238.3" textLength="48.936">6/25/2024</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="360.65" y="3238.3" textLength="60.355">$711,700.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3238.3" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3238.3" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="3238.3" textLength="61.171">$533,775.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3252.6" textLength="81.925">All Ag Machinery</text>
+          <line x1="6" x2="741" y1="3263.3" y2="3263.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="3282.7" textLength="179.79">Hoffman, Matthew A - &nbsp;39676</text>
+          <line x1="6" x2="741" y1="3291.3" y2="3291.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="3263.3" width="757" height="36" style="fill:Transparent;" id="@FLXR@22"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3310.9" textLength="143.67">Real Estate-Residential - 43</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="3310.9" textLength="48.936">6/16/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="3310.9" textLength="61.171">$200,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="3310.9" textLength="61.171">$153,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3310.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="3310.9" textLength="61.171">$160,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3325.3" textLength="355.74">7102 South Raymond Avenue Juniata, NE 68955-2044 i/a/o $153,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3337.9" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="3337.9" textLength="91.094">Russell Appraisers</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3360.2" textLength="138.76">Certificates of Deposit - 16</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="261.28" y="3360.2" textLength="55.054">10/18/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="372.06" y="3360.2" textLength="48.936">$5,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3360.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3360.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="692.06" y="3360.2" textLength="48.936">$5,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3374.6" textLength="173.67">CD Number 135431 i/a/o $5,000.00</text>
+          <line x1="6" x2="741" y1="3385.3" y2="3385.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <clipPath id="clipPath_p1_6">
+            <rect x="6" y="3392.3" width="247" height="16"></rect>
+          </clipPath>
+          <g clip-path="url(#clipPath_p1_6)">
+            <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="3404.7" textLength="289.62">Hotel Management Group, LLC - &nbsp;HOTEL, LLC</text>
+          </g>
+          <line x1="6" x2="741" y1="3413.3" y2="3413.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="3385.3" width="757" height="36" style="fill:Transparent;" id="@FLXR@23"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3432.9" textLength="147.95">Real Estate-Commercial - 42</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="268.21" y="3432.9" textLength="48.12">11/8/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="350.65" y="3432.9" textLength="70.345">$2,500,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="457.32" y="3432.9" textLength="70.345">$1,200,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3432.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="670.65" y="3432.9" textLength="70.345">$1,875,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3447.2" textLength="289.87">720 W Tropicana Las Vegas, NV 89109 i/a/o $1,200,000.00</text>
+          <line x1="6" x2="741" y1="3457.9" y2="3457.9" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="3477.3" textLength="246.27">Kansas Boxing Association - &nbsp;656497.6</text>
+          <line x1="6" x2="741" y1="3485.9" y2="3485.9" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="3457.9" width="757" height="36" style="fill:Transparent;" id="@FLXR@24"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3505.5" textLength="56.23">Inventory -</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="273.51" y="3505.5" textLength="42.818">3/1/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="3505.5" textLength="55.054">$15,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3505.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3505.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="3505.5" textLength="55.054">$10,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3519.9" textLength="101.49">All Inventory for Sale</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3542.2" textLength="84.965">Instruments - 76</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="273.51" y="3542.2" textLength="42.818">3/1/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="3542.2" textLength="55.054">$28,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3542.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3542.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="692.06" y="3542.2" textLength="48.936">$4,200.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3556.5" textLength="155.91">Interest in Franchise Agreement</text>
+          <line x1="6" x2="741" y1="3567.2" y2="3567.2" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="3586.6" textLength="181.55">Morgan Press, LLC - &nbsp;735739</text>
+          <line x1="6" x2="741" y1="3595.2" y2="3595.2" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="3567.2" width="757" height="36" style="fill:Transparent;" id="@FLXR@25"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3614.8" textLength="147.95">Real Estate-Commercial - 42</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="261.28" y="3614.8" textLength="55.054">12/18/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="3614.8" textLength="61.171">$595,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="3614.8" textLength="61.171">$465,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3614.8" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="3614.8" textLength="61.171">$446,250.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3629.2" textLength="296.57">6492 Williams Road Des Moines, IA 53400 i/a/o $465,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3641.8" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="3641.8" textLength="83.155">Stuke Appraisers</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3664.1" textLength="146.09">Blanket Business Filing - 15</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="261.28" y="3664.1" textLength="55.054">12/18/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="3664.1" textLength="55.054">$75,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3664.1" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3664.1" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="3664.1" textLength="55.054">$52,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3678.5" textLength="113.72">Blanket Business Filing</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3691.1" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="3691.1" textLength="97.217">Financial Statement</text>
+          <line x1="6" x2="741" y1="3701.8" y2="3701.8" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="3721.2" textLength="157.84">Ronner, Leah R - &nbsp;447366</text>
+          <line x1="6" x2="741" y1="3729.8" y2="3729.8" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="3701.8" width="757" height="36" style="fill:Transparent;" id="@FLXR@26"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3749.4" textLength="145.48">Equipment-Commercial - 71</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="261.28" y="3749.4" textLength="55.054">12/31/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="3749.4" textLength="55.054">$55,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3749.4" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3749.4" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="3749.4" textLength="55.054">$41,250.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3763.8" textLength="67.869">All Equipment</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3776.4" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="3776.4" textLength="67.869">All Equipment</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3798.7" textLength="138.76">Certificates of Deposit - 16</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="3798.7" textLength="48.936">3/10/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="3798.7" textLength="55.054">$10,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3798.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3798.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="3798.7" textLength="55.054">$10,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3813.1" textLength="185.09">CD Number 2011856 i/a/o $10,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3825.7" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="3825.7" textLength="99.005">First Community CD</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3848" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="3848" textLength="48.936">3/10/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="3848" textLength="55.054">$17,950.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3848" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3848" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="3848" textLength="55.054">$14,360.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3862.4" textLength="244.4">2020 Toyota Sequoia, Serial Number 8794385NIH</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3884.7" textLength="147.95">Real Estate-Commercial - 42</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="3884.7" textLength="48.936">8/10/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="350.65" y="3884.7" textLength="70.345">$3,245,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="457.32" y="3884.7" textLength="70.345">$1,200,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3884.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="670.65" y="3884.7" textLength="70.345">$2,433,750.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3899" textLength="295.78">72 Glenn Terrace Brock, NE 68320-8429 i/a/o $1,200,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3911.7" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="3911.7" textLength="89.284">Updated appraisal</text>
+          <line x1="6" x2="741" y1="3922.3" y2="3922.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <clipPath id="clipPath_p1_7">
+            <rect x="6" y="3929.3" width="247" height="16"></rect>
+          </clipPath>
+          <g clip-path="url(#clipPath_p1_7)">
+            <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="3941.8" textLength="262.3">Taylor Anderson Real Estate LLC - &nbsp;74933</text>
+          </g>
+          <line x1="6" x2="741" y1="3950.3" y2="3950.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="3922.3" width="757" height="36" style="fill:Transparent;" id="@FLXR@27"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="3970" textLength="146.09">Blanket Business Filing - 15</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="3970" textLength="48.936">5/14/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="3970" textLength="61.171">$345,632.23</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="3970" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="3970" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="3970" textLength="61.171">$241,942.56</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3984.3" textLength="257.42">All business assets now owned or hereafter acquired</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="3997" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="3997" textLength="227.47">Require updated financial statements quarterly</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4019.3" textLength="147.95">Real Estate-Commercial - 42</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="4019.3" textLength="48.936">1/30/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="350.65" y="4019.3" textLength="70.345">$1,370,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="457.32" y="4019.3" textLength="70.345">$1,252,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4019.3" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="670.65" y="4019.3" textLength="70.345">$1,027,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4033.6" textLength="379.75">3 Unit Rental - 140 Butterfield Rd Lincoln, NE 68516-4738 i/a/o $1,252,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4046.3" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4046.3" textLength="78.885">Sindig Appraisal</text>
+          <line x1="6" x2="741" y1="4056.9" y2="4056.9" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <clipPath id="clipPath_p1_8">
+            <rect x="6" y="4063.9" width="247" height="16"></rect>
+          </clipPath>
+          <g clip-path="url(#clipPath_p1_8)">
+            <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="4076.3" textLength="280.1">Vertical Software, Inc - &nbsp;Vertical Software Inc</text>
+          </g>
+          <line x1="6" x2="741" y1="4084.9" y2="4084.9" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="4056.9" width="757" height="36" style="fill:Transparent;" id="@FLXR@28"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4104.6" textLength="145.48">Equipment-Commercial - 71</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="268.21" y="4104.6" textLength="48.12">8/11/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4104.6" textLength="61.171">$233,417.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="4104.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4104.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4104.6" textLength="61.171">$175,062.75</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4118.9" textLength="119.22">All Computer Equipment</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4141.2" textLength="138.76">Certificates of Deposit - 16</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="268.21" y="4141.2" textLength="48.12">8/11/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4141.2" textLength="61.171">$100,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="4141.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4141.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4141.2" textLength="61.171">$100,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4155.5" textLength="192.02">CD Number 4456789 i/a/o $100,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4168.2" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4168.2" textLength="140.62">Per Core Accounting System</text>
+          <line x1="6" x2="741" y1="4178.9" y2="4178.9" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="4198.3" textLength="179.6">Walker, Elizabeth - &nbsp;656549.6</text>
+          <line x1="6" x2="741" y1="4206.9" y2="4206.9" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="4178.9" width="757" height="36" style="fill:Transparent;" id="@FLXR@29"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4226.5" textLength="143.67">Real Estate-Residential - 43</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="261.28" y="4226.5" textLength="55.054">12/26/2021</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4226.5" textLength="61.171">$350,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="4226.5" textLength="61.171">$170,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4226.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4226.5" textLength="61.171">$280,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4240.8" textLength="300.68">1st - 1530 Heights Place Topeka, KS 66604 i/a/o $170,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4253.5" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4253.5" textLength="67.869">Per appraisal.</text>
+          <line x1="6" x2="741" y1="4264.2" y2="4264.2" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="4283.6" textLength="228.07">Wilson Bros. Construction - &nbsp;105978</text>
+          <line x1="6" x2="741" y1="4292.2" y2="4292.2" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="4264.2" width="757" height="36" style="fill:Transparent;" id="@FLXR@30"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4311.8" textLength="147.95">Real Estate-Commercial - 42</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="4311.8" textLength="48.936">6/18/2024</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4311.8" textLength="61.171">$500,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="4311.8" textLength="61.171">$500,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4311.8" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4311.8" textLength="61.171">$375,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4326.1" textLength="263.99">7201 SW 15th St Topeka, KS 66614 i/a/o $500,000.00</text>
+          <line x1="6" x2="741" y1="4336.8" y2="4336.8" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="4356.2" textLength="140.68">Wilson, Mike - &nbsp;105937</text>
+          <line x1="6" x2="741" y1="4364.8" y2="4364.8" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="4336.8" width="757" height="36" style="fill:Transparent;" id="@FLXR@31"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4384.5" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="4384.5" textLength="48.936">5/25/2021</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="4384.5" textLength="55.054">$31,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="4384.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4384.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="4384.5" textLength="55.054">$24,800.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4398.8" textLength="256.22">2022 Dodge Ram 1500, Serial Number 650606TE41</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4411.4" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4411.4" textLength="50.735">Per NADA</text>
+          <line x1="6" x2="741" y1="4422.1" y2="4422.1" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="4441.5" textLength="151.05">Wilson, Nancy - &nbsp;105992</text>
+          <line x1="6" x2="741" y1="4450.1" y2="4450.1" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="4422.1" width="757" height="36" style="fill:Transparent;" id="@FLXR@32"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4469.8" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="4469.8" textLength="48.936">5/25/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="4469.8" textLength="55.054">$29,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="4469.8" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4469.8" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="4469.8" textLength="55.054">$23,600.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4484.1" textLength="244.79">2023 Toyota Camry, Serial Number 6406406PO44</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4496.7" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4496.7" textLength="50.735">Per NADA</text>
+          <line x1="6" x2="741" y1="4507.4" y2="4507.4" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="4526.8" textLength="139.2">Wilson, Pete - &nbsp;105945</text>
+          <line x1="6" x2="741" y1="4535.4" y2="4535.4" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="4507.4" width="757" height="36" style="fill:Transparent;" id="@FLXR@33"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4555.1" textLength="143.67">Real Estate-Residential - 43</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="4555.1" textLength="48.936">5/25/2020</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4555.1" textLength="61.171">$195,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="4555.1" textLength="61.171">$132,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4555.1" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4555.1" textLength="61.171">$156,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4569.4" textLength="256.65">4570 N Main St Topeka, KS 66610 i/a/o $132,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4582" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4582" textLength="65.425">Per Appraisal</text>
+          <line x1="6" x2="741" y1="4592.7" y2="4592.7" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="4612.1" textLength="146.37">Wilson, Vince - &nbsp;105982</text>
+          <line x1="6" x2="741" y1="4620.7" y2="4620.7" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="4592.7" width="757" height="36" style="fill:Transparent;" id="@FLXR@34"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4640.4" textLength="143.67">Real Estate-Residential - 43</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="4640.4" textLength="48.936">5/25/2021</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4640.4" textLength="61.171">$325,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="4640.4" textLength="61.171">$170,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="573.16" y="4640.4" textLength="61.171">$243,750.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4640.4" textLength="61.171">$260,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4654.7" textLength="263.18">4311 SW 29th St Topeka, KS 66614 i/a/o $170,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4667.3" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4667.3" textLength="65.425">Per Appraisal</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4689.7" textLength="124.1">Vehicles-Consumer - 52</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="4689.7" textLength="48.936">5/25/2021</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="365.95" y="4689.7" textLength="55.054">$39,500.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="4689.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4689.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="685.95" y="4689.7" textLength="55.054">$31,600.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4704" textLength="245.2">2021 Chevy Silverado, Serial Number 23525YR24</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4716.6" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4716.6" textLength="50.735">Per NADA</text>
+          <line x1="6" x2="741" y1="4727.3" y2="4727.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="4746.7" textLength="167.4">Young, Howard I - &nbsp;Young I</text>
+          <line x1="6" x2="741" y1="4755.3" y2="4755.3" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="4727.3" width="757" height="36" style="fill:Transparent;" id="@FLXR@35"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4775" textLength="143.67">Real Estate-Residential - 43</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="262.1" y="4775" textLength="54.237">11/18/2021</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4775" textLength="61.171">$150,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="4775" textLength="61.171">$120,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4775" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4775" textLength="61.171">$120,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4789.3" textLength="294.11">8855 E Flint Hills Dr Overbrook, KS 66123 i/a/o $120,000.00</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4811.6" textLength="141.18">Equipment-Agriculture - 70</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="4811.6" textLength="48.936">6/30/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4811.6" textLength="61.171">$330,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="4811.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4811.6" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4811.6" textLength="61.171">$231,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4825.9" textLength="114.34">2021 Case IH Combine</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4838.6" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4838.6" textLength="86.813">Case IH Combine</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4860.9" textLength="111.44">Blanket Ag Filing - 14</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="4860.9" textLength="48.936">1/30/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4860.9" textLength="61.171">$480,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="4860.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4860.9" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4860.9" textLength="61.171">$336,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4875.2" textLength="81.936">Blanket Ag Filing</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4887.9" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4887.9" textLength="135.13">All Ag Assets Listed on AFS</text>
+          <line x1="6" x2="741" y1="4898.6" y2="4898.6" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="4918" textLength="174.8">Young, Howard II - &nbsp;Young II</text>
+          <line x1="6" x2="741" y1="4926.6" y2="4926.6" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="4898.6" width="757" height="36" style="fill:Transparent;" id="@FLXR@36"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4946.2" textLength="111.44">Blanket Ag Filing - 14</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="4946.2" textLength="48.936">1/30/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4946.2" textLength="61.171">$480,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="4946.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4946.2" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4946.2" textLength="61.171">$336,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4960.5" textLength="81.936">Blanket Ag Filing</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="4973.2" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="4973.2" textLength="135.13">All Ag Assets Listed on AFS</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="4995.5" textLength="143.67">Real Estate-Residential - 43</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="262.1" y="4995.5" textLength="54.237">11/18/2021</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="4995.5" textLength="61.171">$150,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="4995.5" textLength="61.171">$120,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="4995.5" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="4995.5" textLength="61.171">$120,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="5009.8" textLength="294.11">8855 E Flint Hills Dr Overbrook, KS 66123 i/a/o $120,000.00</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="5032.1" textLength="141.18">Equipment-Agriculture - 70</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="5032.1" textLength="48.936">6/30/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="5032.1" textLength="61.171">$330,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="5032.1" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="5032.1" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="5032.1" textLength="61.171">$231,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="5046.5" textLength="114.34">2021 Case IH Combine</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="5059.1" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="5059.1" textLength="86.813">Case IH Combine</text>
+          <line x1="6" x2="741" y1="5069.8" y2="5069.8" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <text style="font-family:Arial;font-size:13.333px;font-weight:bold;fill:Black;" x="6" y="5089.2" textLength="182.21">Young, Howard III - &nbsp;Young III</text>
+          <line x1="6" x2="741" y1="5097.8" y2="5097.8" style="stroke:Black;stroke-width:2px;stroke-linecap:square;"></line>
+          <rect x="0" y="5069.8" width="757" height="36" style="fill:Transparent;" id="@FLXR@37"></rect>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="5117.4" textLength="111.44">Blanket Ag Filing - 14</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="5117.4" textLength="48.936">1/30/2023</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="5117.4" textLength="61.171">$480,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="5117.4" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="5117.4" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="5117.4" textLength="61.171">$336,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="5131.8" textLength="81.936">Blanket Ag Filing</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="5144.4" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="5144.4" textLength="135.13">All Ag Assets Listed on AFS</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="5166.7" textLength="141.18">Equipment-Agriculture - 70</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="267.4" y="5166.7" textLength="48.936">6/30/2022</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="5166.7" textLength="61.171">$330,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="500.14" y="5166.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="5166.7" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="5166.7" textLength="61.171">$231,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="5181.1" textLength="114.34">2021 Case IH Combine</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="5193.7" textLength="112.51">Evaluation Information:</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="136" y="5193.7" textLength="86.813">Case IH Combine</text>
+          <text style="font-family:Arial;font-size:11px;font-weight:bold;fill:Black;" x="6" y="5216" textLength="143.67">Real Estate-Residential - 43</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="262.1" y="5216" textLength="54.237">11/18/2021</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="359.83" y="5216" textLength="61.171">$150,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="466.5" y="5216" textLength="61.171">$120,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="606.81" y="5216" textLength="27.527">$0.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="679.83" y="5216" textLength="61.171">$120,000.00</text>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="22" y="5230.4" textLength="294.11">8855 E Flint Hills Dr Overbrook, KS 66123 i/a/o $120,000.00</text>
+          <rect x="6" y="5246.1" width="133.33" height="16" style="fill:#FFFFFF;"></rect>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="6" y="5256" textLength="48.936">5/14/2025</text>
+          <rect x="278" y="5246.1" width="200" height="16" style="fill:#FFFFFF;"></rect>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="349.87" y="5256" textLength="56.268">Page 1 of 1</text>
+          <rect x="541" y="5246.1" width="200" height="16" style="fill:#FFFFFF;"></rect>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="627.91" y="5256" textLength="113.09">Collateral By Customer</text>
+          <rect x="6" y="5262.1" width="133.33" height="16" style="fill:#FFFFFF;"></rect>
+          <text style="font-family:Arial;font-size:11px;fill:Black;" x="6" y="5272" textLength="33.634">Suntell</text>
+        </svg>
+      </section>
+    </div>
+  
+
+        </div></div>
+    <script>
+                    let insertBreakMode = false;
+
+                    function enableInsertBreakMode() {
+                        insertBreakMode = !insertBreakMode;
+                        document.getElementById('editor').style.cursor = insertBreakMode ? 'crosshair' : 'text';
+                        return insertBreakMode;
+                    }
+
+                    function getHtmlContent() {
+                        return document.getElementById('editor').innerHTML;
+                    }
+
+                    function setHtmlContent(html) {
+                        document.getElementById('editor').innerHTML = html;
+                    }
+
+                    // Helper to remove leading/trailing whitespace nodes in a page
+                    function trimPageWhitespace(page) {
+                        if (!page) return;
+
+                        const isWhitespaceNode = (node) =>
+                            (node.nodeType === Node.TEXT_NODE && !/\S/.test(node.nodeValue)) ||
+                            (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR') ||
+                            (node.nodeType === Node.ELEMENT_NODE && node.innerHTML.trim() === '');
+
+                        // Trim bottom
+                        let last = page.lastChild;
+                        while (last && isWhitespaceNode(last)) {
+                            const toRemove = last;
+                            last = last.previousSibling;
+                            page.removeChild(toRemove);
+                        }
+
+                        // Trim top
+                        let first = page.firstChild;
+                        while (first && isWhitespaceNode(first)) {
+                            const toRemove = first;
+                            first = first.nextSibling;
+                            page.removeChild(toRemove);
+                        }
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const editor = document.getElementById('editor');
+
+                        editor.addEventListener('click', function (e) {
+                            if (!insertBreakMode) return;
+
+                            const sel = window.getSelection();
+                            if (!sel.rangeCount) return;
+                            const range = sel.getRangeAt(0);
+
+                            // Flatten any nested pages
+                            document.querySelectorAll('.page .page').forEach(nested => {
+                                const outer = nested.closest('.page');
+                                outer.replaceWith(...outer.childNodes);
+                            });
+
+                            // Remove inline heights
+                            editor.querySelectorAll('*').forEach(el => {
+                                if (el.style && el.style.height) {
+                                    el.style.height = 'auto';
+                                    el.removeAttribute('height');
+                                }
+                            });
+
+                            // Find current page
+                            const allPages = Array.from(editor.children).filter(c => c.classList.contains('page'));
+                            let pageIndex = allPages.findIndex(p => p.contains(range.startContainer));
+                            if (pageIndex < 0) pageIndex = 0;
+                            const targetPage = allPages[pageIndex];
+
+                            // Remove whitespace text nodes
+                            Array.from(targetPage.childNodes).forEach(node => {
+                                if (node.nodeType === Node.TEXT_NODE && !/\S/.test(node.textContent)) {
+                                    node.remove();
+                                }
+                            });
+
+                            // Extract before/after content
+                            const beforeRange = document.createRange();
+                            beforeRange.setStart(targetPage, 0);
+                            beforeRange.setEnd(range.startContainer, range.startOffset);
+                            const beforeFrag = beforeRange.extractContents();
+
+                            const afterRange = document.createRange();
+                            afterRange.setStart(range.endContainer, range.endOffset);
+                            afterRange.setEnd(targetPage, targetPage.childNodes.length);
+                            const afterFrag = afterRange.extractContents();
+
+                            targetPage.remove(); // Remove empty original page
+
+                            // Build new pages
+                            const newPage1 = document.createElement('div');
+                            newPage1.className = 'page';
+                            newPage1.appendChild(beforeFrag);
+
+                            const breakDiv = document.createElement('div');
+                            breakDiv.className = 'page-break';
+
+                            const newPage2 = document.createElement('div');
+                            newPage2.className = 'page';
+                            newPage2.appendChild(afterFrag);
+
+                            // Trim empty space inside the new pages
+                            trimPageWhitespace(newPage1);
+                            trimPageWhitespace(newPage2);
+
+                            const beforePages = allPages.slice(0, pageIndex);
+                            const afterPages  = allPages.slice(pageIndex + 1);
+
+                            editor.innerHTML = '';
+                            beforePages.forEach(p => editor.appendChild(p.cloneNode(true)));
+                            editor.appendChild(newPage1);
+                            editor.appendChild(breakDiv);
+                            editor.appendChild(newPage2);
+                            afterPages.forEach(p => editor.appendChild(p.cloneNode(true)));
+
+                            insertBreakMode = false;
+                            editor.style.cursor = 'text';
+                            e.preventDefault();
+                        });
+                    });
+                </script>
+
+</body></html>

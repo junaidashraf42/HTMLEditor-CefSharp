@@ -1,0 +1,8 @@
+/packages/
+/bin/
+/obj/
+/*.nupkg
+*.dll
+*.exe
+*.pdb
+.vs/ 
