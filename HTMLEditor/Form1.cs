@@ -73,7 +73,7 @@ namespace HTMLEditor
             try
             {
                 // Try to load a specific report file directly
-                string reportPath = @"C:\Users\jashraf\Downloads\Collateral By Customer.html";
+                string reportPath = @"C:\Users\jashraf\Downloads\Documentation_Exceptions By Customer1.html";
                 if (File.Exists(reportPath))
                 {
                     string reportHtml = File.ReadAllText(reportPath);
@@ -126,8 +126,12 @@ namespace HTMLEditor
                             display: flex;
                             flex-direction: column;
                             gap: 10px;
-                            max-width: 800px;
+                            max-width: 900px;
                             margin: 0 auto;
+                        }}
+
+                        #editor:focus {{outline: none;
+                            border: none;
                         }}
 
                         .page {{
@@ -139,7 +143,6 @@ namespace HTMLEditor
                         }}
 
                         .page-break {{
-                            border-top: 1px dashed #ccc;
                               page-break-before: always;
                               margin-top: 0 !important;
                               padding-top: 0 !important;
@@ -404,7 +407,7 @@ namespace HTMLEditor
                     const width = svg.viewBox?.baseVal?.width || svg.clientWidth || 100;
                     svg.setAttribute('viewBox', `0 0 ${width} ${estHeight}`);
 
-                    adjustSvg(svg, 20); // Align to y=20
+                    adjustSvg(svg, 40); // Align to y=20
                 });
 
             //Allocate viewBox height dynamically
