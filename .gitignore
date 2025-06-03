@@ -1,8 +1,34 @@
-/packages/
-/bin/
-/obj/
-/*.nupkg
+# Build results
+bin/
+obj/
+Debug/
+Release/
 *.dll
 *.exe
 *.pdb
-.vs/ 
+*.cache
+*.log
+*.vspscc
+
+# NuGet
+*.nupkg
+packages/
+*.snupkg
+*.nuspec
+
+# VS Code and Visual Studio settings
+.vscode/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Resharper
+*.DotSettings.user
+
+# Others
+*.db
+*.bak
+*.tmp
+*.user
