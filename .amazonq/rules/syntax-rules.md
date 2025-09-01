@@ -1,0 +1,4 @@
+- This is a desktop app made in C# .NET code. 
+- There are a lot of JS Scripts embedded into C# code.
+- While editing or writing new code, always make sure to use {{}} instead of {} in JS Scripts. 
+- Make proper use of concatenation and templateliterlas to entertain the string interpolation of C#.
