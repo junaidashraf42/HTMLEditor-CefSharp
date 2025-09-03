@@ -33,7 +33,6 @@ namespace HTMLEditor
         private string _currentReportPath;
         private string _currentReportContent;
         private bool _isMultiplePageView = false; // Default to single page view (normal scrollable view)
-        private int lastFindId = 0;
 
         public Form1()
         {
