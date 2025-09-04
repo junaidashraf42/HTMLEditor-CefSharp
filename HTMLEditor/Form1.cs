@@ -103,6 +103,14 @@ namespace HTMLEditor
 
             // Kept for designer compatibility
             Load += async (s, e) => await LoadEditorTemplate();
+            
+            // Focus the browser when form is activated
+            Activated += (s, e) => {
+                if (browser != null && browser.IsBrowserInitialized)
+                {
+                    browser.Focus();
+                }
+            };
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -279,6 +287,11 @@ namespace HTMLEditor
 
                 // Wait for the DOM to be fully loaded before attempting to split content
                 await Task.Delay(500); // Give the browser a moment to render the DOM
+                
+                // Focus the browser control immediately after loading
+                this.Invoke((MethodInvoker)delegate {
+                    browser.Focus();
+                });
 
                 ///Add a DOM ready check before running AutoSplitInitialContent
                 var domReadyScript = @"
@@ -308,6 +321,11 @@ namespace HTMLEditor
                 if (domReady)
                 {
                     await AutoSplitInitialContent(browser);
+                    
+                    // Focus the browser control itself so Ctrl+F works immediately
+                    this.Invoke((MethodInvoker)delegate {
+                        browser.Focus();
+                    });
                 }
                 else
                 {
