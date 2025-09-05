@@ -110,6 +110,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="JavaScriptBridge.cs" />
+    <Compile Include="JavaScriptLoader.cs" />
     <Compile Include="KeyboardHandler.cs" />
     <Compile Include="PageBreakStorage.cs" />
     <Compile Include="Program.cs" />
@@ -142,6 +144,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="page source.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\CommunicationBridge.js" />
+    <EmbeddedResource Include="js\CommonUtils.js" />
+    <EmbeddedResource Include="js\PageBreakManager.js" />
+    <EmbeddedResource Include="js\PageSplitter.js" />
+    <EmbeddedResource Include="js\AutoSplitContent.js" />
+    <EmbeddedResource Include="js\EditorTemplate.js" />
+    <EmbeddedResource Include="js\RestorePageBreaks.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

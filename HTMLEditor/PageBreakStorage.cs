@@ -59,8 +59,7 @@ namespace HTMLEditor
     {
         private const string StorageFileName = "pageBreakData.json";
         private string StorageFilePath => Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "HTMLEditor",
+            AppDomain.CurrentDomain.BaseDirectory,
             StorageFileName);
 
         private PageBreakStorage _storage;
@@ -205,19 +204,19 @@ namespace HTMLEditor
                 newBreaks = newBreaks
                     .Where(bp => !string.IsNullOrEmpty(bp.Text1Hash) && !string.IsNullOrEmpty(bp.Text2Hash))
                     .ToList();
-                    
+
                 // Remove duplicates by breakId first (most important)
                 var uniqueBreaks = new List<BreakPoint>();
                 foreach (var bp in newBreaks)
                 {
                     bool isDuplicate = false;
-                    
+
                     // Primary check: duplicate breakId
                     if (!string.IsNullOrEmpty(bp.BreakId))
                     {
                         isDuplicate = uniqueBreaks.Any(existing => existing.BreakId == bp.BreakId);
                     }
-                    
+
                     if (!isDuplicate)
                     {
                         uniqueBreaks.Add(bp);
@@ -227,31 +226,9 @@ namespace HTMLEditor
 
                 PageBreakData data = GetPageBreakData(filePath, fileContent);
 
-                // Check which new breaks don't already exist in storage
-                var breaksToAdd = new List<BreakPoint>();
-                foreach (var newBp in newBreaks)
-                {
-                    // Check for duplicates by position, text hashes, and page index (more comprehensive than just breakId)
-                    bool alreadyExists = data.BreakData.Any(existing => 
-                        existing.Text1Hash == newBp.Text1Hash && 
-                        existing.Text2Hash == newBp.Text2Hash &&
-                        Math.Abs(existing.YOffset - newBp.YOffset) < 0.1 && // Allow small floating point differences
-                        Math.Abs(existing.XOffset - newBp.XOffset) < 0.1 &&
-                        existing.PageIndex == newBp.PageIndex);
-                    
-                    if (!alreadyExists)
-                    {
-                        breaksToAdd.Add(newBp);
-                    }
-                }
-                
-                // Insert new breaks at the end of the list
-                if (breaksToAdd.Count > 0)
-                {
-                    var allBreaks = new List<BreakPoint>(data.BreakData);
-                    allBreaks.AddRange(breaksToAdd);
-                    data.BreakData = allBreaks;
-                }
+                // Replace all existing breaks with the new list instead of just adding new ones
+                // This ensures removed page breaks are properly removed from storage
+                data.BreakData = newBreaks;
                 data.LastModified = DateTime.Now;
                 SaveStorage();
             }
