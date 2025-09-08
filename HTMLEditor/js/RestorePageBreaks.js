@@ -75,7 +75,9 @@ function getRestorePageBreaksScript(breakDataJson) {
         const breakDataJson = '${breakDataJson}';
         let breakData;
         try {
+            console.log('Attempting to parse breakDataJson:', breakDataJson);
             breakData = JSON.parse(breakDataJson);
+            console.log('Parsed simplified breakData:', breakData);
         } catch (e) {
             console.error('Failed to parse breakDataJson:', e, 'Raw JSON:', breakDataJson);
             return;
@@ -85,6 +87,8 @@ function getRestorePageBreaksScript(breakDataJson) {
             console.error('breakData is not an array:', breakData);
             return;
         }
+
+        console.log('breakData length:', breakData.length);
 
         // Get all text elements for simplified matching
         const allTextElements = Array.from(editor.querySelectorAll('text'));
@@ -1258,6 +1262,7 @@ function getRestorePageBreaksScript(breakDataJson) {
         }
 
         function savePageBreakPositions() {
+        debugger;
         const pageBreaks = Array.from(editor.querySelectorAll('.page-break:not(.auto-page-break)'));
         const breakData = [];
         

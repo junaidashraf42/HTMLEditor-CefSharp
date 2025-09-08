@@ -30,9 +30,6 @@ namespace HTMLEditor
         private string _currentReportPath;
         private string _currentReportContent;
         private bool _isMultiplePageView = false; // Default to single page view (normal scrollable view)
-        private Button _multiplePageViewButton; // Reference to the Multiple Page View button
-        private System.Drawing.Image _iconSinglePage;   // Icon for Single Page view
-        private System.Drawing.Image _iconMultiplePage; // Icon for Multiple Page view
 
         public Form1()
         {
@@ -126,213 +123,157 @@ namespace HTMLEditor
             ribbonPanel.Height = 150;
             ribbonPanel.BackColor = Color.FromArgb(218, 220, 224);
 
-            // ---------------- Navigation Panel ----------------
+            // Create Navigation section panel
             Panel navigationPanel = new Panel();
-            navigationPanel.Width = 320;
+            navigationPanel.Width = 300;
             navigationPanel.Height = 120;
             navigationPanel.BorderStyle = BorderStyle.None;
 
+            // Add label for Navigation section, centered horizontally
             Label navLabel = new Label();
             navLabel.Text = "Navigation";
             navLabel.AutoSize = true;
             navLabel.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            navLabel.Location = new Point((navigationPanel.Width - navLabel.Width) / 2, 5);
+            navLabel.Location = new Point((navigationPanel.Width - navLabel.Width) / 2, 5); // Center horizontally
             navigationPanel.Controls.Add(navLabel);
 
-            int navY = 50, spacing = 5;
+            // Add Previous navigation label
+            Label prevLabel = new Label();
+            prevLabel.Text = "<<";
+            prevLabel.Size = new Size(60, 30);
+            prevLabel.Location = new Point(20, 40); // Adjusted for vertical spacing
+            prevLabel.Font = new Font("Segoe UI", 9);
+            prevLabel.TextAlign = ContentAlignment.MiddleCenter;
+            prevLabel.Click += (s, e) => { /* Placeholder for Previous page navigation logic */ };
+            navigationPanel.Controls.Add(prevLabel);
 
-            Button firstPageBtn = new Button { Text = "<<", Size = new Size(50, 30), Location = new Point(20, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
-            firstPageBtn.FlatAppearance.BorderSize = 1;
-            navigationPanel.Controls.Add(firstPageBtn);
+            // Add Home button
+            Button homeButton = new Button();
+            homeButton.Text = "Home";
+            homeButton.Size = new Size(60, 30);
+            homeButton.Location = new Point((navigationPanel.Width - homeButton.Width) / 2, 40); // Centered horizontally
+            homeButton.Font = new Font("Segoe UI", 9);
+            homeButton.Click += (s, e) => { /* Placeholder for Home page navigation logic */ };
+            navigationPanel.Controls.Add(homeButton);
 
-            Button prevPageBtn = new Button { Text = "<", Size = new Size(30, 30), Location = new Point(firstPageBtn.Right + spacing, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
-            prevPageBtn.FlatAppearance.BorderSize = 1;
-            navigationPanel.Controls.Add(prevPageBtn);
+            // Add Next navigation label
+            Label nextLabel = new Label();
+            nextLabel.Text = ">>";
+            nextLabel.Size = new Size(60, 30);
+            nextLabel.Location = new Point(navigationPanel.Width - nextLabel.Width - 20, 40); // Right-aligned
+            nextLabel.Font = new Font("Segoe UI", 9);
+            nextLabel.TextAlign = ContentAlignment.MiddleCenter;
+            nextLabel.Click += (s, e) => { /* Placeholder for Next page navigation logic */ };
+            navigationPanel.Controls.Add(nextLabel);
 
-            Label pageNumberLabel = new Label { Text = "Page 1 of 10", AutoSize = true, Font = new Font("Segoe UI", 10), Location = new Point(prevPageBtn.Right + spacing, navY + 5) };
+            // Add page number label (e.g., "Page 1 of 22")
+            Label pageNumberLabel = new Label();
+            int currentPage = 1; // Placeholder for current page
+            int totalPages = 22; // Placeholder for total pages
+            pageNumberLabel.Text = $"Page {currentPage} of {totalPages}";
+            pageNumberLabel.AutoSize = true;
+            pageNumberLabel.Font = new Font("Segoe UI", 9);
+            pageNumberLabel.Location = new Point((navigationPanel.Width - pageNumberLabel.Width) / 2, 80); // Below navigation controls
             navigationPanel.Controls.Add(pageNumberLabel);
 
-            Button nextPageBtn = new Button { Text = ">", Size = new Size(30, 30), Location = new Point(pageNumberLabel.Right + spacing, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
-            nextPageBtn.FlatAppearance.BorderSize = 1;
-            navigationPanel.Controls.Add(nextPageBtn);
-
-            Button lastPageBtn = new Button { Text = ">>", Size = new Size(50, 30), Location = new Point(nextPageBtn.Right + spacing, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
-            lastPageBtn.FlatAppearance.BorderSize = 1;
-            navigationPanel.Controls.Add(lastPageBtn);
-
-            // ---------------- Tools Panel ----------------
+            // Create Tools section panel
             Panel toolsPanel = new Panel();
-            toolsPanel.Width = 620;   // widened so all buttons fit
+            toolsPanel.Width = 300;
             toolsPanel.Height = 120;
             toolsPanel.BorderStyle = BorderStyle.None;
 
+            // Add label for Tools section, centered horizontally
             Label toolsLabel = new Label();
             toolsLabel.Text = "Tools";
             toolsLabel.AutoSize = true;
             toolsLabel.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            toolsLabel.Location = new Point((toolsPanel.Width - toolsLabel.Width) / 2, 5);
+            toolsLabel.Location = new Point((toolsPanel.Width - toolsLabel.Width) / 2, 5); // Center horizontally
             toolsPanel.Controls.Add(toolsLabel);
 
-            int toolY = 35;
-            int baseX = 20;
-
-            // Print
+            // Add Print button with icon
             Button printButton = new Button();
-            printButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\print.ico"));
+            printButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\print.ico")); // Load from root directory
             printButton.Size = new Size(60, 60);
-            printButton.Location = new Point(baseX, toolY);
-            printButton.ImageAlign = ContentAlignment.TopCenter;
+            printButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2, 35); // Left of three buttons, centered
+            printButton.ImageAlign = ContentAlignment.MiddleCenter;
             printButton.Text = "Print";
             printButton.TextAlign = ContentAlignment.BottomCenter;
             printButton.Font = new Font("Segoe UI", 9);
-            printButton.FlatStyle = FlatStyle.Flat;
-            printButton.FlatAppearance.BorderSize = 0;
+            printButton.Click += (s, e) => { /* Placeholder for Print logic */ };
             toolsPanel.Controls.Add(printButton);
 
-            // Export
-            Panel printExportSeparator = new Panel { Width = 2, Height = 60, BackColor = Color.FromArgb(180, 180, 180), Location = new Point(printButton.Right + 10, toolY) };
-            toolsPanel.Controls.Add(printExportSeparator);
-
+            // Add Export button with icon
             Button exportButton = new Button();
-            exportButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\export.ico"));
-            exportButton.Size = new Size(60, 60);
-            exportButton.Location = new Point(printExportSeparator.Right + 10, toolY);
-            exportButton.ImageAlign = ContentAlignment.TopCenter;
+            exportButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\export.ico")); // Load from root directory
+            exportButton.Size = new Size(60, 80);
+            exportButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2 + 60 + 20, 35); // Middle, with 20px spacing
+            exportButton.ImageAlign = ContentAlignment.MiddleCenter;
             exportButton.Text = "Export";
             exportButton.TextAlign = ContentAlignment.BottomCenter;
             exportButton.Font = new Font("Segoe UI", 9);
-            exportButton.FlatStyle = FlatStyle.Flat;
-            exportButton.FlatAppearance.BorderSize = 0;
-            //exportButton.Click += async (sender, e) => await GetEditedHtml();
+            exportButton.Click += (s, e) => { /* Placeholder for Export logic */ };
             toolsPanel.Controls.Add(exportButton);
 
-            // Multiple Page View
-            Panel exportViewSeparator = new Panel { Width = 2, Height = 60, BackColor = Color.FromArgb(180, 180, 180), Location = new Point(exportButton.Right + 10, toolY) };
-            toolsPanel.Controls.Add(exportViewSeparator);
-
-            // Preload icons used for toggling to avoid reloading from disk on every click
-            _iconMultiplePage = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\multiple.ico"));
-            _iconSinglePage = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\single.ico"));
-
-            Button multiplePageView = new Button();
-            multiplePageView.Image = _iconMultiplePage; // default state shows action to switch to Multiple Page
-            multiplePageView.Size = new Size(120, 60);
-            multiplePageView.Location = new Point(exportViewSeparator.Right + 10, toolY);
-            multiplePageView.ImageAlign = ContentAlignment.TopCenter;
-            multiplePageView.Text = "Multiple Page";
-            multiplePageView.TextAlign = ContentAlignment.BottomCenter;
-            multiplePageView.Font = new Font("Segoe UI", 9);
-            multiplePageView.FlatStyle = FlatStyle.Flat;
-            multiplePageView.FlatAppearance.BorderSize = 0;
-            multiplePageView.Click += async (s, e) => await ToggleMultiplePageView();
-            toolsPanel.Controls.Add(multiplePageView);
-
-            // Keep a reference for dynamic label updates
-            _multiplePageViewButton = multiplePageView;
-
-            // Find
-            Panel viewFindSeparator = new Panel { Width = 2, Height = 60, BackColor = Color.FromArgb(180, 180, 180), Location = new Point(multiplePageView.Right + 10, toolY) };
-            toolsPanel.Controls.Add(viewFindSeparator);
-
+            // Add Find button with icon
             Button findButton = new Button();
-            findButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\find.ico"));
+            findButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\find.ico")); // Load from root directory
             findButton.Size = new Size(60, 60);
-            findButton.Location = new Point(viewFindSeparator.Right + 10, toolY);
-            findButton.ImageAlign = ContentAlignment.TopCenter;
+            findButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2 + 60 + 20 + 60 + 20, 35); // Right, with 20px spacing
+            findButton.ImageAlign = ContentAlignment.MiddleCenter;
             findButton.Text = "Find";
             findButton.TextAlign = ContentAlignment.BottomCenter;
             findButton.Font = new Font("Segoe UI", 9);
-            findButton.FlatStyle = FlatStyle.Flat;
-            findButton.FlatAppearance.BorderSize = 0;
+            findButton.Click += (s, e) => { /* Placeholder for Find logic */ };
             toolsPanel.Controls.Add(findButton);
 
-            // Zoom In
-            Panel findZoomSeparator = new Panel { Width = 2, Height = 60, BackColor = Color.FromArgb(180, 180, 180), Location = new Point(findButton.Right + 10, toolY) };
-            toolsPanel.Controls.Add(findZoomSeparator);
+            // Create separator panel between Navigation and Tools
+            Panel separator = new Panel();
+            separator.Width = 2;
+            separator.Height = 100;
+            separator.BackColor = Color.FromArgb(180, 180, 180); // Gray separator color
+            separator.Location = new Point(navigationPanel.Width + 10, 25); // Centered vertically between panels
 
-            Button zoomInButton = new Button();
-            zoomInButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\zoom-in.ico"));
-            zoomInButton.Size = new Size(90, 60);
-            zoomInButton.Location = new Point(findZoomSeparator.Right + 10, toolY);
-            zoomInButton.ImageAlign = ContentAlignment.TopCenter;
-            zoomInButton.Text = "Zoom In";
-            zoomInButton.TextAlign = ContentAlignment.BottomCenter;
-            zoomInButton.Font = new Font("Segoe UI", 9);
-            zoomInButton.FlatStyle = FlatStyle.Flat;
-            zoomInButton.FlatAppearance.BorderSize = 0;
-            toolsPanel.Controls.Add(zoomInButton);
-
-            // Zoom Out
-            Panel zoomInOutSeparator = new Panel { Width = 2, Height = 60, BackColor = Color.FromArgb(180, 180, 180), Location = new Point(zoomInButton.Right + 10, toolY) };
-            toolsPanel.Controls.Add(zoomInOutSeparator);
-
-            Button zoomOutButton = new Button();
-            zoomOutButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\zoom-out.ico"));
-            zoomOutButton.Size = new Size(90, 60);
-            zoomOutButton.Location = new Point(zoomInOutSeparator.Right + 10, toolY);
-            zoomOutButton.ImageAlign = ContentAlignment.TopCenter;
-            zoomOutButton.Text = "Zoom Out";
-            zoomOutButton.TextAlign = ContentAlignment.BottomCenter;
-            zoomOutButton.Font = new Font("Segoe UI", 9);
-            zoomOutButton.FlatStyle = FlatStyle.Flat;
-            zoomOutButton.FlatAppearance.BorderSize = 0;
-            toolsPanel.Controls.Add(zoomOutButton);
-
-            // ---------------- SDI Panel ----------------
-            Panel sdiPanel = new Panel();
-            sdiPanel.Width = 150;
-            sdiPanel.Height = 120;
-
-            Label sdiLabel = new Label();
-            sdiLabel.Text = "SDI";
-            sdiLabel.AutoSize = true;
-            sdiLabel.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            sdiLabel.Location = new Point((sdiPanel.Width - sdiLabel.Width) / 2, 5);
-            sdiPanel.Controls.Add(sdiLabel);
-
-            Button saveToSdiButton = new Button();
-            saveToSdiButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\SDI.ico"));
-            saveToSdiButton.Size = new Size(110, 60);
-            saveToSdiButton.Location = new Point((sdiPanel.Width - saveToSdiButton.Width) / 2 - 30, 35);
-            saveToSdiButton.ImageAlign = ContentAlignment.TopCenter;
-            saveToSdiButton.Text = "Save to SDI";
-            saveToSdiButton.TextAlign = ContentAlignment.BottomCenter;
-            saveToSdiButton.Font = new Font("Segoe UI", 9);
-            saveToSdiButton.FlatStyle = FlatStyle.Flat;
-            saveToSdiButton.FlatAppearance.BorderSize = 0;
-            saveToSdiButton.Cursor = Cursors.Hand;
-            sdiPanel.Controls.Add(saveToSdiButton);
-
-            // ---------------- Layout ----------------
-            Panel separator = new Panel { Width = 2, Height = 100, BackColor = Color.FromArgb(180, 180, 180) };
-            Panel toolsSdiSeparator = new Panel { Width = 2, Height = 100, BackColor = Color.FromArgb(180, 180, 180) };
-
-            int totalWidth = navigationPanel.Width + 2 + toolsPanel.Width + 2 + sdiPanel.Width + 60;
-            int startX = (ribbonPanel.Width - totalWidth) / 2;
-
+            // Center the panels and separator horizontally in the ribbon panel
+            int totalWidth = navigationPanel.Width + separator.Width + toolsPanel.Width + 20; // 20 for spacing
+            int startX = (ribbonPanel.Width - totalWidth) / 2; // Calculate starting X to center
             navigationPanel.Location = new Point(startX, 15);
-            separator.Location = new Point(navigationPanel.Right + 10, 25);
-            toolsPanel.Location = new Point(separator.Right + 20, 15);
-            toolsSdiSeparator.Location = new Point(toolsPanel.Right + 10, 25);
-            sdiPanel.Location = new Point(toolsSdiSeparator.Right + 20, 15);
+            separator.Location = new Point(startX + navigationPanel.Width + 10, 25);
+            toolsPanel.Location = new Point(startX + navigationPanel.Width + separator.Width + 20, 15);
 
+            // Add section panels and separator to the ribbon panel
             ribbonPanel.Controls.Add(navigationPanel);
             ribbonPanel.Controls.Add(separator);
             ribbonPanel.Controls.Add(toolsPanel);
-            ribbonPanel.Controls.Add(toolsSdiSeparator);
-            ribbonPanel.Controls.Add(sdiPanel);
 
+            // Add the ribbon panel to the form's controls
             Controls.Add(ribbonPanel);
 
-            // Resize handling
+            // Ensure centering adjusts when the form is resized
             ribbonPanel.Resize += (s, e) =>
             {
                 int updatedStartX = (ribbonPanel.Width - totalWidth) / 2;
                 navigationPanel.Location = new Point(updatedStartX, 15);
-                separator.Location = new Point(navigationPanel.Right + 10, 25);
-                toolsPanel.Location = new Point(separator.Right + 20, 15);
-                toolsSdiSeparator.Location = new Point(toolsPanel.Right + 10, 25);
-                sdiPanel.Location = new Point(toolsSdiSeparator.Right + 20, 15);
+                separator.Location = new Point(updatedStartX + navigationPanel.Width + 10, 25);
+                toolsPanel.Location = new Point(updatedStartX + navigationPanel.Width + separator.Width + 20, 15);
+            };
+
+            // Adjust label and button centering when navigation panel is resized
+            navigationPanel.Resize += (s, e) =>
+            {
+                navLabel.Location = new Point((navigationPanel.Width - navLabel.Width) / 2, 5);
+                homeButton.Location = new Point((navigationPanel.Width - homeButton.Width) / 2, 40);
+                prevLabel.Location = new Point(20, 40);
+                nextLabel.Location = new Point(navigationPanel.Width - nextLabel.Width - 20, 40);
+                pageNumberLabel.Location = new Point((navigationPanel.Width - pageNumberLabel.Width) / 2, 80);
+            };
+
+            // Adjust label and button centering when tools panel is resized
+            toolsPanel.Resize += (s, e) =>
+            {
+                toolsLabel.Location = new Point((toolsPanel.Width - toolsLabel.Width) / 2, 5);
+                printButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2, 35);
+                exportButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2 + 60 + 20, 35);
+                findButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2 + 60 + 20 + 60 + 20, 35);
             };
         }
 
@@ -1181,28 +1122,6 @@ namespace HTMLEditor
                 // Use current state before toggling
                 bool showMultipleView = !_isMultiplePageView;
                 _isMultiplePageView = showMultipleView;
-
-                // Update button label to show the target view (next action)
-                // If it will be single page after this click, show "Single Page", else "Multiple Page".
-                if (_multiplePageViewButton != null)
-                {
-                    // Ensure UI thread update
-                    if (this.InvokeRequired)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            _multiplePageViewButton.Text = _isMultiplePageView ? "Single Page" : "Multiple Page";
-                            _multiplePageViewButton.Image = _isMultiplePageView ? _iconSinglePage : _iconMultiplePage;
-                            _multiplePageViewButton.Refresh();
-                        });
-                    }
-                    else
-                    {
-                        _multiplePageViewButton.Text = _isMultiplePageView ? "Single Page" : "Multiple Page";
-                        _multiplePageViewButton.Image = _isMultiplePageView ? _iconSinglePage : _iconMultiplePage;
-                        _multiplePageViewButton.Refresh();
-                    }
-                }
                 
                 var script = $@"
                 (function() {{

@@ -21,8 +21,8 @@ namespace HTMLEditor
         // Simplified data structure - only essential fields
         public string Text1Hash { get; set; }
         public string Text2Hash { get; set; }
-        public string Text1Content { get; set; } // For debugging/verification
-        public string Text2Content { get; set; } // For debugging/verification
+        public string Text1Content { get; set; }
+        public string Text2Content { get; set; }
         public string BreakId { get; set; }
         public double YOffset { get; set; }
         public double XOffset { get; set; }
@@ -57,54 +57,66 @@ namespace HTMLEditor
 
     public class PageBreakManager
     {
-        private const string StorageFileName = "pageBreakData.json";
-        private string StorageFilePath => Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            StorageFileName);
+        private const string StorageFileNameSuffix = "_breakData.json";
+        
+        private string GetStorageFilePath(string filePath)
+        {
+            // Extract the file name without extension
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            // Create a storage file name specific to this file
+            string storageFileName = fileName + StorageFileNameSuffix;
+            
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, storageFileName);
+        }
 
-        private PageBreakStorage _storage;
+        // Dictionary to store page break data for each file
+        private Dictionary<string, PageBreakData> _fileBreakData = new Dictionary<string, PageBreakData>();
 
         public PageBreakManager()
         {
-            string directory = Path.GetDirectoryName(StorageFilePath);
+            string directory = Path.GetDirectoryName(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dummy.txt"));
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
-            LoadStorage();
         }
 
-        private void LoadStorage()
+        private PageBreakData LoadStorage(string filePath)
         {
+            string storageFilePath = GetStorageFilePath(filePath);
             try
             {
-                if (File.Exists(StorageFilePath))
+                if (File.Exists(storageFilePath))
                 {
-                    string json = File.ReadAllText(StorageFilePath);
+                    string json = File.ReadAllText(storageFilePath);
                     var options = new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true,
                         Converters = { new BreakPointConverter() }
                     };
-                    _storage = JsonSerializer.Deserialize<PageBreakStorage>(json, options) ?? new PageBreakStorage();
-                }
-                else
-                {
-                    _storage = new PageBreakStorage();
+                    return JsonSerializer.Deserialize<PageBreakData>(json, options) ?? new PageBreakData();
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading page break storage: {ex.Message}");
-                _storage = new PageBreakStorage();
+                System.Diagnostics.Debug.WriteLine($"Error loading page break storage for {filePath}: {ex.Message}");
             }
+            
+            return null;
         }
 
-        public void SaveStorage()
+        public void SaveStorage(string filePath, PageBreakData data)
         {
+            if (data == null)
+            {
+                System.Diagnostics.Debug.WriteLine($"No data to save for {filePath}");
+                return;
+            }
+            
+            string storageFilePath = GetStorageFilePath(filePath);
             try
             {
-                string directory = Path.GetDirectoryName(StorageFilePath);
+                string directory = Path.GetDirectoryName(storageFilePath);
                 if (!Directory.Exists(directory))
                 {
                     System.Diagnostics.Debug.WriteLine($"Creating directory: {directory}");
@@ -116,17 +128,18 @@ namespace HTMLEditor
                     WriteIndented = true,
                     Converters = { new BreakPointConverter() }
                 };
-                string json = JsonSerializer.Serialize(_storage, options);
-                File.WriteAllText(StorageFilePath, "");
-                File.WriteAllText(StorageFilePath, json);
+                string json = JsonSerializer.Serialize(data, options);
+                File.WriteAllText(storageFilePath, "");
+                File.WriteAllText(storageFilePath, json);
+                System.Diagnostics.Debug.WriteLine($"Saved page break data to {storageFilePath}");
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error saving page break storage: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error saving page break storage for {filePath}: {ex.Message}");
                 System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
                 try
                 {
-                    string directory = Path.GetDirectoryName(StorageFilePath);
+                    string directory = Path.GetDirectoryName(storageFilePath);
                     if (Directory.Exists(directory))
                     {
                         System.Diagnostics.Debug.WriteLine($"Directory exists: {directory}");
@@ -166,25 +179,30 @@ namespace HTMLEditor
 
         public PageBreakData GetPageBreakData(string filePath, string fileContent)
         {
-            string fileHash = CalculateFileHash(fileContent);
-            PageBreakData data = _storage.Files.Find(f => f.FileHash == fileHash);
-
-            if (data == null)
+            // Check if we already have this file's data in memory
+            if (_fileBreakData.TryGetValue(filePath, out PageBreakData data))
             {
-                data = _storage.Files.Find(f => f.FilePath == filePath);
+                return data;
             }
-
+            
+            // Try to load from file-specific storage
+            data = LoadStorage(filePath);
+            
+            // If no data found, create new
             if (data == null)
             {
+                string fileHash = CalculateFileHash(fileContent);
                 data = new PageBreakData
                 {
                     FileHash = fileHash,
                     FilePath = filePath,
                     LastModified = DateTime.Now
                 };
-                _storage.Files.Add(data);
             }
-
+            
+            // Store in memory for future use
+            _fileBreakData[filePath] = data;
+            
             return data;
         }
 
@@ -230,7 +248,12 @@ namespace HTMLEditor
                 // This ensures removed page breaks are properly removed from storage
                 data.BreakData = newBreaks;
                 data.LastModified = DateTime.Now;
-                SaveStorage();
+                
+                // Save to file-specific storage
+                SaveStorage(filePath, data);
+                
+                // Update in-memory cache
+                _fileBreakData[filePath] = data;
             }
             catch (Exception ex)
             {
@@ -243,7 +266,10 @@ namespace HTMLEditor
             PageBreakData data = GetPageBreakData(filePath, fileContent);
             data.BreakData = breakData ?? new List<BreakPoint>();
             data.LastModified = DateTime.Now;
-            SaveStorage();
+            SaveStorage(filePath, data);
+            
+            // Update in-memory cache
+            _fileBreakData[filePath] = data;
         }
 
         public void UpdatePageBreakPositions(string filePath, string fileContent, List<PageBreakPosition> positions)
