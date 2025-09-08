@@ -127,6 +127,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -143,6 +144,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Properties\export.ico" />
+    <Content Include="Properties\multiple.ico" />
+    <Content Include="Properties\print.ico" />
+    <Content Include="Properties\SDI.ico" />
+    <Content Include="Properties\single.ico" />
+    <Content Include="Properties\zoom-in.ico" />
+    <Content Include="Properties\zoom-out.ico" />
+    <Resource Include="Properties\find.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="export.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

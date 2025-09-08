@@ -26,19 +26,21 @@ namespace HTMLEditor
         private ChromiumWebBrowser browser;
         private FindControl findControl;
         public PageBreakManager _pageBreakManager = new PageBreakManager();
-        //private ContextMenuStrip editorContextMenu;
+        private Label pageNumberLabel;
         private string _currentReportPath;
         private string _currentReportContent;
         private bool _isMultiplePageView = false; // Default to single page view (normal scrollable view)
         private Button _multiplePageViewButton; // Reference to the Multiple Page View button
         private System.Drawing.Image _iconSinglePage;   // Icon for Single Page view
         private System.Drawing.Image _iconMultiplePage; // Icon for Multiple Page view
+        int currentPage = 1;
+        int totalPages;
+        private bool _isUpdatingPageCount = false;
+
 
         public Form1()
         {
             Text = "HTML Editor";
-            //Width = 1000;
-            //Height = 700;
             this.WindowState = FormWindowState.Maximized;
             this.KeyPreview = true;
             browser = new ChromiumWebBrowser("about:blank") { Dock = DockStyle.Fill };
@@ -58,7 +60,12 @@ namespace HTMLEditor
             browser.FrameLoadEnd += async (sender, args) => {
                 if (args.Frame.IsMain) {
                     System.Diagnostics.Debug.WriteLine("Main frame loaded, setting up JavaScript bridge");
-                    
+
+                    //reset zoom level each time file loads.
+                    this.Invoke(new Action(() =>
+                    {
+                        browser.SetZoomLevel(0.0);
+                    }));
                     // Wait for the browser to be ready to execute scripts
                     await WaitForBrowserReady();
                     
@@ -83,12 +90,12 @@ namespace HTMLEditor
             findControl = new FindControl();
             findControl.Dock = DockStyle.None; // Remove docking to allow custom positioning
             findControl.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            findControl.Location = new Point(-70, 120); // Position adjusted for ribbon
+            findControl.Location = new Point(-70, 160); // Position adjusted for ribbon
             findControl.Visible = false;
             findControl.FindNext += FindControl_FindNext;
             findControl.FindPrevious += FindControl_FindPrevious;
             findControl.CloseFind += FindControl_CloseFind;
-            
+
             // Add controls to form
             Controls.Add(browser);
             Controls.Add(findControl);
@@ -116,7 +123,7 @@ namespace HTMLEditor
         {
             this.KeyPreview = true;
             await LoadEditorTemplate();
-                    }
+        }
 
         public void InitializeRibbonPanel()
         {
@@ -144,21 +151,51 @@ namespace HTMLEditor
             Button firstPageBtn = new Button { Text = "<<", Size = new Size(50, 30), Location = new Point(20, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
             firstPageBtn.FlatAppearance.BorderSize = 1;
             navigationPanel.Controls.Add(firstPageBtn);
+            firstPageBtn.Click += (s, e) =>
+            {
+                currentPage = 1;
+                NavigateToPage(currentPage);
+                UpdatePageLabel(pageNumberLabel);
+            };
 
             Button prevPageBtn = new Button { Text = "<", Size = new Size(30, 30), Location = new Point(firstPageBtn.Right + spacing, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
             prevPageBtn.FlatAppearance.BorderSize = 1;
             navigationPanel.Controls.Add(prevPageBtn);
+            prevPageBtn.Click += (s, e) =>
+            {
+                if (currentPage > 1)
+                {
+                    currentPage--;
+                    NavigateToPage(currentPage);
+                    UpdatePageLabel(pageNumberLabel);
+                }
+            };
 
-            Label pageNumberLabel = new Label { Text = "Page 1 of 10", AutoSize = true, Font = new Font("Segoe UI", 10), Location = new Point(prevPageBtn.Right + spacing, navY + 5) };
+            pageNumberLabel = new Label { Text = $"Page {currentPage} of ...", AutoSize = true, Font = new Font("Segoe UI", 10), Location = new Point(prevPageBtn.Right + spacing, navY + 5) };
             navigationPanel.Controls.Add(pageNumberLabel);
 
-            Button nextPageBtn = new Button { Text = ">", Size = new Size(30, 30), Location = new Point(pageNumberLabel.Right + spacing, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
+            Button nextPageBtn = new Button { Text = ">", Size = new Size(30, 30), Location = new Point(pageNumberLabel.Right + spacing + 10, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
             nextPageBtn.FlatAppearance.BorderSize = 1;
             navigationPanel.Controls.Add(nextPageBtn);
+            nextPageBtn.Click += (s, e) =>
+            {
+                if (currentPage < totalPages)
+                {
+                    currentPage++;
+                    NavigateToPage(currentPage);
+                    UpdatePageLabel(pageNumberLabel);
+                }
+            };
 
             Button lastPageBtn = new Button { Text = ">>", Size = new Size(50, 30), Location = new Point(nextPageBtn.Right + spacing, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
             lastPageBtn.FlatAppearance.BorderSize = 1;
             navigationPanel.Controls.Add(lastPageBtn);
+            lastPageBtn.Click += (s, e) =>
+            {
+                currentPage = totalPages;
+                NavigateToPage(currentPage);
+                UpdatePageLabel(pageNumberLabel);
+            };
 
             // ---------------- Tools Panel ----------------
             Panel toolsPanel = new Panel();
@@ -178,7 +215,8 @@ namespace HTMLEditor
 
             // Print
             Button printButton = new Button();
-            printButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\print.ico"));
+            //printButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\print.ico"));
+            printButton.Image = Properties.Resources.print.ToBitmap();
             printButton.Size = new Size(60, 60);
             printButton.Location = new Point(baseX, toolY);
             printButton.ImageAlign = ContentAlignment.TopCenter;
@@ -187,6 +225,10 @@ namespace HTMLEditor
             printButton.Font = new Font("Segoe UI", 9);
             printButton.FlatStyle = FlatStyle.Flat;
             printButton.FlatAppearance.BorderSize = 0;
+            printButton.Click += (s, e) =>
+            {
+                browser.Print(); // opens Chromium's native print dialog
+            };
             toolsPanel.Controls.Add(printButton);
 
             // Export
@@ -194,7 +236,7 @@ namespace HTMLEditor
             toolsPanel.Controls.Add(printExportSeparator);
 
             Button exportButton = new Button();
-            exportButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\export.ico"));
+            exportButton.Image = Properties.Resources.export.ToBitmap();
             exportButton.Size = new Size(60, 60);
             exportButton.Location = new Point(printExportSeparator.Right + 10, toolY);
             exportButton.ImageAlign = ContentAlignment.TopCenter;
@@ -203,7 +245,7 @@ namespace HTMLEditor
             exportButton.Font = new Font("Segoe UI", 9);
             exportButton.FlatStyle = FlatStyle.Flat;
             exportButton.FlatAppearance.BorderSize = 0;
-            //exportButton.Click += async (sender, e) => await GetEditedHtml();
+            exportButton.Click += async (sender, e) => await GetEditedHtml();
             toolsPanel.Controls.Add(exportButton);
 
             // Multiple Page View
@@ -211,8 +253,8 @@ namespace HTMLEditor
             toolsPanel.Controls.Add(exportViewSeparator);
 
             // Preload icons used for toggling to avoid reloading from disk on every click
-            _iconMultiplePage = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\multiple.ico"));
-            _iconSinglePage = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\single.ico"));
+            _iconMultiplePage = Properties.Resources.multiple.ToBitmap();
+            _iconSinglePage = Properties.Resources.single.ToBitmap();
 
             Button multiplePageView = new Button();
             multiplePageView.Image = _iconMultiplePage; // default state shows action to switch to Multiple Page
@@ -235,7 +277,7 @@ namespace HTMLEditor
             toolsPanel.Controls.Add(viewFindSeparator);
 
             Button findButton = new Button();
-            findButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\find.ico"));
+            findButton.Image = Properties.Resources.find.ToBitmap();
             findButton.Size = new Size(60, 60);
             findButton.Location = new Point(viewFindSeparator.Right + 10, toolY);
             findButton.ImageAlign = ContentAlignment.TopCenter;
@@ -244,6 +286,7 @@ namespace HTMLEditor
             findButton.Font = new Font("Segoe UI", 9);
             findButton.FlatStyle = FlatStyle.Flat;
             findButton.FlatAppearance.BorderSize = 0;
+            findButton.Click += (s, e) => ShowFindDialog();
             toolsPanel.Controls.Add(findButton);
 
             // Zoom In
@@ -251,7 +294,7 @@ namespace HTMLEditor
             toolsPanel.Controls.Add(findZoomSeparator);
 
             Button zoomInButton = new Button();
-            zoomInButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\zoom-in.ico"));
+            zoomInButton.Image = Properties.Resources.zoom_in.ToBitmap();
             zoomInButton.Size = new Size(90, 60);
             zoomInButton.Location = new Point(findZoomSeparator.Right + 10, toolY);
             zoomInButton.ImageAlign = ContentAlignment.TopCenter;
@@ -260,6 +303,14 @@ namespace HTMLEditor
             zoomInButton.Font = new Font("Segoe UI", 9);
             zoomInButton.FlatStyle = FlatStyle.Flat;
             zoomInButton.FlatAppearance.BorderSize = 0;
+            zoomInButton.Click += (s, e) =>
+            {
+                browser.GetZoomLevelAsync().ContinueWith(task =>
+                {
+                    var currentZoom = task.Result;
+                    browser.SetZoomLevel(currentZoom + 0.2); // zoom in by step
+                });
+            };
             toolsPanel.Controls.Add(zoomInButton);
 
             // Zoom Out
@@ -267,7 +318,7 @@ namespace HTMLEditor
             toolsPanel.Controls.Add(zoomInOutSeparator);
 
             Button zoomOutButton = new Button();
-            zoomOutButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\zoom-out.ico"));
+            zoomOutButton.Image = Properties.Resources.zoom_out.ToBitmap();
             zoomOutButton.Size = new Size(90, 60);
             zoomOutButton.Location = new Point(zoomInOutSeparator.Right + 10, toolY);
             zoomOutButton.ImageAlign = ContentAlignment.TopCenter;
@@ -276,6 +327,14 @@ namespace HTMLEditor
             zoomOutButton.Font = new Font("Segoe UI", 9);
             zoomOutButton.FlatStyle = FlatStyle.Flat;
             zoomOutButton.FlatAppearance.BorderSize = 0;
+            zoomOutButton.Click += (s, e) =>
+            {
+                browser.GetZoomLevelAsync().ContinueWith(task =>
+                {
+                    var currentZoom = task.Result;
+                    browser.SetZoomLevel(currentZoom - 0.2); // zoom in by step
+                });
+            };
             toolsPanel.Controls.Add(zoomOutButton);
 
             // ---------------- SDI Panel ----------------
@@ -291,7 +350,7 @@ namespace HTMLEditor
             sdiPanel.Controls.Add(sdiLabel);
 
             Button saveToSdiButton = new Button();
-            saveToSdiButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\SDI.ico"));
+            saveToSdiButton.Image = Properties.Resources.SDI.ToBitmap();
             saveToSdiButton.Size = new Size(110, 60);
             saveToSdiButton.Location = new Point((sdiPanel.Width - saveToSdiButton.Width) / 2 - 30, 35);
             saveToSdiButton.ImageAlign = ContentAlignment.TopCenter;
@@ -367,6 +426,9 @@ namespace HTMLEditor
                         
                         // Restore page breaks from storage
                         await RestorePageBreaks();
+
+                        // Use centralized page count update with longer delay for initial load
+                        await UpdatePageCount(500);
                         return; // Exit the method after successful loading
                     }
                     
@@ -555,6 +617,9 @@ namespace HTMLEditor
                 {
                     await AutoSplitInitialContent(browser);
                     
+                    // Update page count after auto-split with appropriate delay
+                    await UpdatePageCount(300);
+
                     // Focus the browser control itself so Ctrl+F works immediately
                     this.Invoke((MethodInvoker)delegate {
                         browser.Focus();
@@ -662,6 +727,7 @@ namespace HTMLEditor
         {
             try
             {
+                if (_isMultiplePageView) return;
                 // Load all JavaScript modules first
                 string allScripts = JavaScriptLoader.LoadAllScripts();
                 await browser.EvaluateScriptAsync(allScripts);
@@ -676,6 +742,8 @@ namespace HTMLEditor
                     string breakDataJson = result.Result.ToString();
                     _pageBreakManager.SavePageBreakData(_currentReportPath, _currentReportContent, breakDataJson);
                 }
+                // Use centralized page count update after page break operation
+                await UpdatePageCount(200);
             } catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error in TogglePageBreak: {ex.Message}");
@@ -718,6 +786,8 @@ namespace HTMLEditor
                 if (result.Success)
                 {
                     System.Diagnostics.Debug.WriteLine("RestorePageBreaks script executed successfully");
+                    // Update page count after restoring page breaks
+                    await UpdatePageCount(300);
                 }
                 else
                 {
@@ -796,8 +866,10 @@ namespace HTMLEditor
         
         public async Task<string> GetEditedHtml()
         {
+            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "edited_report.html");
             try
             {
+                
                 // 1. Capture current zoom to restore later (optional safety)
                 var zoomLevel = await browser.GetZoomLevelAsync();
 
@@ -943,7 +1015,8 @@ namespace HTMLEditor
 
                 // 6. Restore previous zoom level (if needed)
                 browser.SetZoomLevel(zoomLevel);
-
+                File.WriteAllText(filePath, finalHtml);
+                MessageBox.Show($"Edited HTML saved to {filePath}");
                 return finalHtml;
             }
             catch (Exception ex)
@@ -1359,6 +1432,108 @@ namespace HTMLEditor
             {
                 System.Diagnostics.Debug.WriteLine($"Error in TogglePageView: {ex.Message}");
                 MessageBox.Show($"Error toggling page view: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void NavigateToPage(int pageNumber)
+        {
+            string script = $@"
+            (function() {{
+                var pages = document.querySelectorAll('.page');
+                if (pages.length >= {pageNumber}) {{
+                    var y = pages[{pageNumber - 1}].offsetTop;
+                    window.scrollTo({{ top: y - 20, behavior: 'smooth' }}); // 👈 add 20px offset
+                }}
+            }})();
+            ";
+
+            browser.ExecuteScriptAsync(script);
+        }
+
+        private void UpdatePageLabel(Label label)
+        {
+            label.Text = $"Page {currentPage} of {totalPages}";
+        }
+
+        // Centralized method to update page count with proper timing
+        private async Task UpdatePageCount(int delayMs = 100)
+        {
+            if (_isUpdatingPageCount) return; // Prevent concurrent updates
+            _isUpdatingPageCount = true;
+
+            try
+            {
+                // Wait for DOM to settle
+                await Task.Delay(delayMs);
+
+                // Retry mechanism for page count
+                int maxRetries = 3;
+                for (int retry = 0; retry < maxRetries; retry++)
+                {
+                    try
+                    {
+                        string pageScript = @"
+                            (function() {
+                                var pages = document.querySelectorAll('.page');
+                                return pages.length;
+                            })();
+                        ";
+
+                        var res = await browser.EvaluateScriptAsync(pageScript);
+                        if (res.Success && res.Result != null)
+                        {
+                            int newTotalPages = Convert.ToInt32(res.Result);
+
+                            // Only update if the count has changed or this is the first update
+                            if (newTotalPages != totalPages || totalPages == 0)
+                            {
+                                totalPages = newTotalPages;
+
+                                // Ensure current page is within bounds
+                                if (currentPage > totalPages && totalPages > 0)
+                                {
+                                    currentPage = totalPages;
+                                }
+                                else if (currentPage < 1)
+                                {
+                                    currentPage = 1;
+                                }
+
+                                // Update UI on main thread
+                                if (pageNumberLabel != null)
+                                {
+                                    pageNumberLabel.Invoke((Action)(() =>
+                                    {
+                                        pageNumberLabel.Text = $"Page {currentPage} of {totalPages}";
+                                    }));
+                                }
+
+                                System.Diagnostics.Debug.WriteLine($"Page count updated: {totalPages} pages, current: {currentPage}");
+                            }
+                            break; // Success, exit retry loop
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Page count script failed (attempt {retry + 1}): {res.Message}");
+                            if (retry < maxRetries - 1)
+                            {
+                                await Task.Delay(200 * (retry + 1)); // Increasing delay
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error updating page count (attempt {retry + 1}): {ex.Message}");
+                        if (retry < maxRetries - 1)
+                        {
+                            await Task.Delay(200 * (retry + 1));
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                _isUpdatingPageCount = false;
             }
         }
 
