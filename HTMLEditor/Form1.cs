@@ -19,6 +19,8 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Threading;
 namespace HTMLEditor
 {
     public partial class Form1 : Form
@@ -42,6 +44,8 @@ namespace HTMLEditor
         {
             Text = "HTML Editor";
             this.WindowState = FormWindowState.Maximized;
+            this.AutoScaleMode = AutoScaleMode.Dpi;   // or AutoScaleMode.Font
+            this.AutoScaleDimensions = new SizeF(96F, 96F);
             this.KeyPreview = true;
             browser = new ChromiumWebBrowser("about:blank") { Dock = DockStyle.Fill };
 
@@ -125,277 +129,573 @@ namespace HTMLEditor
             await LoadEditorTemplate();
         }
 
+        //public void InitializeRibbonPanel()
+        //{
+        //    // Get DPI scaling factor for proper layout calculations
+        //    float dpiScale = this.DeviceDpi / 96.0f;
+
+        //    // Create the main ribbon panel
+        //    Panel ribbonPanel = new Panel();
+        //    ribbonPanel.Dock = DockStyle.Top;
+        //    ribbonPanel.Height = (int)(150 * dpiScale);
+        //    ribbonPanel.BackColor = Color.FromArgb(218, 220, 224);
+
+        //    // ---------------- Navigation Panel ----------------
+        //    Panel navigationPanel = new Panel();
+        //    navigationPanel.Width = (int)(320 * dpiScale);
+        //    navigationPanel.Height = (int)(120 * dpiScale);
+        //    navigationPanel.BorderStyle = BorderStyle.None;
+
+        //    Label navLabel = new Label();
+        //    navLabel.Text = "Navigation";
+        //    navLabel.AutoSize = true;
+        //    navLabel.Font = new Font("Segoe UI", 10 * dpiScale, FontStyle.Bold);
+        //    // Calculate label position after adding to panel to get proper width
+        //    navigationPanel.Controls.Add(navLabel);
+        //    navLabel.Location = new Point((navigationPanel.Width - navLabel.Width) / 2, (int)(5 * dpiScale));
+
+        //    int navY = (int)(50 * dpiScale);
+        //    int spacing = (int)(5 * dpiScale);
+
+        //    Button firstPageBtn = new Button { Text = "<<", Size = new Size((int)(50 * dpiScale), (int)(30 * dpiScale)), Location = new Point((int)(20 * dpiScale), navY), Font = new Font("Segoe UI", 10 * dpiScale, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
+        //    firstPageBtn.FlatAppearance.BorderSize = 1;
+        //    navigationPanel.Controls.Add(firstPageBtn);
+        //    firstPageBtn.Click += (s, e) =>
+        //    {
+        //        currentPage = 1;
+        //        NavigateToPage(currentPage);
+        //        UpdatePageLabel(pageNumberLabel);
+        //    };
+
+        //    Button prevPageBtn = new Button { Text = "<", Size = new Size((int)(30 * dpiScale), (int)(30 * dpiScale)), Location = new Point(firstPageBtn.Right + spacing, navY), Font = new Font("Segoe UI", 10 * dpiScale, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
+        //    prevPageBtn.FlatAppearance.BorderSize = 1;
+        //    navigationPanel.Controls.Add(prevPageBtn);
+        //    prevPageBtn.Click += (s, e) =>
+        //    {
+        //        if (currentPage > 1)
+        //        {
+        //            currentPage--;
+        //            NavigateToPage(currentPage);
+        //            UpdatePageLabel(pageNumberLabel);
+        //        }
+        //    };
+
+        //    pageNumberLabel = new Label { Text = $"Page {currentPage} of ...", AutoSize = true, Font = new Font("Segoe UI", 10 * dpiScale), Location = new Point(prevPageBtn.Right + spacing, navY + (int)(5 * dpiScale)) };
+        //    navigationPanel.Controls.Add(pageNumberLabel);
+
+        //    Button nextPageBtn = new Button { Text = ">", Size = new Size((int)(30 * dpiScale), (int)(30 * dpiScale)), Location = new Point(pageNumberLabel.Right + spacing + (int)(10 * dpiScale), navY), Font = new Font("Segoe UI", 10 * dpiScale, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
+        //    nextPageBtn.FlatAppearance.BorderSize = 1;
+        //    navigationPanel.Controls.Add(nextPageBtn);
+        //    nextPageBtn.Click += (s, e) =>
+        //    {
+        //        if (currentPage < totalPages)
+        //        {
+        //            currentPage++;
+        //            NavigateToPage(currentPage);
+        //            UpdatePageLabel(pageNumberLabel);
+        //        }
+        //    };
+
+        //    Button lastPageBtn = new Button { Text = ">>", Size = new Size((int)(50 * dpiScale), (int)(30 * dpiScale)), Location = new Point(nextPageBtn.Right + spacing, navY), Font = new Font("Segoe UI", 10 * dpiScale, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
+        //    lastPageBtn.FlatAppearance.BorderSize = 1;
+        //    navigationPanel.Controls.Add(lastPageBtn);
+        //    lastPageBtn.Click += (s, e) =>
+        //    {
+        //        currentPage = totalPages;
+        //        NavigateToPage(currentPage);
+        //        UpdatePageLabel(pageNumberLabel);
+        //    };
+
+        //    // ---------------- Tools Panel ----------------
+        //    Panel toolsPanel = new Panel();
+        //    toolsPanel.Width = (int)(620 * dpiScale);   // widened so all buttons fit
+        //    toolsPanel.Height = (int)(120 * dpiScale);
+        //    toolsPanel.BorderStyle = BorderStyle.None;
+
+        //    Label toolsLabel = new Label();
+        //    toolsLabel.Text = "Tools";
+        //    toolsLabel.AutoSize = true;
+        //    toolsLabel.Font = new Font("Segoe UI", 10 * dpiScale, FontStyle.Bold);
+        //    // Calculate label position after adding to panel to get proper width
+        //    toolsPanel.Controls.Add(toolsLabel);
+        //    toolsLabel.Location = new Point((toolsPanel.Width - toolsLabel.Width) / 2, (int)(5 * dpiScale));
+
+        //    int toolY = (int)(35 * dpiScale);
+        //    int baseX = (int)(20 * dpiScale);
+
+        //    // Print
+        //    Button printButton = new Button();
+        //    //printButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\print.ico"));
+        //    printButton.Image = Properties.Resources.print.ToBitmap();
+        //    printButton.Size = new Size((int)(60 * dpiScale), (int)(60 * dpiScale));
+        //    printButton.Location = new Point(baseX, toolY);
+        //    printButton.ImageAlign = ContentAlignment.TopCenter;
+        //    printButton.Text = "Print";
+        //    printButton.TextAlign = ContentAlignment.BottomCenter;
+        //    printButton.Font = new Font("Segoe UI", 9 * dpiScale);
+        //    printButton.FlatStyle = FlatStyle.Flat;
+        //    printButton.FlatAppearance.BorderSize = 0;
+        //    printButton.Click += async (s, e) =>
+        //    {
+        //        await PrintHtmlContent();
+        //    };
+        //    toolsPanel.Controls.Add(printButton);
+
+        //    // Export
+        //    Panel printExportSeparator = new Panel { Width = (int)(2 * dpiScale), Height = (int)(60 * dpiScale), BackColor = Color.FromArgb(180, 180, 180), Location = new Point(printButton.Right + (int)(10 * dpiScale), toolY) };
+        //    toolsPanel.Controls.Add(printExportSeparator);
+
+        //    Button exportButton = new Button();
+        //    exportButton.Image = Properties.Resources.export.ToBitmap();
+        //    exportButton.Size = new Size((int)(60 * dpiScale), (int)(60 * dpiScale));
+        //    exportButton.Location = new Point(printExportSeparator.Right + (int)(10 * dpiScale), toolY);
+        //    exportButton.ImageAlign = ContentAlignment.TopCenter;
+        //    exportButton.Text = "Export";
+        //    exportButton.TextAlign = ContentAlignment.BottomCenter;
+        //    exportButton.Font = new Font("Segoe UI", 9 * dpiScale);
+        //    exportButton.FlatStyle = FlatStyle.Flat;
+        //    exportButton.FlatAppearance.BorderSize = 0;
+        //    exportButton.Click += async (sender, e) => await GetEditedHtml();
+        //    toolsPanel.Controls.Add(exportButton);
+
+        //    // Multiple Page View
+        //    Panel exportViewSeparator = new Panel { Width = (int)(2 * dpiScale), Height = (int)(60 * dpiScale), BackColor = Color.FromArgb(180, 180, 180), Location = new Point(exportButton.Right + (int)(10 * dpiScale), toolY) };
+        //    toolsPanel.Controls.Add(exportViewSeparator);
+
+        //    // Preload icons used for toggling to avoid reloading from disk on every click
+        //    _iconMultiplePage = Properties.Resources.multiple.ToBitmap();
+        //    _iconSinglePage = Properties.Resources.single.ToBitmap();
+
+        //    Button multiplePageView = new Button();
+        //    multiplePageView.Image = _iconMultiplePage; // default state shows action to switch to Multiple Page
+        //    multiplePageView.Size = new Size((int)(120 * dpiScale), (int)(60 * dpiScale));
+        //    multiplePageView.Location = new Point(exportViewSeparator.Right + (int)(10 * dpiScale), toolY);
+        //    multiplePageView.ImageAlign = ContentAlignment.TopCenter;
+        //    multiplePageView.Text = "Multiple Page";
+        //    multiplePageView.TextAlign = ContentAlignment.BottomCenter;
+        //    multiplePageView.Font = new Font("Segoe UI", 9 * dpiScale);
+        //    multiplePageView.FlatStyle = FlatStyle.Flat;
+        //    multiplePageView.FlatAppearance.BorderSize = 0;
+        //    multiplePageView.Click += async (s, e) => await ToggleMultiplePageView();
+        //    toolsPanel.Controls.Add(multiplePageView);
+
+        //    // Keep a reference for dynamic label updates
+        //    _multiplePageViewButton = multiplePageView;
+
+        //    // Find
+        //    Panel viewFindSeparator = new Panel { Width = (int)(2 * dpiScale), Height = (int)(60 * dpiScale), BackColor = Color.FromArgb(180, 180, 180), Location = new Point(multiplePageView.Right + (int)(10 * dpiScale), toolY) };
+        //    toolsPanel.Controls.Add(viewFindSeparator);
+
+        //    Button findButton = new Button();
+        //    findButton.Image = Properties.Resources.find.ToBitmap();
+        //    findButton.Size = new Size((int)(60 * dpiScale), (int)(60 * dpiScale));
+        //    findButton.Location = new Point(viewFindSeparator.Right + (int)(10 * dpiScale), toolY);
+        //    findButton.ImageAlign = ContentAlignment.TopCenter;
+        //    findButton.Text = "Find";
+        //    findButton.TextAlign = ContentAlignment.BottomCenter;
+        //    findButton.Font = new Font("Segoe UI", 9 * dpiScale);
+        //    findButton.FlatStyle = FlatStyle.Flat;
+        //    findButton.FlatAppearance.BorderSize = 0;
+        //    findButton.Click += (s, e) => ShowFindDialog();
+        //    toolsPanel.Controls.Add(findButton);
+
+        //    // Zoom In
+        //    Panel findZoomSeparator = new Panel { Width = (int)(2 * dpiScale), Height = (int)(60 * dpiScale), BackColor = Color.FromArgb(180, 180, 180), Location = new Point(findButton.Right + (int)(10 * dpiScale), toolY) };
+        //    toolsPanel.Controls.Add(findZoomSeparator);
+
+        //    Button zoomInButton = new Button();
+        //    zoomInButton.Image = Properties.Resources.zoom_in.ToBitmap();
+        //    zoomInButton.Size = new Size((int)(90 * dpiScale), (int)(60 * dpiScale));
+        //    zoomInButton.Location = new Point(findZoomSeparator.Right + (int)(10 * dpiScale), toolY);
+        //    zoomInButton.ImageAlign = ContentAlignment.TopCenter;
+        //    zoomInButton.Text = "Zoom In";
+        //    zoomInButton.TextAlign = ContentAlignment.BottomCenter;
+        //    zoomInButton.Font = new Font("Segoe UI", 9 * dpiScale);
+        //    zoomInButton.FlatStyle = FlatStyle.Flat;
+        //    zoomInButton.FlatAppearance.BorderSize = 0;
+        //    zoomInButton.Click += (s, e) =>
+        //    {
+        //        browser.GetZoomLevelAsync().ContinueWith(task =>
+        //        {
+        //            var currentZoom = task.Result;
+        //            browser.SetZoomLevel(currentZoom + 0.2); // zoom in by step
+        //        });
+        //    };
+        //    toolsPanel.Controls.Add(zoomInButton);
+
+        //    // Zoom Out
+        //    Panel zoomInOutSeparator = new Panel { Width = (int)(2 * dpiScale), Height = (int)(60 * dpiScale), BackColor = Color.FromArgb(180, 180, 180), Location = new Point(zoomInButton.Right + (int)(10 * dpiScale), toolY) };
+        //    toolsPanel.Controls.Add(zoomInOutSeparator);
+
+        //    Button zoomOutButton = new Button();
+        //    zoomOutButton.Image = Properties.Resources.zoom_out.ToBitmap();
+        //    zoomOutButton.Size = new Size((int)(90 * dpiScale), (int)(60 * dpiScale));
+        //    zoomOutButton.Location = new Point(zoomInOutSeparator.Right + (int)(10 * dpiScale), toolY);
+        //    zoomOutButton.ImageAlign = ContentAlignment.TopCenter;
+        //    zoomOutButton.Text = "Zoom Out";
+        //    zoomOutButton.TextAlign = ContentAlignment.BottomCenter;
+        //    zoomOutButton.Font = new Font("Segoe UI", 9 * dpiScale);
+        //    zoomOutButton.FlatStyle = FlatStyle.Flat;
+        //    zoomOutButton.FlatAppearance.BorderSize = 0;
+        //    zoomOutButton.Click += (s, e) =>
+        //    {
+        //        browser.GetZoomLevelAsync().ContinueWith(task =>
+        //        {
+        //            var currentZoom = task.Result;
+        //            browser.SetZoomLevel(currentZoom - 0.2); // zoom in by step
+        //        });
+        //    };
+        //    toolsPanel.Controls.Add(zoomOutButton);
+
+        //    // ---------------- SDI Panel ----------------
+        //    Panel sdiPanel = new Panel();
+        //    sdiPanel.Width = (int)(150 * dpiScale);
+        //    sdiPanel.Height = (int)(120 * dpiScale);
+
+        //    Label sdiLabel = new Label();
+        //    sdiLabel.Text = "SDI";
+        //    sdiLabel.AutoSize = true;
+        //    sdiLabel.Font = new Font("Segoe UI", 10 * dpiScale, FontStyle.Bold);
+        //    // Calculate label position after adding to panel to get proper width
+        //    sdiPanel.Controls.Add(sdiLabel);
+        //    sdiLabel.Location = new Point((sdiPanel.Width - sdiLabel.Width) / 2, (int)(5 * dpiScale));
+
+        //    Button saveToSdiButton = new Button();
+        //    saveToSdiButton.Image = Properties.Resources.SDI.ToBitmap();
+        //    saveToSdiButton.Size = new Size((int)(110 * dpiScale), (int)(60 * dpiScale));
+        //    saveToSdiButton.Location = new Point((sdiPanel.Width - saveToSdiButton.Width) / 2 - (int)(30 * dpiScale), (int)(35 * dpiScale));
+        //    saveToSdiButton.ImageAlign = ContentAlignment.TopCenter;
+        //    saveToSdiButton.Text = "Save to SDI";
+        //    saveToSdiButton.TextAlign = ContentAlignment.BottomCenter;
+        //    saveToSdiButton.Font = new Font("Segoe UI", 9 * dpiScale);
+        //    saveToSdiButton.FlatStyle = FlatStyle.Flat;
+        //    saveToSdiButton.FlatAppearance.BorderSize = 0;
+        //    saveToSdiButton.Cursor = Cursors.Hand;
+        //    sdiPanel.Controls.Add(saveToSdiButton);
+
+        //    // ---------------- Layout ----------------
+        //    Panel separator = new Panel { Width = (int)(2 * dpiScale), Height = (int)(100 * dpiScale), BackColor = Color.FromArgb(180, 180, 180) };
+        //    Panel toolsSdiSeparator = new Panel { Width = (int)(2 * dpiScale), Height = (int)(100 * dpiScale), BackColor = Color.FromArgb(180, 180, 180) };
+
+        //    int totalWidth = navigationPanel.Width + (int)(2 * dpiScale) + toolsPanel.Width + (int)(2 * dpiScale) + sdiPanel.Width + (int)(60 * dpiScale);
+        //    int startX = Math.Max(10, (ribbonPanel.Width - totalWidth) / 2); // Ensure minimum margin
+
+        //    navigationPanel.Location = new Point(startX, (int)(15 * dpiScale));
+        //    separator.Location = new Point(navigationPanel.Right + (int)(10 * dpiScale), (int)(25 * dpiScale));
+        //    toolsPanel.Location = new Point(separator.Right + (int)(20 * dpiScale), (int)(15 * dpiScale));
+        //    toolsSdiSeparator.Location = new Point(toolsPanel.Right + (int)(10 * dpiScale), (int)(25 * dpiScale));
+        //    sdiPanel.Location = new Point(toolsSdiSeparator.Right + (int)(20 * dpiScale), (int)(15 * dpiScale));
+
+        //    ribbonPanel.Controls.Add(navigationPanel);
+        //    ribbonPanel.Controls.Add(separator);
+        //    ribbonPanel.Controls.Add(toolsPanel);
+        //    ribbonPanel.Controls.Add(toolsSdiSeparator);
+        //    ribbonPanel.Controls.Add(sdiPanel);
+
+        //    Controls.Add(ribbonPanel);
+
+        //    // Resize handling with DPI awareness
+        //    ribbonPanel.Resize += (s, e) =>
+        //    {
+        //        int updatedStartX = Math.Max(10, (ribbonPanel.Width - totalWidth) / 2); // Ensure minimum margin
+        //        navigationPanel.Location = new Point(updatedStartX, (int)(15 * dpiScale));
+        //        separator.Location = new Point(navigationPanel.Right + (int)(10 * dpiScale), (int)(25 * dpiScale));
+        //        toolsPanel.Location = new Point(separator.Right + (int)(20 * dpiScale), (int)(15 * dpiScale));
+        //        toolsSdiSeparator.Location = new Point(toolsPanel.Right + (int)(10 * dpiScale), (int)(25 * dpiScale));
+        //        sdiPanel.Location = new Point(toolsSdiSeparator.Right + (int)(20 * dpiScale), (int)(15 * dpiScale));
+        //    };
+        //}
+
+        //loads file from the specified file path
         public void InitializeRibbonPanel()
         {
+            // Get DPI scale factor for consistent scaling
+            float dpiScale = this.DeviceDpi / 96.0f;
+
             // Create the main ribbon panel
-            Panel ribbonPanel = new Panel();
-            ribbonPanel.Dock = DockStyle.Top;
-            ribbonPanel.Height = 150;
-            ribbonPanel.BackColor = Color.FromArgb(218, 220, 224);
+            Panel ribbonPanel = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = (int)(150 * dpiScale),
+                BackColor = Color.FromArgb(218, 220, 224)
+            };
 
             // ---------------- Navigation Panel ----------------
-            Panel navigationPanel = new Panel();
-            navigationPanel.Width = 320;
-            navigationPanel.Height = 120;
-            navigationPanel.BorderStyle = BorderStyle.None;
+            Panel navigationPanel = new Panel
+            {
+                Width = (int)(320 * dpiScale),
+                Height = (int)(120 * dpiScale),
+                BorderStyle = BorderStyle.None
+            };
 
-            Label navLabel = new Label();
-            navLabel.Text = "Navigation";
-            navLabel.AutoSize = true;
-            navLabel.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            navLabel.Location = new Point((navigationPanel.Width - navLabel.Width) / 2, 5);
+            Label navLabel = new Label
+            {
+                Text = "Navigation",
+                AutoSize = false,
+                Width = (int)(320 * dpiScale),
+                Height = (int)(25 * dpiScale),
+                Font = new Font("Segoe UI", (int)(10 * dpiScale), FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Location = new Point(0, (int)(5 * dpiScale))
+            };
             navigationPanel.Controls.Add(navLabel);
 
-            int navY = 50, spacing = 5;
+            FlowLayoutPanel navButtons = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Bottom,
+                Height = (int)(60 * dpiScale),
+                FlowDirection = FlowDirection.LeftToRight,
+                Padding = new Padding((int)(20 * dpiScale), (int)(10 * dpiScale), (int)(20 * dpiScale), (int)(10 * dpiScale)),
+                WrapContents = false
+            };
+            navigationPanel.Controls.Add(navButtons);
 
-            Button firstPageBtn = new Button { Text = "<<", Size = new Size(50, 30), Location = new Point(20, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
+            Button firstPageBtn = new Button { Text = "<<", Size = new Size((int)(50 * dpiScale), (int)(30 * dpiScale)), Font = new Font("Segoe UI", (int)(10 * dpiScale), FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
             firstPageBtn.FlatAppearance.BorderSize = 1;
-            navigationPanel.Controls.Add(firstPageBtn);
-            firstPageBtn.Click += (s, e) =>
-            {
-                currentPage = 1;
-                NavigateToPage(currentPage);
-                UpdatePageLabel(pageNumberLabel);
-            };
+            firstPageBtn.Click += (s, e) => { currentPage = 1; NavigateToPage(currentPage); UpdatePageLabel(pageNumberLabel); };
+            navButtons.Controls.Add(firstPageBtn);
 
-            Button prevPageBtn = new Button { Text = "<", Size = new Size(30, 30), Location = new Point(firstPageBtn.Right + spacing, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
+            Button prevPageBtn = new Button { Text = "<", Size = new Size((int)(30 * dpiScale), (int)(30 * dpiScale)), Font = new Font("Segoe UI", (int)(10 * dpiScale), FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
             prevPageBtn.FlatAppearance.BorderSize = 1;
-            navigationPanel.Controls.Add(prevPageBtn);
-            prevPageBtn.Click += (s, e) =>
-            {
-                if (currentPage > 1)
-                {
-                    currentPage--;
-                    NavigateToPage(currentPage);
-                    UpdatePageLabel(pageNumberLabel);
-                }
-            };
+            prevPageBtn.Click += (s, e) => { if (currentPage > 1) { currentPage--; NavigateToPage(currentPage); UpdatePageLabel(pageNumberLabel); } };
+            navButtons.Controls.Add(prevPageBtn);
 
-            pageNumberLabel = new Label { Text = $"Page {currentPage} of ...", AutoSize = true, Font = new Font("Segoe UI", 10), Location = new Point(prevPageBtn.Right + spacing, navY + 5) };
-            navigationPanel.Controls.Add(pageNumberLabel);
+            pageNumberLabel = new Label { Text = $"Page {currentPage} of ...", AutoSize = true, Font = new Font("Segoe UI", (int)(10 * dpiScale)), TextAlign = ContentAlignment.MiddleCenter, Padding = new Padding((int)(10 * dpiScale), (int)(7 * dpiScale), (int)(10 * dpiScale), (int)(7 * dpiScale)) };
+            navButtons.Controls.Add(pageNumberLabel);
 
-            Button nextPageBtn = new Button { Text = ">", Size = new Size(30, 30), Location = new Point(pageNumberLabel.Right + spacing + 10, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
+            Button nextPageBtn = new Button { Text = ">", Size = new Size((int)(30 * dpiScale), (int)(30 * dpiScale)), Font = new Font("Segoe UI", (int)(10 * dpiScale), FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
             nextPageBtn.FlatAppearance.BorderSize = 1;
-            navigationPanel.Controls.Add(nextPageBtn);
-            nextPageBtn.Click += (s, e) =>
-            {
-                if (currentPage < totalPages)
-                {
-                    currentPage++;
-                    NavigateToPage(currentPage);
-                    UpdatePageLabel(pageNumberLabel);
-                }
-            };
+            nextPageBtn.Click += (s, e) => { if (currentPage < totalPages) { currentPage++; NavigateToPage(currentPage); UpdatePageLabel(pageNumberLabel); } };
+            navButtons.Controls.Add(nextPageBtn);
 
-            Button lastPageBtn = new Button { Text = ">>", Size = new Size(50, 30), Location = new Point(nextPageBtn.Right + spacing, navY), Font = new Font("Segoe UI", 10, FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
+            Button lastPageBtn = new Button { Text = ">>", Size = new Size((int)(50 * dpiScale), (int)(30 * dpiScale)), Font = new Font("Segoe UI", (int)(10 * dpiScale), FontStyle.Bold), FlatStyle = FlatStyle.Flat, Cursor = Cursors.Hand };
             lastPageBtn.FlatAppearance.BorderSize = 1;
-            navigationPanel.Controls.Add(lastPageBtn);
-            lastPageBtn.Click += (s, e) =>
-            {
-                currentPage = totalPages;
-                NavigateToPage(currentPage);
-                UpdatePageLabel(pageNumberLabel);
-            };
+            lastPageBtn.Click += (s, e) => { currentPage = totalPages; NavigateToPage(currentPage); UpdatePageLabel(pageNumberLabel); };
+            navButtons.Controls.Add(lastPageBtn);
 
             // ---------------- Tools Panel ----------------
-            Panel toolsPanel = new Panel();
-            toolsPanel.Width = 620;   // widened so all buttons fit
-            toolsPanel.Height = 120;
-            toolsPanel.BorderStyle = BorderStyle.None;
+            Panel toolsPanel = new Panel
+            {
+                Width = (int)(620 * dpiScale),
+                Height = (int)(120 * dpiScale),
+                BorderStyle = BorderStyle.None
+            };
 
-            Label toolsLabel = new Label();
-            toolsLabel.Text = "Tools";
-            toolsLabel.AutoSize = true;
-            toolsLabel.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            toolsLabel.Location = new Point((toolsPanel.Width - toolsLabel.Width) / 2, 5);
+            Label toolsLabel = new Label
+            {
+                Text = "Tools",
+                AutoSize = false,
+                Width = (int)(620 * dpiScale),
+                Height = (int)(25 * dpiScale),
+                Font = new Font("Segoe UI", (int)(10 * dpiScale), FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Location = new Point(0, (int)(5 * dpiScale))
+            };
             toolsPanel.Controls.Add(toolsLabel);
 
-            int toolY = 35;
-            int baseX = 20;
+            FlowLayoutPanel toolButtons = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Bottom,
+                Height = (int)(80 * dpiScale),
+                FlowDirection = FlowDirection.LeftToRight,
+                Padding = new Padding((int)(20 * dpiScale), (int)(10 * dpiScale), (int)(20 * dpiScale), (int)(10 * dpiScale)),
+                WrapContents = false
+            };
+            toolsPanel.Controls.Add(toolButtons);
 
             // Print
-            Button printButton = new Button();
-            //printButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\print.ico"));
-            printButton.Image = Properties.Resources.print.ToBitmap();
-            printButton.Size = new Size(60, 60);
-            printButton.Location = new Point(baseX, toolY);
-            printButton.ImageAlign = ContentAlignment.TopCenter;
-            printButton.Text = "Print";
-            printButton.TextAlign = ContentAlignment.BottomCenter;
-            printButton.Font = new Font("Segoe UI", 9);
-            printButton.FlatStyle = FlatStyle.Flat;
-            printButton.FlatAppearance.BorderSize = 0;
-            printButton.Click += (s, e) =>
+            Button printButton = new Button
             {
-                browser.Print(); // opens Chromium's native print dialog
+                Image = Properties.Resources.print.ToBitmap(),
+                Size = new Size((int)(60 * dpiScale), (int)(60 * dpiScale)),
+                ImageAlign = ContentAlignment.TopCenter,
+                Text = "Print",
+                TextAlign = ContentAlignment.BottomCenter,
+                Font = new Font("Segoe UI", (int)(9 * dpiScale)),
+                FlatStyle = FlatStyle.Flat
             };
-            toolsPanel.Controls.Add(printButton);
+            printButton.FlatAppearance.BorderSize = 0;
+            printButton.Click += async (s, e) => await PrintHtmlContent();
+            toolButtons.Controls.Add(printButton);
 
             // Export
-            Panel printExportSeparator = new Panel { Width = 2, Height = 60, BackColor = Color.FromArgb(180, 180, 180), Location = new Point(printButton.Right + 10, toolY) };
-            toolsPanel.Controls.Add(printExportSeparator);
-
-            Button exportButton = new Button();
-            exportButton.Image = Properties.Resources.export.ToBitmap();
-            exportButton.Size = new Size(60, 60);
-            exportButton.Location = new Point(printExportSeparator.Right + 10, toolY);
-            exportButton.ImageAlign = ContentAlignment.TopCenter;
-            exportButton.Text = "Export";
-            exportButton.TextAlign = ContentAlignment.BottomCenter;
-            exportButton.Font = new Font("Segoe UI", 9);
-            exportButton.FlatStyle = FlatStyle.Flat;
+            Button exportButton = new Button
+            {
+                Image = Properties.Resources.export.ToBitmap(),
+                Size = new Size((int)(60 * dpiScale), (int)(60 * dpiScale)),
+                ImageAlign = ContentAlignment.TopCenter,
+                Text = "Export",
+                TextAlign = ContentAlignment.BottomCenter,
+                Font = new Font("Segoe UI", (int)(9 * dpiScale)),
+                FlatStyle = FlatStyle.Flat
+            };
             exportButton.FlatAppearance.BorderSize = 0;
-            exportButton.Click += async (sender, e) => await GetEditedHtml();
-            toolsPanel.Controls.Add(exportButton);
+            exportButton.Click += async (s, e) => await GetEditedHtml();
+            toolButtons.Controls.Add(exportButton);
 
             // Multiple Page View
-            Panel exportViewSeparator = new Panel { Width = 2, Height = 60, BackColor = Color.FromArgb(180, 180, 180), Location = new Point(exportButton.Right + 10, toolY) };
-            toolsPanel.Controls.Add(exportViewSeparator);
-
-            // Preload icons used for toggling to avoid reloading from disk on every click
             _iconMultiplePage = Properties.Resources.multiple.ToBitmap();
             _iconSinglePage = Properties.Resources.single.ToBitmap();
 
-            Button multiplePageView = new Button();
-            multiplePageView.Image = _iconMultiplePage; // default state shows action to switch to Multiple Page
-            multiplePageView.Size = new Size(120, 60);
-            multiplePageView.Location = new Point(exportViewSeparator.Right + 10, toolY);
-            multiplePageView.ImageAlign = ContentAlignment.TopCenter;
-            multiplePageView.Text = "Multiple Page";
-            multiplePageView.TextAlign = ContentAlignment.BottomCenter;
-            multiplePageView.Font = new Font("Segoe UI", 9);
-            multiplePageView.FlatStyle = FlatStyle.Flat;
+            Button multiplePageView = new Button
+            {
+                Image = _iconMultiplePage,
+                Size = new Size((int)(120 * dpiScale), (int)(60 * dpiScale)),
+                ImageAlign = ContentAlignment.TopCenter,
+                Text = "Multiple Page",
+                TextAlign = ContentAlignment.BottomCenter,
+                Font = new Font("Segoe UI", (int)(9 * dpiScale)),
+                FlatStyle = FlatStyle.Flat
+            };
             multiplePageView.FlatAppearance.BorderSize = 0;
             multiplePageView.Click += async (s, e) => await ToggleMultiplePageView();
-            toolsPanel.Controls.Add(multiplePageView);
-
-            // Keep a reference for dynamic label updates
+            toolButtons.Controls.Add(multiplePageView);
             _multiplePageViewButton = multiplePageView;
 
             // Find
-            Panel viewFindSeparator = new Panel { Width = 2, Height = 60, BackColor = Color.FromArgb(180, 180, 180), Location = new Point(multiplePageView.Right + 10, toolY) };
-            toolsPanel.Controls.Add(viewFindSeparator);
-
-            Button findButton = new Button();
-            findButton.Image = Properties.Resources.find.ToBitmap();
-            findButton.Size = new Size(60, 60);
-            findButton.Location = new Point(viewFindSeparator.Right + 10, toolY);
-            findButton.ImageAlign = ContentAlignment.TopCenter;
-            findButton.Text = "Find";
-            findButton.TextAlign = ContentAlignment.BottomCenter;
-            findButton.Font = new Font("Segoe UI", 9);
-            findButton.FlatStyle = FlatStyle.Flat;
+            Button findButton = new Button
+            {
+                Image = Properties.Resources.find.ToBitmap(),
+                Size = new Size((int)(60 * dpiScale), (int)(60 * dpiScale)),
+                ImageAlign = ContentAlignment.TopCenter,
+                Text = "Find",
+                TextAlign = ContentAlignment.BottomCenter,
+                Font = new Font("Segoe UI", (int)(9 * dpiScale)),
+                FlatStyle = FlatStyle.Flat
+            };
             findButton.FlatAppearance.BorderSize = 0;
             findButton.Click += (s, e) => ShowFindDialog();
-            toolsPanel.Controls.Add(findButton);
+            toolButtons.Controls.Add(findButton);
 
             // Zoom In
-            Panel findZoomSeparator = new Panel { Width = 2, Height = 60, BackColor = Color.FromArgb(180, 180, 180), Location = new Point(findButton.Right + 10, toolY) };
-            toolsPanel.Controls.Add(findZoomSeparator);
-
-            Button zoomInButton = new Button();
-            zoomInButton.Image = Properties.Resources.zoom_in.ToBitmap();
-            zoomInButton.Size = new Size(90, 60);
-            zoomInButton.Location = new Point(findZoomSeparator.Right + 10, toolY);
-            zoomInButton.ImageAlign = ContentAlignment.TopCenter;
-            zoomInButton.Text = "Zoom In";
-            zoomInButton.TextAlign = ContentAlignment.BottomCenter;
-            zoomInButton.Font = new Font("Segoe UI", 9);
-            zoomInButton.FlatStyle = FlatStyle.Flat;
+            Button zoomInButton = new Button
+            {
+                Image = Properties.Resources.zoom_in.ToBitmap(),
+                Size = new Size((int)(90 * dpiScale), (int)(60 * dpiScale)),
+                ImageAlign = ContentAlignment.TopCenter,
+                Text = "Zoom In",
+                TextAlign = ContentAlignment.BottomCenter,
+                Font = new Font("Segoe UI", (int)(9 * dpiScale)),
+                FlatStyle = FlatStyle.Flat
+            };
             zoomInButton.FlatAppearance.BorderSize = 0;
             zoomInButton.Click += (s, e) =>
             {
                 browser.GetZoomLevelAsync().ContinueWith(task =>
                 {
                     var currentZoom = task.Result;
-                    browser.SetZoomLevel(currentZoom + 0.2); // zoom in by step
+                    browser.SetZoomLevel(currentZoom + 0.2);
                 });
             };
-            toolsPanel.Controls.Add(zoomInButton);
+            toolButtons.Controls.Add(zoomInButton);
 
             // Zoom Out
-            Panel zoomInOutSeparator = new Panel { Width = 2, Height = 60, BackColor = Color.FromArgb(180, 180, 180), Location = new Point(zoomInButton.Right + 10, toolY) };
-            toolsPanel.Controls.Add(zoomInOutSeparator);
-
-            Button zoomOutButton = new Button();
-            zoomOutButton.Image = Properties.Resources.zoom_out.ToBitmap();
-            zoomOutButton.Size = new Size(90, 60);
-            zoomOutButton.Location = new Point(zoomInOutSeparator.Right + 10, toolY);
-            zoomOutButton.ImageAlign = ContentAlignment.TopCenter;
-            zoomOutButton.Text = "Zoom Out";
-            zoomOutButton.TextAlign = ContentAlignment.BottomCenter;
-            zoomOutButton.Font = new Font("Segoe UI", 9);
-            zoomOutButton.FlatStyle = FlatStyle.Flat;
+            Button zoomOutButton = new Button
+            {
+                Image = Properties.Resources.zoom_out.ToBitmap(),
+                Size = new Size((int)(90 * dpiScale), (int)(60 * dpiScale)),
+                ImageAlign = ContentAlignment.TopCenter,
+                Text = "Zoom Out",
+                TextAlign = ContentAlignment.BottomCenter,
+                Font = new Font("Segoe UI", (int)(9 * dpiScale)),
+                FlatStyle = FlatStyle.Flat
+            };
             zoomOutButton.FlatAppearance.BorderSize = 0;
             zoomOutButton.Click += (s, e) =>
             {
                 browser.GetZoomLevelAsync().ContinueWith(task =>
                 {
                     var currentZoom = task.Result;
-                    browser.SetZoomLevel(currentZoom - 0.2); // zoom in by step
+                    browser.SetZoomLevel(currentZoom - 0.2);
                 });
             };
-            toolsPanel.Controls.Add(zoomOutButton);
+            toolButtons.Controls.Add(zoomOutButton);
 
             // ---------------- SDI Panel ----------------
-            Panel sdiPanel = new Panel();
-            sdiPanel.Width = 150;
-            sdiPanel.Height = 120;
+            Panel sdiPanel = new Panel
+            {
+                Width = (int)(150 * dpiScale),
+                Height = (int)(120 * dpiScale)
+            };
 
-            Label sdiLabel = new Label();
-            sdiLabel.Text = "SDI";
-            sdiLabel.AutoSize = true;
-            sdiLabel.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            sdiLabel.Location = new Point((sdiPanel.Width - sdiLabel.Width) / 2, 5);
+            Label sdiLabel = new Label
+            {
+                Text = "SDI",
+                AutoSize = false,
+                Width = (int)(150 * dpiScale),
+                Height = (int)(25 * dpiScale),
+                Font = new Font("Segoe UI", (int)(10 * dpiScale), FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Location = new Point(0, (int)(5 * dpiScale))
+            };
             sdiPanel.Controls.Add(sdiLabel);
 
-            Button saveToSdiButton = new Button();
-            saveToSdiButton.Image = Properties.Resources.SDI.ToBitmap();
-            saveToSdiButton.Size = new Size(110, 60);
-            saveToSdiButton.Location = new Point((sdiPanel.Width - saveToSdiButton.Width) / 2 - 30, 35);
-            saveToSdiButton.ImageAlign = ContentAlignment.TopCenter;
-            saveToSdiButton.Text = "Save to SDI";
-            saveToSdiButton.TextAlign = ContentAlignment.BottomCenter;
-            saveToSdiButton.Font = new Font("Segoe UI", 9);
-            saveToSdiButton.FlatStyle = FlatStyle.Flat;
+            Button saveToSdiButton = new Button
+            {
+                Image = Properties.Resources.SDI.ToBitmap(),
+                Size = new Size((int)(110 * dpiScale), (int)(60 * dpiScale)),
+                ImageAlign = ContentAlignment.TopCenter,
+                Text = "Save to SDI",
+                TextAlign = ContentAlignment.BottomCenter,
+                Font = new Font("Segoe UI", (int)(9 * dpiScale)),
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand,
+                Dock = DockStyle.Bottom
+            };
             saveToSdiButton.FlatAppearance.BorderSize = 0;
-            saveToSdiButton.Cursor = Cursors.Hand;
             sdiPanel.Controls.Add(saveToSdiButton);
 
             // ---------------- Layout ----------------
-            Panel separator = new Panel { Width = 2, Height = 100, BackColor = Color.FromArgb(180, 180, 180) };
-            Panel toolsSdiSeparator = new Panel { Width = 2, Height = 100, BackColor = Color.FromArgb(180, 180, 180) };
-
-            int totalWidth = navigationPanel.Width + 2 + toolsPanel.Width + 2 + sdiPanel.Width + 60;
-            int startX = (ribbonPanel.Width - totalWidth) / 2;
-
-            navigationPanel.Location = new Point(startX, 15);
-            separator.Location = new Point(navigationPanel.Right + 10, 25);
-            toolsPanel.Location = new Point(separator.Right + 20, 15);
-            toolsSdiSeparator.Location = new Point(toolsPanel.Right + 10, 25);
-            sdiPanel.Location = new Point(toolsSdiSeparator.Right + 20, 15);
-
-            ribbonPanel.Controls.Add(navigationPanel);
-            ribbonPanel.Controls.Add(separator);
-            ribbonPanel.Controls.Add(toolsPanel);
-            ribbonPanel.Controls.Add(toolsSdiSeparator);
-            ribbonPanel.Controls.Add(sdiPanel);
-
-            Controls.Add(ribbonPanel);
-
-            // Resize handling
-            ribbonPanel.Resize += (s, e) =>
+            // Create a container panel for center alignment
+            Panel containerPanel = new Panel
             {
-                int updatedStartX = (ribbonPanel.Width - totalWidth) / 2;
-                navigationPanel.Location = new Point(updatedStartX, 15);
-                separator.Location = new Point(navigationPanel.Right + 10, 25);
-                toolsPanel.Location = new Point(separator.Right + 20, 15);
-                toolsSdiSeparator.Location = new Point(toolsPanel.Right + 10, 25);
-                sdiPanel.Location = new Point(toolsSdiSeparator.Right + 20, 15);
+                Dock = DockStyle.Fill,
+                BackColor = Color.Transparent
             };
+
+            // Create separators
+            Panel separator1 = new Panel
+            {
+                Width = (int)(2 * dpiScale),
+                Height = (int)(100 * dpiScale),
+                BackColor = Color.FromArgb(180, 180, 180)
+            };
+
+            Panel separator2 = new Panel
+            {
+                Width = (int)(2 * dpiScale),
+                Height = (int)(100 * dpiScale),
+                BackColor = Color.FromArgb(180, 180, 180)
+            };
+
+            // Calculate total width of all panels plus separators and spacing
+            int totalWidth = (int)(320 * dpiScale) + (int)(620 * dpiScale) + (int)(150 * dpiScale) + 
+                           (int)(2 * dpiScale) + (int)(2 * dpiScale) + (int)(40 * dpiScale); // 10px spacing around separators
+            
+            // Position panels to center them horizontally
+            containerPanel.SizeChanged += (s, e) =>
+            {
+                int startX = Math.Max((int)(10 * dpiScale), (containerPanel.Width - totalWidth) / 2);
+                int yPos = (int)(15 * dpiScale);
+                int separatorY = (int)(25 * dpiScale); // Slightly lower than panels for visual balance
+                
+                navigationPanel.Location = new Point(startX, yPos);
+                separator1.Location = new Point(navigationPanel.Right + (int)(10 * dpiScale), separatorY);
+                toolsPanel.Location = new Point(separator1.Right + (int)(10 * dpiScale), yPos);
+                separator2.Location = new Point(toolsPanel.Right + (int)(10 * dpiScale), separatorY);
+                sdiPanel.Location = new Point(separator2.Right + (int)(10 * dpiScale), yPos);
+            };
+
+            containerPanel.Controls.Add(navigationPanel);
+            containerPanel.Controls.Add(separator1);
+            containerPanel.Controls.Add(toolsPanel);
+            containerPanel.Controls.Add(separator2);
+            containerPanel.Controls.Add(sdiPanel);
+
+            ribbonPanel.Controls.Add(containerPanel);
+            Controls.Add(ribbonPanel);
         }
 
-        //loads file from the specified file path
         private async Task LoadEditorTemplate()
         {
             try
@@ -1628,6 +1928,325 @@ namespace HTMLEditor
             if (finalUpdate || count > 0)
             {
                 findControl.UpdateResults(count, activeMatchOrdinal);
+            }
+        }
+
+        private async Task PrintHtmlContent()
+        {
+            try
+            {
+                // Get the clean HTML content from the editor first
+                string cleanHtml = await GetCleanHtmlForPrinting();
+
+                if (string.IsNullOrEmpty(cleanHtml))
+                {
+                    MessageBox.Show("No content available for printing.", "Print Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Generate PDF directly without showing print dialog first
+                string tempPdfPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"HTMLEditor_Print_{DateTime.Now:yyyyMMdd_HHmmss}.pdf");
+
+                // Create a temporary form to host the browser (required for proper initialization)
+                using (var tempForm = new Form())
+                {
+                    tempForm.WindowState = FormWindowState.Minimized;
+                    tempForm.ShowInTaskbar = false;
+                    tempForm.Size = new Size(1024, 768);
+
+                    // Create browser instance
+                    var printBrowser = new ChromiumWebBrowser();
+                    printBrowser.Size = new Size(1000, 700);
+                    printBrowser.Dock = DockStyle.Fill;
+                    tempForm.Controls.Add(printBrowser);
+
+                    // Show form (required for browser initialization)
+                    tempForm.Show();
+                    tempForm.Hide(); // Hide immediately
+
+                    try
+                    {
+                        // Wait for browser to initialize properly
+                        int maxWaitTime = 10000; // 10 seconds max
+                        int waitTime = 0;
+                        while (!printBrowser.IsBrowserInitialized && waitTime < maxWaitTime)
+                        {
+                            await Task.Delay(100);
+                            waitTime += 100;
+                            System.Windows.Forms.Application.DoEvents(); // Allow UI updates
+                        }
+
+                        if (!printBrowser.IsBrowserInitialized)
+                        {
+                            MessageBox.Show("Failed to initialize browser for printing.", "Print Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        // Load HTML content
+                        printBrowser.LoadHtml(cleanHtml, "http://print-temp/");
+
+                        // Wait for content to load completely
+                        bool contentLoaded = false;
+                        var loadEndHandler = new EventHandler<FrameLoadEndEventArgs>((sender, args) =>
+                        {
+                            if (args.Frame.IsMain)
+                                contentLoaded = true;
+                        });
+
+                        printBrowser.FrameLoadEnd += loadEndHandler;
+
+                        // Wait for load to complete
+                        waitTime = 0;
+                        while (!contentLoaded && waitTime < maxWaitTime)
+                        {
+                            await Task.Delay(100);
+                            waitTime += 100;
+                            System.Windows.Forms.Application.DoEvents();
+                        }
+
+                        printBrowser.FrameLoadEnd -= loadEndHandler;
+
+                        if (!contentLoaded)
+                        {
+                            MessageBox.Show("Content failed to load for printing.", "Print Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        // Increased wait for full rendering/layout (breaks need time to compute)
+                        await Task.Delay(3000); // 3 seconds
+                        System.Windows.Forms.Application.DoEvents();
+
+                        // Configure PDF print settings - FIXED: Increased top/bottom margins to 1.0 inch for padding
+                        var printSettings = new PdfPrintSettings()
+                        {
+                            MarginType = CefPdfPrintMarginType.Custom,
+                            MarginTop = 5.0,
+                            MarginBottom = 1.0,
+                            MarginLeft = 0,
+                            MarginRight = 0,
+                            PageRanges = "",
+                            DisplayHeaderFooter = false,
+                            PrintBackground = true,
+                            Landscape = false,
+                            Scale = 1.0 // Slight scale to fit content without overflows
+                        };
+
+                        System.Diagnostics.Debug.WriteLine($"Attempting to generate PDF: {tempPdfPath}");
+
+                        // Generate PDF
+                        bool success = await printBrowser.PrintToPdfAsync(tempPdfPath, printSettings);
+
+                        System.Diagnostics.Debug.WriteLine($"PDF generation result: {success}");
+
+                        if (success && File.Exists(tempPdfPath))
+                        {
+                            // Add simple page count validation (non-blank pages)
+                            FileInfo pdfInfo = new FileInfo(tempPdfPath);
+                            if (pdfInfo.Length < 10000) // Rough check for "empty-ish" file
+                            {
+                                MessageBox.Show("PDF generated but appears too small/empty. Check logs.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            System.Diagnostics.Debug.WriteLine($"PDF size: {pdfInfo.Length} bytes");
+
+                            // Show print dialog for the generated PDF
+                            using (PrintDialog printDialog = new PrintDialog())
+                            {
+                                printDialog.UseEXDialog = true;
+                                printDialog.AllowPrintToFile = true;
+
+                                var result = MessageBox.Show(
+                                    $"PDF generated successfully at:\n{tempPdfPath}\n\nWould you like to open it for printing?",
+                                    "Print Ready",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Information);
+
+                                if (result == DialogResult.Yes)
+                                {
+                                    // Open the PDF with default PDF viewer
+                                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                                    {
+                                        FileName = tempPdfPath,
+                                        UseShellExecute = true
+                                    });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            string errorMsg = "Failed to generate PDF for printing.";
+                            if (!File.Exists(tempPdfPath))
+                                errorMsg += " PDF file was not created.";
+
+                            System.Diagnostics.Debug.WriteLine(errorMsg);
+                            MessageBox.Show(errorMsg, "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    finally
+                    {
+                        // Clean up browser
+                        printBrowser?.Dispose();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in PrintHtmlContent: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+                MessageBox.Show($"Error printing content: {ex.Message}", "Print Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task<string> GetCleanHtmlForPrinting()
+        {
+            try
+            {
+                // Updated JS: Remove pageBreakInside (conflicts with breaks). Add explicit page-break-after: always only for non-last pages.
+                // Also, set explicit height on pages to match A4 (842pt) to prevent overflows causing blanks.
+                string extractScript = @"
+        (function() {
+            const editor = document.getElementById('editor');
+            if (!editor) return '';
+            
+            // Clone the editor content to avoid modifying the original
+            const clone = editor.cloneNode(true);
+            
+            // Remove ALL page break elements completely (any element with 'page-break' class)
+            const allPageBreaks = Array.from(clone.querySelectorAll('[class*=""page-break""]'));
+            console.log('Removing page break elements:', allPageBreaks.length);
+            allPageBreaks.forEach(pageBreak => {
+                pageBreak.remove();
+            });
+            
+            // Get only page elements that have actual content
+            const pages = Array.from(clone.querySelectorAll('.page'));
+            console.log('Total pages found:', pages.length);
+            
+            // Create a new container for the cleaned content
+            const cleanContainer = document.createElement('div');
+            let pageCount = 0;
+            let hasPreviousPage = false;
+            
+            pages.forEach((page, index) => {
+                // Check if page has actual content (not just whitespace)
+                const pageText = page.textContent.trim();
+                const hasImages = page.querySelectorAll('img, svg').length > 0;
+                const hasOtherContent = page.querySelectorAll('div, p, span, table, ul, ol').length > 0;
+                
+                if (pageText.length > 0 || hasImages || hasOtherContent) {
+                    // This page has content, include it
+                    pageCount++;
+                    hasPreviousPage = true;
+                    
+                    // Clean the page styling for print - FIXED: Remove pageBreakInside to avoid conflicts.
+                    // Add page-break-after: always only if not the last page to chain without extra blanks.
+                    page.style.pageBreakAfter = (index < pages.length - 1) ? 'always' : 'auto';
+                    page.style.pageBreakBefore = 'auto'; // Rely on after from previous
+                    page.style.margin = '0';
+                    page.style.padding = '20px';
+                    page.style.boxShadow = 'none';
+                    page.style.border = 'none';
+                    page.style.background = 'white';
+                    // FIXED: Cap height to ~A4 to prevent single-page overflow (842pt = A4 height).
+                    page.style.maxHeight = '842pt';
+                    page.style.overflow = 'visible'; // Allow content to flow if needed, but breaks will handle.
+                    
+                    // Remove any nested page break elements within the page
+                    const nestedPageBreaks = Array.from(page.querySelectorAll('[class*=""page-break""]'));
+                    nestedPageBreaks.forEach(nested => nested.remove());
+                    
+                    cleanContainer.appendChild(page.cloneNode(true));
+                    console.log('Added page', pageCount, 'with content length:', pageText.length);
+                } else {
+                    console.log('Skipped empty page at index:', index);
+                }
+            });
+            
+            console.log('Final pages with content for print:', pageCount);
+            
+            return cleanContainer.innerHTML;
+        })();
+        ";
+
+                var result = await browser.EvaluateScriptAsync(extractScript);
+                if (result.Success && result.Result != null)
+                {
+                    string contentHtml = result.Result.ToString();
+
+                    // Updated CSS: Remove page-break-inside: avoid (causes blanks). Add widows/orphans to minimize bad breaks.
+                    // Ensure body flows continuously with breaks only where specified.
+                    string printHtml = $@"<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Print Document</title>
+    <style>
+        @page {{
+            size: A4;
+            margin: 0;
+        }}
+        
+        body {{
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: black;
+        }}
+        
+        .page {{
+            margin: 0;
+            padding: 20px;
+            background: white;
+            box-shadow: none !important;
+            border: none !important;
+            /* FIXED: Removed page-break-inside: avoid to prevent extra blanks on overflows */
+            max-height: 842pt; /* A4 height in points */
+            widows: 3; /* Min lines before/after break */
+            orphans: 3;
+        }}
+        
+        /* Ensure SVGs print properly */
+        svg {{
+            max-width: 100%;
+            height: auto;
+        }}
+        
+        /* Remove any interactive elements for print */
+        .page-break-remove,
+        .find-highlight,
+        [class*='page-break'] {{
+            display: none !important;
+        }}
+        
+        /* Ensure no extra spacing that could cause empty pages */
+        * {{
+            box-sizing: border-box;
+        }}
+        
+        /* FIXED: Global rule to avoid unwanted breaks in children */
+        div, p, table, ul, ol {{
+            page-break-inside: auto;
+        }}
+    </style>
+</head>
+<body>
+    {contentHtml}
+</body>
+</html>";
+
+                    return printHtml;
+                }
+
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error getting clean HTML for printing: {ex.Message}");
+                return string.Empty;
             }
         }
 
