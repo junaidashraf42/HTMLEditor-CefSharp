@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,8 +19,6 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Threading;
 namespace HTMLEditor
 {
     public partial class Form1 : Form
@@ -29,24 +26,17 @@ namespace HTMLEditor
         private ChromiumWebBrowser browser;
         private FindControl findControl;
         public PageBreakManager _pageBreakManager = new PageBreakManager();
-        private Label pageNumberLabel;
+        //private ContextMenuStrip editorContextMenu;
         private string _currentReportPath;
         private string _currentReportContent;
         private bool _isMultiplePageView = false; // Default to single page view (normal scrollable view)
-        private Button _multiplePageViewButton; // Reference to the Multiple Page View button
-        private System.Drawing.Image _iconSinglePage;   // Icon for Single Page view
-        private System.Drawing.Image _iconMultiplePage; // Icon for Multiple Page view
-        int currentPage = 1;
-        int totalPages;
-        private bool _isUpdatingPageCount = false;
 
         public Form1()
         {
             Text = "HTML Editor";
+            //Width = 1000;
+            //Height = 700;
             this.WindowState = FormWindowState.Maximized;
-            //this.AutoScaleMode = AutoScaleMode.Dpi;   // or AutoScaleMode.Font
-            //this.AutoScaleDimensions = new SizeF(96F, 96F);
-            //this.HighDpiMode = System.Windows.Forms.HighDpiMode.PerMonitorV2;
             this.KeyPreview = true;
             browser = new ChromiumWebBrowser("about:blank") { Dock = DockStyle.Fill };
 
@@ -65,12 +55,7 @@ namespace HTMLEditor
             browser.FrameLoadEnd += async (sender, args) => {
                 if (args.Frame.IsMain) {
                     System.Diagnostics.Debug.WriteLine("Main frame loaded, setting up JavaScript bridge");
-
-                    //reset zoom level each time file loads.
-                    this.Invoke(new Action(() =>
-                    {
-                        browser.SetZoomLevel(0.0);
-                    }));
+                    
                     // Wait for the browser to be ready to execute scripts
                     await WaitForBrowserReady();
                     
@@ -95,12 +80,12 @@ namespace HTMLEditor
             findControl = new FindControl();
             findControl.Dock = DockStyle.None; // Remove docking to allow custom positioning
             findControl.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            findControl.Location = new Point(-70, 160); // Position adjusted for ribbon
+            findControl.Location = new Point(-70, 120); // Position adjusted for ribbon
             findControl.Visible = false;
             findControl.FindNext += FindControl_FindNext;
             findControl.FindPrevious += FindControl_FindPrevious;
             findControl.CloseFind += FindControl_CloseFind;
-
+            
             // Add controls to form
             Controls.Add(browser);
             Controls.Add(findControl);
@@ -110,8 +95,7 @@ namespace HTMLEditor
             KeyDown += Form1_KeyDown;
 
             // Initialize the ribbon panel
-            //InitializeRibbonPanel();
-            InitializeToolbar();
+            InitializeRibbonPanel();
 
             // Kept for designer compatibility
             Load += async (s, e) => await LoadEditorTemplate();
@@ -129,315 +113,171 @@ namespace HTMLEditor
         {
             this.KeyPreview = true;
             await LoadEditorTemplate();
-        }
+                    }
 
-        #region toolbarregion
-        private void InitializeToolbar()
+        public void InitializeRibbonPanel()
         {
-            // Suspend layout to prevent flicker during setup
-            this.SuspendLayout();
+            // Create the main ribbon panel
+            Panel ribbonPanel = new Panel();
+            ribbonPanel.Dock = DockStyle.Top;
+            ribbonPanel.Height = 150;
+            ribbonPanel.BackColor = Color.FromArgb(218, 220, 224);
 
-            // Create the main toolbar panel (light gray background) with fixed height
-            Panel toolbarPanel = new Panel();
-            toolbarPanel.Dock = DockStyle.Top;
-            toolbarPanel.BackColor = Color.FromArgb(211, 211, 211); // Light gray
-            toolbarPanel.Height = 120; // fixed height
+            // Create Navigation section panel
+            Panel navigationPanel = new Panel();
+            navigationPanel.Width = 300;
+            navigationPanel.Height = 120;
+            navigationPanel.BorderStyle = BorderStyle.None;
 
-            // Create three section panels
-            Panel navigationSection = CreateNavigationSection();
-            Panel toolsSection = CreateToolsSection();
-            Panel sdiSection = CreateSDISection();
+            // Add label for Navigation section, centered horizontally
+            Label navLabel = new Label();
+            navLabel.Text = "Navigation";
+            navLabel.AutoSize = true;
+            navLabel.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            navLabel.Location = new Point((navigationPanel.Width - navLabel.Width) / 2, 5); // Center horizontally
+            navigationPanel.Controls.Add(navLabel);
 
-            // Create separators
-            Panel separator1 = CreateSeparator();
-            Panel separator2 = CreateSeparator();
+            // Add Previous navigation label
+            Label prevLabel = new Label();
+            prevLabel.Text = "<<";
+            prevLabel.Size = new Size(60, 30);
+            prevLabel.Location = new Point(20, 40); // Adjusted for vertical spacing
+            prevLabel.Font = new Font("Segoe UI", 9);
+            prevLabel.TextAlign = ContentAlignment.MiddleCenter;
+            prevLabel.Click += (s, e) => { /* Placeholder for Previous page navigation logic */ };
+            navigationPanel.Controls.Add(prevLabel);
 
-            // Add sections and separators to toolbar panel
-            toolbarPanel.Controls.Add(navigationSection);
-            toolbarPanel.Controls.Add(separator1);
-            toolbarPanel.Controls.Add(toolsSection);
-            toolbarPanel.Controls.Add(separator2);
-            toolbarPanel.Controls.Add(sdiSection);
+            // Add Home button
+            Button homeButton = new Button();
+            homeButton.Text = "Home";
+            homeButton.Size = new Size(60, 30);
+            homeButton.Location = new Point((navigationPanel.Width - homeButton.Width) / 2, 40); // Centered horizontally
+            homeButton.Font = new Font("Segoe UI", 9);
+            homeButton.Click += (s, e) => { /* Placeholder for Home page navigation logic */ };
+            navigationPanel.Controls.Add(homeButton);
 
-            // Add the toolbar panel to the form
-            try
-            {
-                this.Controls.Add(toolbarPanel);
+            // Add Next navigation label
+            Label nextLabel = new Label();
+            nextLabel.Text = ">>";
+            nextLabel.Size = new Size(60, 30);
+            nextLabel.Location = new Point(navigationPanel.Width - nextLabel.Width - 20, 40); // Right-aligned
+            nextLabel.Font = new Font("Segoe UI", 9);
+            nextLabel.TextAlign = ContentAlignment.MiddleCenter;
+            nextLabel.Click += (s, e) => { /* Placeholder for Next page navigation logic */ };
+            navigationPanel.Controls.Add(nextLabel);
 
-                // Initial centering and resize handling
-                this.Load += (s, e) => {
-                    CenterSections(toolbarPanel, navigationSection, separator1, toolsSection, separator2, sdiSection);
-                };
-
-                this.Resize += (s, e) => {
-                    CenterSections(toolbarPanel, navigationSection, separator1, toolsSection, separator2, sdiSection);
-                };
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error initializing toolbar: {ex.Message}");
-            }
-
-            // Resume layout
-            this.ResumeLayout(false);
-        }
-
-        private Panel CreateNavigationSection()
-        {
-            Panel section = new Panel();
-            section.Size = new Size(330, 100);
-            section.BackColor = Color.Transparent;
-
-            // Navigation label
-            Label lblNav = new Label();
-            lblNav.Text = "Navigation";
-            lblNav.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            lblNav.AutoSize = true;
-            lblNav.Location = new Point(0, 5);
-            section.Controls.Add(lblNav);
-
-            // Center the label
-            lblNav.Left = (section.Width - lblNav.Width) / 2;
-
-            // Navigation buttons row
-            int buttonY = 50;
-            int buttonSize = 40;
-            int spacing = 10;
-
-            Button btnPrevDouble = new Button();
-            btnPrevDouble.Text = "<<";
-            btnPrevDouble.Size = new Size(buttonSize, buttonSize - 8);
-            btnPrevDouble.Location = new Point(20, buttonY);
-            btnPrevDouble.FlatStyle = FlatStyle.Flat;
-            btnPrevDouble.Click += (s, e) => { currentPage = 1; NavigateToPage(currentPage); UpdatePageLabel(pageNumberLabel); };
-            section.Controls.Add(btnPrevDouble);
-
-            Button btnPrev = new Button();
-            btnPrev.Text = "<";
-            btnPrev.Size = new Size(buttonSize, buttonSize - 8);
-            btnPrev.Location = new Point(btnPrevDouble.Right + spacing + 10, buttonY);
-            btnPrev.FlatStyle = FlatStyle.Flat;
-            btnPrev.Click += (s, e) => { if (currentPage > 1) { currentPage--; NavigateToPage(currentPage); UpdatePageLabel(pageNumberLabel); } };
-            section.Controls.Add(btnPrev);
-
-            pageNumberLabel = new Label();
-            pageNumberLabel.Text = $"Page {currentPage} of ...";
+            // Add page number label (e.g., "Page 1 of 22")
+            Label pageNumberLabel = new Label();
+            int currentPage = 1; // Placeholder for current page
+            int totalPages = 22; // Placeholder for total pages
+            pageNumberLabel.Text = $"Page {currentPage} of {totalPages}";
             pageNumberLabel.AutoSize = true;
-            pageNumberLabel.Location = new Point(btnPrev.Right + spacing, buttonY + 8);
-            section.Controls.Add(pageNumberLabel);
+            pageNumberLabel.Font = new Font("Segoe UI", 9);
+            pageNumberLabel.Location = new Point((navigationPanel.Width - pageNumberLabel.Width) / 2, 80); // Below navigation controls
+            navigationPanel.Controls.Add(pageNumberLabel);
 
-            Button btnNext = new Button();
-            btnNext.Text = ">";
-            btnNext.Size = new Size(buttonSize, buttonSize - 8);
-            btnNext.Location = new Point(pageNumberLabel.Right + spacing + 10, buttonY);
-            btnNext.FlatStyle = FlatStyle.Flat;
-            btnNext.Click += (s, e) => { if (currentPage < totalPages) { currentPage++; NavigateToPage(currentPage); UpdatePageLabel(pageNumberLabel); } };
-            section.Controls.Add(btnNext);
+            // Create Tools section panel
+            Panel toolsPanel = new Panel();
+            toolsPanel.Width = 300;
+            toolsPanel.Height = 120;
+            toolsPanel.BorderStyle = BorderStyle.None;
 
-            Button btnNextDouble = new Button();
-            btnNextDouble.Text = ">>";
-            btnNextDouble.Size = new Size(buttonSize, buttonSize - 8);
-            btnNextDouble.Location = new Point(btnNext.Right + spacing, buttonY);
-            btnNextDouble.FlatStyle = FlatStyle.Flat;
-            btnNextDouble.Click += (s, e) => { currentPage = totalPages; NavigateToPage(currentPage); UpdatePageLabel(pageNumberLabel); };
-            section.Controls.Add(btnNextDouble);
+            // Add label for Tools section, centered horizontally
+            Label toolsLabel = new Label();
+            toolsLabel.Text = "Tools";
+            toolsLabel.AutoSize = true;
+            toolsLabel.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            toolsLabel.Location = new Point((toolsPanel.Width - toolsLabel.Width) / 2, 5); // Center horizontally
+            toolsPanel.Controls.Add(toolsLabel);
 
-            return section;
-        }
+            // Add Print button with icon
+            Button printButton = new Button();
+            printButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\print.ico")); // Load from root directory
+            printButton.Size = new Size(60, 60);
+            printButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2, 35); // Left of three buttons, centered
+            printButton.ImageAlign = ContentAlignment.MiddleCenter;
+            printButton.Text = "Print";
+            printButton.TextAlign = ContentAlignment.BottomCenter;
+            printButton.Font = new Font("Segoe UI", 9);
+            printButton.Click += (s, e) => { /* Placeholder for Print logic */ };
+            toolsPanel.Controls.Add(printButton);
 
-        private Panel CreateToolsSection()
-        {
-            Panel section = new Panel();
-            section.Size = new Size(630, 100); // Increased width to accommodate wider buttons
-            section.BackColor = Color.Transparent;
+            // Add Export button with icon
+            Button exportButton = new Button();
+            exportButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\export.ico")); // Load from root directory
+            exportButton.Size = new Size(60, 80);
+            exportButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2 + 60 + 20, 35); // Middle, with 20px spacing
+            exportButton.ImageAlign = ContentAlignment.MiddleCenter;
+            exportButton.Text = "Export";
+            exportButton.TextAlign = ContentAlignment.BottomCenter;
+            exportButton.Font = new Font("Segoe UI", 9);
+            exportButton.Click += (s, e) => { /* Placeholder for Export logic */ };
+            toolsPanel.Controls.Add(exportButton);
 
-            // Tools label
-            Label lblTools = new Label();
-            lblTools.Text = "Tools";
-            lblTools.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            lblTools.AutoSize = true;
-            lblTools.Location = new Point(0, 5);
-            section.Controls.Add(lblTools);
+            // Add Find button with icon
+            Button findButton = new Button();
+            findButton.Image = System.Drawing.Image.FromFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "..\\..\\find.ico")); // Load from root directory
+            findButton.Size = new Size(60, 60);
+            findButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2 + 60 + 20 + 60 + 20, 35); // Right, with 20px spacing
+            findButton.ImageAlign = ContentAlignment.MiddleCenter;
+            findButton.Text = "Find";
+            findButton.TextAlign = ContentAlignment.BottomCenter;
+            findButton.Font = new Font("Segoe UI", 9);
+            findButton.Click += (s, e) => { /* Placeholder for Find logic */ };
+            toolsPanel.Controls.Add(findButton);
 
-            // Center the label
-            lblTools.Left = (section.Width - lblTools.Width) / 2;
-
-            // Tools buttons row
-            int buttonY = 30;
-            int buttonWidth = 70;
-            int buttonHeight = 70;
-            int spacing = 15;
-            int startX = 20;
-
-            Button btnPrint = new Button();
-            btnPrint.Image = Properties.Resources.print.ToBitmap();
-            btnPrint.Text = "Print";
-            btnPrint.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnPrint.ImageAlign = ContentAlignment.TopCenter;
-            btnPrint.TextAlign = ContentAlignment.BottomCenter;
-            btnPrint.Size = new Size(buttonWidth, buttonHeight);
-            btnPrint.Location = new Point(startX, buttonY);
-            btnPrint.FlatStyle = FlatStyle.Flat;
-            btnPrint.FlatAppearance.BorderSize = 0;
-            btnPrint.Padding = new Padding(0, 10, 0, 0); // Increased padding for more spacing
-            btnPrint.Click += async (s, e) => await PrintHtmlContent();
-            section.Controls.Add(btnPrint);
-
-            Button btnExport = new Button();
-            btnExport.Image = Properties.Resources.export.ToBitmap();
-            btnExport.Text = "Export";
-            btnExport.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnExport.ImageAlign = ContentAlignment.TopCenter;
-            btnExport.TextAlign = ContentAlignment.BottomCenter;
-            btnExport.Size = new Size(buttonWidth, buttonHeight);
-            btnExport.Location = new Point(btnPrint.Right + spacing, buttonY);
-            btnExport.FlatStyle = FlatStyle.Flat;
-            btnExport.FlatAppearance.BorderSize = 0;
-            btnExport.Padding = new Padding(0, 10, 0, 0);
-            btnExport.Click += async (s, e) => await GetEditedHtml();
-            section.Controls.Add(btnExport);
-
-            _iconMultiplePage = Properties.Resources.multiple.ToBitmap();
-            _iconSinglePage = Properties.Resources.single.ToBitmap();
-
-            Button btnMultiPage = new Button();
-            btnMultiPage.Image = _iconMultiplePage;
-            btnMultiPage.Text = "Multiple Page";
-            btnMultiPage.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnMultiPage.ImageAlign = ContentAlignment.TopCenter;
-            btnMultiPage.TextAlign = ContentAlignment.BottomCenter;
-            btnMultiPage.Size = new Size(110, buttonHeight);
-            btnMultiPage.Location = new Point(btnExport.Right + spacing, buttonY);
-            btnMultiPage.FlatStyle = FlatStyle.Flat;
-            btnMultiPage.FlatAppearance.BorderSize = 0;
-            btnMultiPage.Padding = new Padding(0, 10, 0, 0);
-            btnMultiPage.Click += async (s, e) => await ToggleMultiplePageView();
-            section.Controls.Add(btnMultiPage);
-            _multiplePageViewButton = btnMultiPage;
-
-            Button btnFind = new Button();
-            btnFind.Image = Properties.Resources.find.ToBitmap();
-            btnFind.Text = "Find";
-            btnFind.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnFind.ImageAlign = ContentAlignment.TopCenter;
-            btnFind.TextAlign = ContentAlignment.BottomCenter;
-            btnFind.Size = new Size(buttonWidth, buttonHeight);
-            btnFind.Location = new Point(btnMultiPage.Right + spacing, buttonY);
-            btnFind.FlatStyle = FlatStyle.Flat;
-            btnFind.FlatAppearance.BorderSize = 0;
-            btnFind.Padding = new Padding(0, 10, 0, 0); // Increased padding for more spacing
-            btnFind.Click += (s, e) => ShowFindDialog();
-            section.Controls.Add(btnFind);
-
-            Button btnZoomIn = new Button();
-            btnZoomIn.Image = Properties.Resources.zoom_in.ToBitmap();
-            btnZoomIn.Text = "Zoom In";
-            btnZoomIn.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnZoomIn.ImageAlign = ContentAlignment.TopCenter;
-            btnZoomIn.TextAlign = ContentAlignment.BottomCenter;
-            btnZoomIn.Size = new Size(buttonWidth, buttonHeight);
-            btnZoomIn.Location = new Point(btnFind.Right + spacing, buttonY);
-            btnZoomIn.FlatStyle = FlatStyle.Flat;
-            btnZoomIn.FlatAppearance.BorderSize = 0;
-            btnZoomIn.Padding = new Padding(0, 10, 0, 0); // Increased padding for more spacing
-            btnZoomIn.Click += (s, e) =>
-            {
-                browser.GetZoomLevelAsync().ContinueWith(task =>
-                {
-                    var currentZoom = task.Result;
-                    browser.SetZoomLevel(currentZoom + 0.2);
-                });
-            };
-            section.Controls.Add(btnZoomIn);
-
-            Button btnZoomOut = new Button();
-            btnZoomOut.Image = Properties.Resources.zoom_out.ToBitmap();
-            btnZoomOut.Text = "Zoom Out";
-            btnZoomOut.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnZoomOut.ImageAlign = ContentAlignment.TopCenter;
-            btnZoomOut.TextAlign = ContentAlignment.BottomCenter;
-            btnZoomOut.Size = new Size(85, buttonHeight); // Increased width for longer text
-            btnZoomOut.Location = new Point(btnZoomIn.Right + spacing, buttonY);
-            btnZoomOut.FlatStyle = FlatStyle.Flat;
-            btnZoomOut.FlatAppearance.BorderSize = 0;
-            btnZoomOut.Padding = new Padding(0, 10, 0, 0); // Increased padding for more spacing
-            btnZoomOut.Click += (s, e) =>
-            {
-                browser.GetZoomLevelAsync().ContinueWith(task =>
-                {
-                    var currentZoom = task.Result;
-                    browser.SetZoomLevel(currentZoom - 0.2);
-                });
-            };
-            section.Controls.Add(btnZoomOut);
-
-            return section;
-        }
-
-        private Panel CreateSDISection()
-        {
-            Panel section = new Panel();
-            section.Size = new Size(150, 100);
-            section.BackColor = Color.Transparent;
-
-            // SDI label
-            Label lblSdi = new Label();
-            lblSdi.Text = "SDI";
-            lblSdi.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            lblSdi.AutoSize = true;
-            lblSdi.Location = new Point(0, 5);
-            section.Controls.Add(lblSdi);
-
-            // Center the label
-            lblSdi.Left = (section.Width - lblSdi.Width) / 2;
-
-            // SDI button
-            Button btnSaveSdi = new Button();
-            btnSaveSdi.Image = Properties.Resources.SDI.ToBitmap();
-            btnSaveSdi.Text = "Save to SDI";
-            btnSaveSdi.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnSaveSdi.ImageAlign = ContentAlignment.TopCenter;
-            btnSaveSdi.TextAlign = ContentAlignment.BottomCenter;
-            btnSaveSdi.Size = new Size(120, 65); // Increased height for better spacing
-            btnSaveSdi.Location = new Point((section.Width - btnSaveSdi.Width) / 2, 30);
-            btnSaveSdi.FlatStyle = FlatStyle.Flat;
-            btnSaveSdi.FlatAppearance.BorderSize = 0;
-            Cursor = Cursors.Hand;
-            btnSaveSdi.Padding = new Padding(0, 8, 0, 0); // Increased padding for more spacing
-            //btnSaveSdi.Click += (s, e) => { MessageBox.Show("Save to SDI clicked"); };
-            section.Controls.Add(btnSaveSdi);
-
-            return section;
-        }
-
-        private Panel CreateSeparator()
-        {
+            // Create separator panel between Navigation and Tools
             Panel separator = new Panel();
-            separator.Width = 3;
-            separator.Height = 90;
-            separator.BackColor = Color.Gray; // Darker gray for separator
-            return separator;
+            separator.Width = 2;
+            separator.Height = 100;
+            separator.BackColor = Color.FromArgb(180, 180, 180); // Gray separator color
+            separator.Location = new Point(navigationPanel.Width + 10, 25); // Centered vertically between panels
+
+            // Center the panels and separator horizontally in the ribbon panel
+            int totalWidth = navigationPanel.Width + separator.Width + toolsPanel.Width + 20; // 20 for spacing
+            int startX = (ribbonPanel.Width - totalWidth) / 2; // Calculate starting X to center
+            navigationPanel.Location = new Point(startX, 15);
+            separator.Location = new Point(startX + navigationPanel.Width + 10, 25);
+            toolsPanel.Location = new Point(startX + navigationPanel.Width + separator.Width + 20, 15);
+
+            // Add section panels and separator to the ribbon panel
+            ribbonPanel.Controls.Add(navigationPanel);
+            ribbonPanel.Controls.Add(separator);
+            ribbonPanel.Controls.Add(toolsPanel);
+
+            // Add the ribbon panel to the form's controls
+            Controls.Add(ribbonPanel);
+
+            // Ensure centering adjusts when the form is resized
+            ribbonPanel.Resize += (s, e) =>
+            {
+                int updatedStartX = (ribbonPanel.Width - totalWidth) / 2;
+                navigationPanel.Location = new Point(updatedStartX, 15);
+                separator.Location = new Point(updatedStartX + navigationPanel.Width + 10, 25);
+                toolsPanel.Location = new Point(updatedStartX + navigationPanel.Width + separator.Width + 20, 15);
+            };
+
+            // Adjust label and button centering when navigation panel is resized
+            navigationPanel.Resize += (s, e) =>
+            {
+                navLabel.Location = new Point((navigationPanel.Width - navLabel.Width) / 2, 5);
+                homeButton.Location = new Point((navigationPanel.Width - homeButton.Width) / 2, 40);
+                prevLabel.Location = new Point(20, 40);
+                nextLabel.Location = new Point(navigationPanel.Width - nextLabel.Width - 20, 40);
+                pageNumberLabel.Location = new Point((navigationPanel.Width - pageNumberLabel.Width) / 2, 80);
+            };
+
+            // Adjust label and button centering when tools panel is resized
+            toolsPanel.Resize += (s, e) =>
+            {
+                toolsLabel.Location = new Point((toolsPanel.Width - toolsLabel.Width) / 2, 5);
+                printButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2, 35);
+                exportButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2 + 60 + 20, 35);
+                findButton.Location = new Point((toolsPanel.Width - (60 + 20 + 60 + 20 + 60)) / 2 + 60 + 20 + 60 + 20, 35);
+            };
         }
 
-        private void CenterSections(Panel toolbarPanel, Panel navigationSection, Panel separator1, Panel toolsSection, Panel separator2, Panel sdiSection)
-        {
-            if (toolbarPanel.Width == 0) return;
-
-            int separatorSpacing = 15; // Space around separators
-            int zoomOutToSeparatorSpacing = 10;
-            int separator2ShiftLeft = -5; // Shift separator2 left by 5px
-
-            int totalWidth = navigationSection.Width + separator1.Width + toolsSection.Width + separator2.Width + sdiSection.Width + (separatorSpacing * 4);
-            int startX = Math.Max(10, (toolbarPanel.Width - totalWidth) / 2);
-
-            navigationSection.Location = new Point(startX, 10);
-            separator1.Location = new Point(navigationSection.Right + separatorSpacing, 20);
-            toolsSection.Location = new Point(separator1.Right + separatorSpacing, 10);
-            separator2.Location = new Point(toolsSection.Right + zoomOutToSeparatorSpacing + separator2ShiftLeft, 20); // shifted left
-            sdiSection.Location = new Point(separator2.Right + separatorSpacing, 10);
-        }
-        #endregion
-
+        //loads file from the specified file path
         private async Task LoadEditorTemplate()
         {
             try
@@ -468,9 +308,6 @@ namespace HTMLEditor
                         
                         // Restore page breaks from storage
                         await RestorePageBreaks();
-
-                        // Use centralized page count update with longer delay for initial load
-                        await UpdatePageCount(500);
                         return; // Exit the method after successful loading
                     }
                     
@@ -659,9 +496,6 @@ namespace HTMLEditor
                 {
                     await AutoSplitInitialContent(browser);
                     
-                    // Update page count after auto-split with appropriate delay
-                    await UpdatePageCount(300);
-
                     // Focus the browser control itself so Ctrl+F works immediately
                     this.Invoke((MethodInvoker)delegate {
                         browser.Focus();
@@ -769,7 +603,6 @@ namespace HTMLEditor
         {
             try
             {
-                if (_isMultiplePageView) return;
                 // Load all JavaScript modules first
                 string allScripts = JavaScriptLoader.LoadAllScripts();
                 await browser.EvaluateScriptAsync(allScripts);
@@ -784,8 +617,6 @@ namespace HTMLEditor
                     string breakDataJson = result.Result.ToString();
                     _pageBreakManager.SavePageBreakData(_currentReportPath, _currentReportContent, breakDataJson);
                 }
-                // Use centralized page count update after page break operation
-                await UpdatePageCount(200);
             } catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error in TogglePageBreak: {ex.Message}");
@@ -828,8 +659,6 @@ namespace HTMLEditor
                 if (result.Success)
                 {
                     System.Diagnostics.Debug.WriteLine("RestorePageBreaks script executed successfully");
-                    // Update page count after restoring page breaks
-                    await UpdatePageCount(300);
                 }
                 else
                 {
@@ -908,10 +737,8 @@ namespace HTMLEditor
         
         public async Task<string> GetEditedHtml()
         {
-            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "edited_report.html");
             try
             {
-                
                 // 1. Capture current zoom to restore later (optional safety)
                 var zoomLevel = await browser.GetZoomLevelAsync();
 
@@ -1057,8 +884,7 @@ namespace HTMLEditor
 
                 // 6. Restore previous zoom level (if needed)
                 browser.SetZoomLevel(zoomLevel);
-                File.WriteAllText(filePath, finalHtml);
-                MessageBox.Show($"Edited HTML saved to {filePath}");
+
                 return finalHtml;
             }
             catch (Exception ex)
@@ -1296,28 +1122,6 @@ namespace HTMLEditor
                 // Use current state before toggling
                 bool showMultipleView = !_isMultiplePageView;
                 _isMultiplePageView = showMultipleView;
-
-                // Update button label to show the target view (next action)
-                // If it will be single page after this click, show "Single Page", else "Multiple Page".
-                if (_multiplePageViewButton != null)
-                {
-                    // Ensure UI thread update
-                    if (this.InvokeRequired)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            _multiplePageViewButton.Text = _isMultiplePageView ? "Single Page" : "Multiple Page";
-                            _multiplePageViewButton.Image = _isMultiplePageView ? _iconSinglePage : _iconMultiplePage;
-                            _multiplePageViewButton.Refresh();
-                        });
-                    }
-                    else
-                    {
-                        _multiplePageViewButton.Text = _isMultiplePageView ? "Single Page" : "Multiple Page";
-                        _multiplePageViewButton.Image = _isMultiplePageView ? _iconSinglePage : _iconMultiplePage;
-                        _multiplePageViewButton.Refresh();
-                    }
-                }
                 
                 var script = $@"
                 (function() {{
@@ -1477,108 +1281,6 @@ namespace HTMLEditor
             }
         }
 
-        private void NavigateToPage(int pageNumber)
-        {
-            string script = $@"
-            (function() {{
-                var pages = document.querySelectorAll('.page');
-                if (pages.length >= {pageNumber}) {{
-                    var y = pages[{pageNumber - 1}].offsetTop;
-                    window.scrollTo({{ top: y - 20, behavior: 'smooth' }}); // 👈 add 20px offset
-                }}
-            }})();
-            ";
-
-            browser.ExecuteScriptAsync(script);
-        }
-
-        private void UpdatePageLabel(Label label)
-        {
-            label.Text = $"Page {currentPage} of {totalPages}";
-        }
-
-        // Centralized method to update page count with proper timing
-        private async Task UpdatePageCount(int delayMs = 100)
-        {
-            if (_isUpdatingPageCount) return; // Prevent concurrent updates
-            _isUpdatingPageCount = true;
-
-            try
-            {
-                // Wait for DOM to settle
-                await Task.Delay(delayMs);
-
-                // Retry mechanism for page count
-                int maxRetries = 3;
-                for (int retry = 0; retry < maxRetries; retry++)
-                {
-                    try
-                    {
-                        string pageScript = @"
-                            (function() {
-                                var pages = document.querySelectorAll('.page');
-                                return pages.length;
-                            })();
-                        ";
-
-                        var res = await browser.EvaluateScriptAsync(pageScript);
-                        if (res.Success && res.Result != null)
-                        {
-                            int newTotalPages = Convert.ToInt32(res.Result);
-
-                            // Only update if the count has changed or this is the first update
-                            if (newTotalPages != totalPages || totalPages == 0)
-                            {
-                                totalPages = newTotalPages;
-
-                                // Ensure current page is within bounds
-                                if (currentPage > totalPages && totalPages > 0)
-                                {
-                                    currentPage = totalPages;
-                                }
-                                else if (currentPage < 1)
-                                {
-                                    currentPage = 1;
-                                }
-
-                                // Update UI on main thread
-                                if (pageNumberLabel != null)
-                                {
-                                    pageNumberLabel.Invoke((Action)(() =>
-                                    {
-                                        pageNumberLabel.Text = $"Page {currentPage} of {totalPages}";
-                                    }));
-                                }
-
-                                System.Diagnostics.Debug.WriteLine($"Page count updated: {totalPages} pages, current: {currentPage}");
-                            }
-                            break; // Success, exit retry loop
-                        }
-                        else
-                        {
-                            System.Diagnostics.Debug.WriteLine($"Page count script failed (attempt {retry + 1}): {res.Message}");
-                            if (retry < maxRetries - 1)
-                            {
-                                await Task.Delay(200 * (retry + 1)); // Increasing delay
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Error updating page count (attempt {retry + 1}): {ex.Message}");
-                        if (retry < maxRetries - 1)
-                        {
-                            await Task.Delay(200 * (retry + 1));
-                        }
-                    }
-                }
-            }
-            finally
-            {
-                _isUpdatingPageCount = false;
-            }
-        }
-
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             // Handle Ctrl+F to show find dialog
@@ -1673,325 +1375,6 @@ namespace HTMLEditor
             }
         }
 
-        private async Task PrintHtmlContent()
-        {
-            try
-            {
-                // Get the clean HTML content from the editor first
-                string cleanHtml = await GetCleanHtmlForPrinting();
-
-                if (string.IsNullOrEmpty(cleanHtml))
-                {
-                    MessageBox.Show("No content available for printing.", "Print Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Generate PDF directly without showing print dialog first
-                string tempPdfPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"HTMLEditor_Print_{DateTime.Now:yyyyMMdd_HHmmss}.pdf");
-
-                // Create a temporary form to host the browser (required for proper initialization)
-                using (var tempForm = new Form())
-                {
-                    tempForm.WindowState = FormWindowState.Minimized;
-                    tempForm.ShowInTaskbar = false;
-                    tempForm.Size = new Size(1024, 768);
-
-                    // Create browser instance
-                    var printBrowser = new ChromiumWebBrowser();
-                    printBrowser.Size = new Size(1000, 700);
-                    printBrowser.Dock = DockStyle.Fill;
-                    tempForm.Controls.Add(printBrowser);
-
-                    // Show form (required for browser initialization)
-                    tempForm.Show();
-                    tempForm.Hide(); // Hide immediately
-
-                    try
-                    {
-                        // Wait for browser to initialize properly
-                        int maxWaitTime = 10000; // 10 seconds max
-                        int waitTime = 0;
-                        while (!printBrowser.IsBrowserInitialized && waitTime < maxWaitTime)
-                        {
-                            await Task.Delay(100);
-                            waitTime += 100;
-                            System.Windows.Forms.Application.DoEvents(); // Allow UI updates
-                        }
-
-                        if (!printBrowser.IsBrowserInitialized)
-                        {
-                            MessageBox.Show("Failed to initialize browser for printing.", "Print Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        // Load HTML content
-                        printBrowser.LoadHtml(cleanHtml, "http://print-temp/");
-
-                        // Wait for content to load completely
-                        bool contentLoaded = false;
-                        var loadEndHandler = new EventHandler<FrameLoadEndEventArgs>((sender, args) =>
-                        {
-                            if (args.Frame.IsMain)
-                                contentLoaded = true;
-                        });
-
-                        printBrowser.FrameLoadEnd += loadEndHandler;
-
-                        // Wait for load to complete
-                        waitTime = 0;
-                        while (!contentLoaded && waitTime < maxWaitTime)
-                        {
-                            await Task.Delay(100);
-                            waitTime += 100;
-                            System.Windows.Forms.Application.DoEvents();
-                        }
-
-                        printBrowser.FrameLoadEnd -= loadEndHandler;
-
-                        if (!contentLoaded)
-                        {
-                            MessageBox.Show("Content failed to load for printing.", "Print Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        // Increased wait for full rendering/layout (breaks need time to compute)
-                        await Task.Delay(3000); // 3 seconds
-                        System.Windows.Forms.Application.DoEvents();
-
-                        // Configure PDF print settings - FIXED: Increased top/bottom margins to 1.0 inch for padding
-                        var printSettings = new PdfPrintSettings()
-                        {
-                            MarginType = CefPdfPrintMarginType.Custom,
-                            MarginTop = 5.0,
-                            MarginBottom = 1.0,
-                            MarginLeft = 0,
-                            MarginRight = 0,
-                            PageRanges = "",
-                            DisplayHeaderFooter = false,
-                            PrintBackground = true,
-                            Landscape = false,
-                            Scale = 1.0 // Slight scale to fit content without overflows
-                        };
-
-                        System.Diagnostics.Debug.WriteLine($"Attempting to generate PDF: {tempPdfPath}");
-
-                        // Generate PDF
-                        bool success = await printBrowser.PrintToPdfAsync(tempPdfPath, printSettings);
-
-                        System.Diagnostics.Debug.WriteLine($"PDF generation result: {success}");
-
-                        if (success && File.Exists(tempPdfPath))
-                        {
-                            // Add simple page count validation (non-blank pages)
-                            FileInfo pdfInfo = new FileInfo(tempPdfPath);
-                            if (pdfInfo.Length < 10000) // Rough check for "empty-ish" file
-                            {
-                                MessageBox.Show("PDF generated but appears too small/empty. Check logs.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-                            System.Diagnostics.Debug.WriteLine($"PDF size: {pdfInfo.Length} bytes");
-
-                            // Show print dialog for the generated PDF
-                            using (PrintDialog printDialog = new PrintDialog())
-                            {
-                                printDialog.UseEXDialog = true;
-                                printDialog.AllowPrintToFile = true;
-
-                                var result = MessageBox.Show(
-                                    $"PDF generated successfully at:\n{tempPdfPath}\n\nWould you like to open it for printing?",
-                                    "Print Ready",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Information);
-
-                                if (result == DialogResult.Yes)
-                                {
-                                    // Open the PDF with default PDF viewer
-                                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
-                                    {
-                                        FileName = tempPdfPath,
-                                        UseShellExecute = true
-                                    });
-                                }
-                            }
-                        }
-                        else
-                        {
-                            string errorMsg = "Failed to generate PDF for printing.";
-                            if (!File.Exists(tempPdfPath))
-                                errorMsg += " PDF file was not created.";
-
-                            System.Diagnostics.Debug.WriteLine(errorMsg);
-                            MessageBox.Show(errorMsg, "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    finally
-                    {
-                        // Clean up browser
-                        printBrowser?.Dispose();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error in PrintHtmlContent: {ex.Message}");
-                System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
-                MessageBox.Show($"Error printing content: {ex.Message}", "Print Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async Task<string> GetCleanHtmlForPrinting()
-        {
-            try
-            {
-                // Updated JS: Remove pageBreakInside (conflicts with breaks). Add explicit page-break-after: always only for non-last pages.
-                // Also, set explicit height on pages to match A4 (842pt) to prevent overflows causing blanks.
-                string extractScript = @"
-        (function() {
-            const editor = document.getElementById('editor');
-            if (!editor) return '';
-            
-            // Clone the editor content to avoid modifying the original
-            const clone = editor.cloneNode(true);
-            
-            // Remove ALL page break elements completely (any element with 'page-break' class)
-            const allPageBreaks = Array.from(clone.querySelectorAll('[class*=""page-break""]'));
-            console.log('Removing page break elements:', allPageBreaks.length);
-            allPageBreaks.forEach(pageBreak => {
-                pageBreak.remove();
-            });
-            
-            // Get only page elements that have actual content
-            const pages = Array.from(clone.querySelectorAll('.page'));
-            console.log('Total pages found:', pages.length);
-            
-            // Create a new container for the cleaned content
-            const cleanContainer = document.createElement('div');
-            let pageCount = 0;
-            let hasPreviousPage = false;
-            
-            pages.forEach((page, index) => {
-                // Check if page has actual content (not just whitespace)
-                const pageText = page.textContent.trim();
-                const hasImages = page.querySelectorAll('img, svg').length > 0;
-                const hasOtherContent = page.querySelectorAll('div, p, span, table, ul, ol').length > 0;
-                
-                if (pageText.length > 0 || hasImages || hasOtherContent) {
-                    // This page has content, include it
-                    pageCount++;
-                    hasPreviousPage = true;
-                    
-                    // Clean the page styling for print - FIXED: Remove pageBreakInside to avoid conflicts.
-                    // Add page-break-after: always only if not the last page to chain without extra blanks.
-                    page.style.pageBreakAfter = (index < pages.length - 1) ? 'always' : 'auto';
-                    page.style.pageBreakBefore = 'auto'; // Rely on after from previous
-                    page.style.margin = '0';
-                    page.style.padding = '20px';
-                    page.style.boxShadow = 'none';
-                    page.style.border = 'none';
-                    page.style.background = 'white';
-                    // FIXED: Cap height to ~A4 to prevent single-page overflow (842pt = A4 height).
-                    page.style.maxHeight = '842pt';
-                    page.style.overflow = 'visible'; // Allow content to flow if needed, but breaks will handle.
-                    
-                    // Remove any nested page break elements within the page
-                    const nestedPageBreaks = Array.from(page.querySelectorAll('[class*=""page-break""]'));
-                    nestedPageBreaks.forEach(nested => nested.remove());
-                    
-                    cleanContainer.appendChild(page.cloneNode(true));
-                    console.log('Added page', pageCount, 'with content length:', pageText.length);
-                } else {
-                    console.log('Skipped empty page at index:', index);
-                }
-            });
-            
-            console.log('Final pages with content for print:', pageCount);
-            
-            return cleanContainer.innerHTML;
-        })();
-        ";
-
-                var result = await browser.EvaluateScriptAsync(extractScript);
-                if (result.Success && result.Result != null)
-                {
-                    string contentHtml = result.Result.ToString();
-
-                    // Updated CSS: Remove page-break-inside: avoid (causes blanks). Add widows/orphans to minimize bad breaks.
-                    // Ensure body flows continuously with breaks only where specified.
-                    string printHtml = $@"<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <title>Print Document</title>
-    <style>
-        @page {{
-            size: A4;
-            margin: 0;
-        }}
-        
-        body {{
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: white;
-            color: black;
-        }}
-        
-        .page {{
-            margin: 0;
-            padding: 20px;
-            background: white;
-            box-shadow: none !important;
-            border: none !important;
-            /* FIXED: Removed page-break-inside: avoid to prevent extra blanks on overflows */
-            max-height: 842pt; /* A4 height in points */
-            widows: 3; /* Min lines before/after break */
-            orphans: 3;
-        }}
-        
-        /* Ensure SVGs print properly */
-        svg {{
-            max-width: 100%;
-            height: auto;
-        }}
-        
-        /* Remove any interactive elements for print */
-        .page-break-remove,
-        .find-highlight,
-        [class*='page-break'] {{
-            display: none !important;
-        }}
-        
-        /* Ensure no extra spacing that could cause empty pages */
-        * {{
-            box-sizing: border-box;
-        }}
-        
-        /* FIXED: Global rule to avoid unwanted breaks in children */
-        div, p, table, ul, ol {{
-            page-break-inside: auto;
-        }}
-    </style>
-</head>
-<body>
-    {contentHtml}
-</body>
-</html>";
-
-                    return printHtml;
-                }
-
-                return string.Empty;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error getting clean HTML for printing: {ex.Message}");
-                return string.Empty;
-            }
-        }
-
     }
 
     // Direct page break handler - inserts page break on right-click without showing context menu
@@ -2048,16 +1431,7 @@ namespace HTMLEditor
             return false;
         }
     }
-
-    public class CustomToolbarColors : ProfessionalColorTable
-    {
-        public override Color ToolStripDropDownBackground { get { return Color.FromArgb(211, 211, 211); } }
-        public override Color MenuItemSelected { get { return Color.LightGray; } }
-        public override Color ImageMarginGradientBegin { get { return Color.FromArgb(211, 211, 211); } }
-        public override Color ImageMarginGradientMiddle { get { return Color.FromArgb(211, 211, 211); } }
-        public override Color ImageMarginGradientEnd { get { return Color.FromArgb(211, 211, 211); } }
-    }
-
+    
 }
 
 

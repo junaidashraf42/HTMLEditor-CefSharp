@@ -37,6 +37,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AngleSharp, Version=1.3.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
       <HintPath>..\packages\AngleSharp.1.3.0\lib\net472\AngleSharp.dll</HintPath>
@@ -110,6 +113,8 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="JavaScriptBridge.cs" />
+    <Compile Include="JavaScriptLoader.cs" />
     <Compile Include="KeyboardHandler.cs" />
     <Compile Include="PageBreakStorage.cs" />
     <Compile Include="Program.cs" />
@@ -125,7 +130,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -141,8 +148,52 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Properties\export.ico" />
+    <Content Include="Properties\multiple.ico" />
+    <Content Include="Properties\print.ico" />
+    <Content Include="Properties\SDI.ico" />
+    <Content Include="Properties\single.ico" />
+    <Content Include="Properties\zoom-in.ico" />
+    <Content Include="Properties\zoom-out.ico" />
+    <Resource Include="Properties\find.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="export.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="find.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="js\export.ico" />
+    <Content Include="js\find.ico" />
+    <Resource Include="multiple.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="page source.txt" />
+    <Content Include="js\print.ico" />
+    <Resource Include="print.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="SDI.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="zoom-in.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="zoom-out.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="js\CommunicationBridge.js" />
+    <EmbeddedResource Include="js\CommonUtils.js" />
+    <EmbeddedResource Include="js\PageBreakManager.js" />
+    <EmbeddedResource Include="js\PageSplitter.js" />
+    <EmbeddedResource Include="js\AutoSplitContent.js" />
+    <EmbeddedResource Include="js\EditorTemplate.js" />
+    <EmbeddedResource Include="js\RestorePageBreaks.js" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
