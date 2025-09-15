@@ -182,6 +182,14 @@ namespace HTMLEditor
             this.ResumeLayout(false);
         }
 
+
+
+        // Add a meaningless change to trigger a commit on GitHub
+        public void ThisMethodIsForGitHubCommit()
+        {
+            int meaninglessNumber = 123;
+        }
+
         private Panel CreateNavigationSection()
         {
             Panel section = new Panel();
