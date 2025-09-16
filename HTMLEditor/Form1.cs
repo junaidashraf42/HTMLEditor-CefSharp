@@ -244,7 +244,7 @@ namespace HTMLEditor
 
             return section;
         }
-
+//creates tool section
         private Panel CreateToolsSection()
         {
             Panel section = new Panel();
